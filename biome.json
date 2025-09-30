@@ -1,5 +1,5 @@
 {
-	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
+	"$schema": "https://biomejs.dev/schemas/2.2.4/schema.json",
 	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
@@ -7,16 +7,14 @@
 	},
 	"files": {
 		"ignoreUnknown": true,
-		"ignore": ["dist"]
+		"includes": ["**", "!**/dist"]
 	},
 	"formatter": {
 		"enabled": true,
 		"indentStyle": "tab",
 		"lineEnding": "lf"
 	},
-	"organizeImports": {
-		"enabled": true
-	},
+	"assist": { "actions": { "source": { "organizeImports": "on" } } },
 	"css": {
 		"formatter": {
 			"indentStyle": "tab",
@@ -32,21 +30,30 @@
 				"noUnusedVariables": "error"
 			},
 			"suspicious": {
-				"noConsole": "error"
+				"noConsole": "error",
+				"noVar": "error"
 			},
 			"style": {
 				"useConst": "error",
-				"noVar": "error"
+				"noParameterAssign": "error",
+				"useAsConstAssertion": "error",
+				"useDefaultParameterLast": "error",
+				"useEnumInitializers": "error",
+				"useSelfClosingElements": "error",
+				"useSingleVarDeclarator": "error",
+				"noUnusedTemplateLiteral": "error",
+				"useNumberNamespace": "error",
+				"noInferrableTypes": "error",
+				"noUselessElse": "error"
 			}
 		},
-		"ignore": ["types"]
+		"includes": ["**", "!**/types/**"]
 	},
 	"javascript": {
 		"formatter": {
 			"quoteStyle": "double",
 			"indentStyle": "tab",
 			"lineEnding": "lf",
-			"jsxQuoteStyle": "double",
 			"semicolons": "always"
 		}
 	}

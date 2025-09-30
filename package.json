@@ -11,7 +11,7 @@
 	},
 	"devDependencies": {
 		"@types/bun": "latest",
-		"@biomejs/biome": "^1.9.4"
+		"@biomejs/biome": "latest"
 	},
 	"dependencies": {
 		"@atums/echo": "latest"

@@ -1,0 +1,20 @@
+stages:
+    - quality
+
+biome:
+    image:
+        name: ghcr.io/biomejs/biome:latest
+        entrypoint: [""]
+    stage: quality
+    script:
+        - biome ci --verbose
+        - biome ci --reporter=gitlab --colors=off > /tmp/code-quality.json
+        - cp /tmp/code-quality.json code-quality.json
+    artifacts:
+        reports:
+            codequality: code-quality.json
+        paths:
+            - code-quality.json
+    rules:
+        - if: $CI_COMMIT_BRANCH
+        - if: $CI_MERGE_REQUEST_ID
