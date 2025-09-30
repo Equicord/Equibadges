@@ -219,6 +219,51 @@ export async function fetchBadges(
 						break;
 					}
 
+					case "replugged": {
+						if (typeof entry.url !== "function") {
+							break;
+						}
+
+						const url = entry.url(userId);
+						if (typeof url !== "string") {
+							break;
+						}
+
+						const res = await fetch(url);
+						if (!res.ok) break;
+
+						const data: RepluggedBadgeData = await res.json();
+						const origin = request ? getRequestOrigin(request) : "";
+
+						const badgeMap: Record<string, string> = {
+							developer: "Developer",
+							staff: "Staff",
+							support: "Support",
+							contributor: "Contributor",
+							translator: "Translator",
+							hunter: "Hunter",
+							early: "Early User",
+							booster: "Booster",
+						};
+
+						for (const [key, label] of Object.entries(badgeMap)) {
+							if (data.badges[key as keyof typeof data.badges] === true) {
+								result.push({
+									tooltip: label,
+									badge: `${origin}/public/badges/replugged/${key}.png`,
+								});
+							}
+						}
+
+						if (data.badges.custom) {
+							result.push({
+								tooltip: data.badges.custom.name,
+								badge: data.badges.custom.icon,
+							});
+						}
+						break;
+					}
+
 					case "enmity": {
 						if (typeof entry.url !== "function") {
 							break;

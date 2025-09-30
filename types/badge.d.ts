@@ -108,6 +108,24 @@ interface EnmityBadgeItem {
 	};
 }
 
+interface RepluggedBadgeData {
+	badges: {
+		developer: boolean;
+		staff: boolean;
+		support: boolean;
+		contributor: boolean;
+		translator: boolean;
+		hunter: boolean;
+		early: boolean;
+		booster: boolean;
+		custom?: {
+			name: string;
+			icon: string;
+			color: string;
+		};
+	};
+}
+
 interface DiscordUserData {
 	avatar: string;
 	flags: number;

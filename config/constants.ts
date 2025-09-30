@@ -148,6 +148,10 @@ const badgeServices: BadgeService[] = [
 		service: "Ra1ncord",
 		url: "https://raw.githubusercontent.com/ra1ncord/badges/main/badges.json",
 	},
+	{
+		service: "Replugged",
+		url: (userId: string) => `https://replugged.dev/api/v1/users/${userId}`,
+	},
 ];
 
 function getServiceDescription(service: string): string {
@@ -161,6 +165,7 @@ function getServiceDescription(service: string): string {
 		Aero: "Custom badges from Aero mod",
 		Aliucord: "Custom badges from Aliucord mobile Discord client",
 		Ra1ncord: "Custom badges from Ra1ncord Discord client",
+		Replugged: "Custom badges from Replugged Discord client",
 	};
 
 	return descriptions[service] || "Custom badge service";
