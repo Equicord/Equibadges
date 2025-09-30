@@ -58,7 +58,25 @@ interface AeroData {
 	}>;
 }
 
-type BadgeServiceData = VencordEquicordData | NekocordData | ReviewDbData | AeroData;
+interface AliucordData {
+	users: {
+		[userId: string]: {
+			roles?: string[];
+			custom?: Array<{
+				url: string;
+				text: string;
+			}>;
+		};
+	};
+	guilds: {
+		[guildId: string]: {
+			url: string;
+			text: string;
+		};
+	};
+}
+
+type BadgeServiceData = VencordEquicordData | NekocordData | ReviewDbData | AeroData | AliucordData;
 
 interface VencordBadgeItem {
 	tooltip: string;

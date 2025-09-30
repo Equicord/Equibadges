@@ -8,8 +8,6 @@ import {
 	type Server,
 } from "bun";
 
-import { webSocketHandler } from "@websocket";
-
 class ServerHandler {
 	private router: FileSystemRouter;
 
@@ -30,11 +28,6 @@ class ServerHandler {
 			port: this.port,
 			hostname: this.host,
 			fetch: this.handleRequest.bind(this),
-			websocket: {
-				open: webSocketHandler.handleOpen.bind(webSocketHandler),
-				message: webSocketHandler.handleMessage.bind(webSocketHandler),
-				close: webSocketHandler.handleClose.bind(webSocketHandler),
-			},
 		});
 
 		const echoChild = new Echo({ disableFile: true });

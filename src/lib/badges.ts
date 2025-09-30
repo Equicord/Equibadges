@@ -161,6 +161,45 @@ export async function fetchBadges(
 						break;
 					}
 
+					case "aliucord": {
+						const serviceData = await badgeCacheManager.getAliucordData();
+						if (!serviceData) {
+							echo.warn(`No cached data for service: ${serviceKey}`);
+							break;
+						}
+
+						const userData = serviceData.users?.[userId];
+						if (userData) {
+							const origin = request ? getRequestOrigin(request) : "";
+
+							if (Array.isArray(userData.roles)) {
+								for (const role of userData.roles) {
+									const roleLower = role.toLowerCase();
+									if (
+										roleLower === "donor" ||
+										roleLower === "contributor" ||
+										roleLower === "dev"
+									) {
+										result.push({
+											tooltip: role,
+											badge: `${origin}/public/badges/aliucord/${roleLower}.png`,
+										});
+									}
+								}
+							}
+
+							if (Array.isArray(userData.custom)) {
+								for (const customBadge of userData.custom) {
+									result.push({
+										tooltip: customBadge.text,
+										badge: customBadge.url,
+									});
+								}
+							}
+						}
+						break;
+					}
+
 					case "enmity": {
 						if (typeof entry.url !== "function") {
 							break;

@@ -140,6 +140,10 @@ const badgeServices: BadgeService[] = [
 		service: "Aero",
 		url: "https://gist.githubusercontent.com/TheCommieAxolotl/58c22cb5e91c71ce85818395dbe80c24/raw/badges.json",
 	},
+	{
+		service: "Aliucord",
+		url: "https://aliucord.com/files/badges/data.json",
+	},
 ];
 
 function getServiceDescription(service: string): string {
@@ -151,6 +155,7 @@ function getServiceDescription(service: string): string {
 		Enmity: "Custom badges from Enmity mobile Discord client",
 		Discord: "Official Discord badges (staff, partner, hypesquad, etc.)",
 		Aero: "Custom badges from Aero mod",
+		Aliucord: "Custom badges from Aliucord mobile Discord client",
 	};
 
 	return descriptions[service] || "Custom badge service";
