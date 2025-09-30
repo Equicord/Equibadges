@@ -6,21 +6,11 @@ const routeDef: RouteDef = {
 	returns: "application/json",
 };
 
-async function handler(request: ExtendedRequest): Promise<Response> {
-	const endPerf: number = Date.now();
-	const perf: number = endPerf - request.startPerf;
-
+async function handler(): Promise<Response> {
 	const response = {
-		name: "Badge Aggregator API",
-		description:
-			"A fast Discord badge aggregation API built with Bun and Redis caching",
-		version: "1.0.0",
-		author: "creations.works",
+		author: "creations",
 		repository: gitUrl,
-		performance: {
-			responseTime: `${perf}ms`,
-			uptime: `${process.uptime()}s`,
-		},
+		uptime: `${process.uptime()}s`,
 		routes: {
 			"GET /": "API information and available routes",
 			"GET /:userId": "Get badges for a Discord user",
@@ -49,10 +39,6 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 			name: service.service,
 			description: getServiceDescription(service.service),
 		})),
-		ratelimit: {
-			window: "60 seconds",
-			requests: 60,
-		},
 	};
 
 	return Response.json(response, {

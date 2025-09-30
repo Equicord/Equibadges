@@ -45,7 +45,16 @@ class BadgeCacheManager {
 
 	private async checkIfUpdateNeeded(): Promise<boolean> {
 		try {
-			const staticServices = ["vencord", "equicord", "nekocord", "reviewdb", "aero", "aliucord", "ra1ncord", "velocity"];
+			const staticServices = [
+				"vencord",
+				"equicord",
+				"nekocord",
+				"reviewdb",
+				"aero",
+				"aliucord",
+				"ra1ncord",
+				"velocity",
+			];
 			const now = Date.now();
 
 			for (const serviceName of staticServices) {

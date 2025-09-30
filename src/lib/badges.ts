@@ -1,6 +1,11 @@
 import { echo } from "@atums/echo";
-import { discordBadgeDetails, discordBadges } from "@config";
-import { badgeServices, botToken, redisTtl } from "@config";
+import {
+	badgeServices,
+	botToken,
+	discordBadgeDetails,
+	discordBadges,
+	redisTtl,
+} from "@config";
 import { badgeCacheManager } from "@lib/badgeCache";
 import { redis } from "bun";
 

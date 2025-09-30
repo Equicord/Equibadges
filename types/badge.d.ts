@@ -90,7 +90,14 @@ interface VelocityData {
 	};
 }
 
-type BadgeServiceData = VencordEquicordData | NekocordData | ReviewDbData | AeroData | AliucordData | Ra1ncordData | VelocityData;
+type BadgeServiceData =
+	| VencordEquicordData
+	| NekocordData
+	| ReviewDbData
+	| AeroData
+	| AliucordData
+	| Ra1ncordData
+	| VelocityData;
 
 interface VencordBadgeItem {
 	tooltip: string;
