@@ -45,7 +45,7 @@ class BadgeCacheManager {
 
 	private async checkIfUpdateNeeded(): Promise<boolean> {
 		try {
-			const staticServices = ["vencord", "equicord", "nekocord", "reviewdb", "aero", "aliucord", "ra1ncord"];
+			const staticServices = ["vencord", "equicord", "nekocord", "reviewdb", "aero", "aliucord", "ra1ncord", "velocity"];
 			const now = Date.now();
 
 			for (const serviceName of staticServices) {
@@ -241,8 +241,22 @@ class BadgeCacheManager {
 					break;
 				}
 
+				case "velocity": {
+					if (typeof service.url === "string") {
+						const res = await fetch(service.url, {
+							headers: BADGE_API_HEADERS,
+						});
+
+						if (res.ok) {
+							data = (await res.json()) as VelocityData;
+						}
+					}
+					break;
+				}
+
 				case "discord":
 				case "enmity":
+				case "replugged":
 					return;
 
 				default:
@@ -333,6 +347,14 @@ class BadgeCacheManager {
 		const data = await this.getServiceData("ra1ncord");
 		if (data) {
 			return data as Ra1ncordData;
+		}
+		return null;
+	}
+
+	async getVelocityData(): Promise<VelocityData | null> {
+		const data = await this.getServiceData("velocity");
+		if (data) {
+			return data as VelocityData;
 		}
 		return null;
 	}

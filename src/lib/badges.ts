@@ -219,6 +219,37 @@ export async function fetchBadges(
 						break;
 					}
 
+					case "velocity": {
+						const serviceData = await badgeCacheManager.getVelocityData();
+						if (!serviceData) {
+							echo.warn(`No cached data for service: ${serviceKey}`);
+							break;
+						}
+
+						const userBadge = serviceData[userId];
+						if (userBadge) {
+							const origin = request ? getRequestOrigin(request) : "";
+							const badgeName = userBadge.name.toLowerCase();
+							let badgeType = "developer";
+
+							if (badgeName.includes("contributor")) {
+								badgeType = "contributor";
+							} else if (badgeName.includes("translator")) {
+								badgeType = "translator";
+							} else if (badgeName.includes("early")) {
+								badgeType = "early";
+							} else if (badgeName.includes("developer")) {
+								badgeType = "developer";
+							}
+
+							result.push({
+								tooltip: userBadge.name,
+								badge: `${origin}/public/badges/velocity/${badgeType}.png`,
+							});
+						}
+						break;
+					}
+
 					case "replugged": {
 						if (typeof entry.url !== "function") {
 							break;

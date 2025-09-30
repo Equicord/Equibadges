@@ -152,6 +152,10 @@ const badgeServices: BadgeService[] = [
 		service: "Replugged",
 		url: (userId: string) => `https://replugged.dev/api/v1/users/${userId}`,
 	},
+	{
+		service: "Velocity",
+		url: "https://raw.githubusercontent.com/Velocity-Discord/Backend/main/api/Badges.json",
+	},
 ];
 
 function getServiceDescription(service: string): string {
@@ -166,6 +170,7 @@ function getServiceDescription(service: string): string {
 		Aliucord: "Custom badges from Aliucord mobile Discord client",
 		Ra1ncord: "Custom badges from Ra1ncord Discord client",
 		Replugged: "Custom badges from Replugged Discord client",
+		Velocity: "Custom badges from Velocity Discord client",
 	};
 
 	return descriptions[service] || "Custom badge service";
