@@ -136,6 +136,10 @@ const badgeServices: BadgeService[] = [
 		service: "Discord",
 		url: (userId: string) => `https://discord.com/api/v10/users/${userId}`,
 	},
+	{
+		service: "Aero",
+		url: "https://gist.githubusercontent.com/TheCommieAxolotl/58c22cb5e91c71ce85818395dbe80c24/raw/badges.json",
+	},
 ];
 
 function getServiceDescription(service: string): string {
@@ -146,6 +150,7 @@ function getServiceDescription(service: string): string {
 		ReviewDb: "Badges from ReviewDB service",
 		Enmity: "Custom badges from Enmity mobile Discord client",
 		Discord: "Official Discord badges (staff, partner, hypesquad, etc.)",
+		Aero: "Custom badges from Aero mod",
 	};
 
 	return descriptions[service] || "Custom badge service";

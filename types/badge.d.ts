@@ -50,7 +50,15 @@ interface ReviewDbData
 		icon: string;
 	}> {}
 
-type BadgeServiceData = VencordEquicordData | NekocordData | ReviewDbData;
+interface AeroData {
+	[userId: string]: Array<{
+		text: string;
+		image: string;
+		color: string;
+	}>;
+}
+
+type BadgeServiceData = VencordEquicordData | NekocordData | ReviewDbData | AeroData;
 
 interface VencordBadgeItem {
 	tooltip: string;

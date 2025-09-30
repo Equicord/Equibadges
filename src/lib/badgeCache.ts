@@ -41,7 +41,7 @@ class BadgeCacheManager {
 
 	private async checkIfUpdateNeeded(): Promise<boolean> {
 		try {
-			const staticServices = ["vencord", "equicord", "nekocord", "reviewdb"];
+			const staticServices = ["vencord", "equicord", "nekocord", "reviewdb", "aero"];
 			const now = Date.now();
 
 			for (const serviceName of staticServices) {
@@ -206,6 +206,21 @@ class BadgeCacheManager {
 					break;
 				}
 
+				case "aero": {
+					if (typeof service.url === "string") {
+						const res = await fetch(service.url, {
+							headers: {
+								"User-Agent": `BadgeAPI/1.0 ${gitUrl}`,
+							},
+						});
+
+						if (res.ok) {
+							data = (await res.json()) as AeroData;
+						}
+					}
+					break;
+				}
+
 				case "discord":
 				case "enmity":
 					return;
@@ -274,6 +289,14 @@ class BadgeCacheManager {
 		const data = await this.getServiceData("reviewdb");
 		if (data) {
 			return data as ReviewDbData;
+		}
+		return null;
+	}
+
+	async getAeroData(): Promise<AeroData | null> {
+		const data = await this.getServiceData("aero");
+		if (data) {
+			return data as AeroData;
 		}
 		return null;
 	}

@@ -11,7 +11,7 @@ function getRequestOrigin(request: Request): string {
 	return `${forwardedProto}://${host}`;
 }
 
-const USER_CACHE_SERVICES = ["discord", "enmity"];
+const USER_CACHE_SERVICES = ["discord", "enmity", "aero"];
 
 export async function fetchBadges(
 	userId: string | undefined,
@@ -123,6 +123,38 @@ export async function fetchBadges(
 								result.push({
 									tooltip: badgeItem.name,
 									badge: badgeItem.icon,
+								});
+							}
+						}
+						break;
+					}
+
+					case "aero": {
+						const serviceData = await badgeCacheManager.getAeroData();
+						if (!serviceData) {
+							echo.warn(`No cached data for service: ${serviceKey}`);
+							break;
+						}
+
+						const userBadges = serviceData[userId];
+						if (Array.isArray(userBadges)) {
+							const origin = request ? getRequestOrigin(request) : "";
+
+							for (const badgeItem of userBadges) {
+								let badgeType = "developer";
+								const textLower = badgeItem.text.toLowerCase();
+
+								if (textLower.includes("contributor")) {
+									badgeType = "contributor";
+								} else if (textLower.includes("tester")) {
+									badgeType = "tester";
+								} else if (textLower.includes("developer")) {
+									badgeType = "developer";
+								}
+
+								result.push({
+									tooltip: badgeItem.text,
+									badge: `${origin}/public/badges/aero/${badgeType}.png`,
 								});
 							}
 						}
