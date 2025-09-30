@@ -9,7 +9,7 @@ import {
 import { redis } from "bun";
 
 const BADGE_API_HEADERS = {
-	"User-Agent": `BadgeAPI/1.0 ${gitUrl}`,
+	"User-Agent": `BadgeAPI ${gitUrl}`,
 };
 
 class BadgeCacheManager {
