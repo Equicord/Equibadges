@@ -8,6 +8,10 @@ import {
 } from "@config";
 import { redis } from "bun";
 
+const BADGE_API_HEADERS = {
+	"User-Agent": `BadgeAPI/1.0 ${gitUrl}`,
+};
+
 class BadgeCacheManager {
 	private updateInterval: Timer | null = null;
 	private readonly CACHE_PREFIX = "badge_service_data:";
@@ -107,9 +111,7 @@ class BadgeCacheManager {
 				case "equicord": {
 					if (typeof service.url === "string") {
 						const res = await fetch(service.url, {
-							headers: {
-								"User-Agent": `BadgeAPI/1.0 ${gitUrl}`,
-							},
+							headers: BADGE_API_HEADERS,
 						});
 
 						if (res.ok) {
@@ -119,9 +121,7 @@ class BadgeCacheManager {
 
 					if (typeof service.pluginsUrl === "string") {
 						const contributorRes = await fetch(service.pluginsUrl, {
-							headers: {
-								"User-Agent": `BadgeAPI/1.0 ${gitUrl}`,
-							},
+							headers: BADGE_API_HEADERS,
 						});
 
 						if (contributorRes.ok) {
@@ -179,9 +179,7 @@ class BadgeCacheManager {
 				case "nekocord": {
 					if (typeof service.url === "string") {
 						const res = await fetch(service.url, {
-							headers: {
-								"User-Agent": `BadgeAPI/1.0 ${gitUrl}`,
-							},
+							headers: BADGE_API_HEADERS,
 						});
 
 						if (res.ok) {
@@ -194,9 +192,7 @@ class BadgeCacheManager {
 				case "reviewdb": {
 					if (typeof service.url === "string") {
 						const res = await fetch(service.url, {
-							headers: {
-								"User-Agent": `BadgeAPI/1.0 ${gitUrl}`,
-							},
+							headers: BADGE_API_HEADERS,
 						});
 
 						if (res.ok) {
@@ -209,9 +205,7 @@ class BadgeCacheManager {
 				case "aero": {
 					if (typeof service.url === "string") {
 						const res = await fetch(service.url, {
-							headers: {
-								"User-Agent": `BadgeAPI/1.0 ${gitUrl}`,
-							},
+							headers: BADGE_API_HEADERS,
 						});
 
 						if (res.ok) {
@@ -224,9 +218,7 @@ class BadgeCacheManager {
 				case "aliucord": {
 					if (typeof service.url === "string") {
 						const res = await fetch(service.url, {
-							headers: {
-								"User-Agent": `BadgeAPI/1.0 ${gitUrl}`,
-							},
+							headers: BADGE_API_HEADERS,
 						});
 
 						if (res.ok) {

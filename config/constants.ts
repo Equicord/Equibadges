@@ -161,7 +161,7 @@ function getServiceDescription(service: string): string {
 	return descriptions[service] || "Custom badge service";
 }
 
-const gitUrl = "https://git.creations.works/creations/badgeAPI";
+const gitUrl = "https://heliopolis.live/creations/badgeAPI";
 
 export {
 	badgeServices,
