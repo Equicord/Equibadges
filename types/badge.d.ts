@@ -76,7 +76,14 @@ interface AliucordData {
 	};
 }
 
-type BadgeServiceData = VencordEquicordData | NekocordData | ReviewDbData | AeroData | AliucordData;
+interface Ra1ncordData {
+	[userId: string]: Array<{
+		label: string;
+		url: string;
+	}>;
+}
+
+type BadgeServiceData = VencordEquicordData | NekocordData | ReviewDbData | AeroData | AliucordData | Ra1ncordData;
 
 interface VencordBadgeItem {
 	tooltip: string;

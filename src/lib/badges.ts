@@ -200,6 +200,25 @@ export async function fetchBadges(
 						break;
 					}
 
+					case "ra1ncord": {
+						const serviceData = await badgeCacheManager.getRa1ncordData();
+						if (!serviceData) {
+							echo.warn(`No cached data for service: ${serviceKey}`);
+							break;
+						}
+
+						const userBadges = serviceData[userId];
+						if (Array.isArray(userBadges)) {
+							for (const badgeItem of userBadges) {
+								result.push({
+									tooltip: badgeItem.label,
+									badge: badgeItem.url,
+								});
+							}
+						}
+						break;
+					}
+
 					case "enmity": {
 						if (typeof entry.url !== "function") {
 							break;
