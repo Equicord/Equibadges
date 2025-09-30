@@ -126,9 +126,9 @@ interface RepluggedBadgeData {
 		early: boolean;
 		booster: boolean;
 		custom?: {
-			name: string;
-			icon: string;
-			color: string;
+			name: string | null;
+			icon: string | null;
+			color: string | null;
 		};
 	};
 }

@@ -286,7 +286,7 @@ export async function fetchBadges(
 							}
 						}
 
-						if (data.badges.custom) {
+						if (data.badges.custom?.name && data.badges.custom?.icon) {
 							result.push({
 								tooltip: data.badges.custom.name,
 								badge: data.badges.custom.icon,
