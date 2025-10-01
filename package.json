@@ -14,6 +14,6 @@
 		"@biomejs/biome": "latest"
 	},
 	"dependencies": {
-		"@atums/echo": "latest"
+		"@atums/echo": "2.0.2"
 	}
 }

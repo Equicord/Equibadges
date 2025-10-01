@@ -4,7 +4,7 @@
     "": {
       "name": "bun_frontend_template",
       "dependencies": {
-        "@atums/echo": "latest",
+        "@atums/echo": "2.0.2",
       },
       "devDependencies": {
         "@biomejs/biome": "latest",
@@ -13,7 +13,7 @@
     },
   },
   "packages": {
-    "@atums/echo": ["@atums/echo@2.0.0", "", { "dependencies": { "date-fns-tz": "latest" } }, "sha512-YMrKkHftuwBTwuk50l6gUbfZsL3k+HkasfOTkPrk/cpGWHWEu+ifYzVLOPduX7HEiRaHe9fJcrzKEr0yznQy0A=="],
+    "@atums/echo": ["@atums/echo@2.0.2", "", { "dependencies": { "date-fns-tz": "^3.2.0" } }, "sha512-AanjXdq74CnepbOaAnQh64KseGw1SwS+CtQJedZtd3dw0zbyu4gSMsVHUbDXJasDZDGNaB2hGfD1z4PrestsZg=="],
 
     "@biomejs/biome": ["@biomejs/biome@2.2.4", "", { "optionalDependencies": { "@biomejs/cli-darwin-arm64": "2.2.4", "@biomejs/cli-darwin-x64": "2.2.4", "@biomejs/cli-linux-arm64": "2.2.4", "@biomejs/cli-linux-arm64-musl": "2.2.4", "@biomejs/cli-linux-x64": "2.2.4", "@biomejs/cli-linux-x64-musl": "2.2.4", "@biomejs/cli-win32-arm64": "2.2.4", "@biomejs/cli-win32-x64": "2.2.4" }, "bin": { "biome": "bin/biome" } }, "sha512-TBHU5bUy/Ok6m8c0y3pZiuO/BZoY/OcGxoLlrfQof5s8ISVwbVBdFINPQZyFfKwil8XibYWb7JMwnT8wT4WVPg=="],
 
