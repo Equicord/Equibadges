@@ -34,6 +34,7 @@ docker-build:
         DOCKER_TLS_VERIFY: 1
         DOCKER_CERT_PATH: "$DOCKER_TLS_CERTDIR/client"
     before_script:
+        - until docker info; do sleep 1; done
         - echo "$DOCKER_REGISTRY_TOKEN" | docker login -u "$DOCKER_REGISTRY_USER" --password-stdin "$DOCKER_REGISTRY"
     script:
         - docker build -t $DOCKER_IMAGE_NAME:$CI_COMMIT_SHORT_SHA .
