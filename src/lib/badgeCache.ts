@@ -266,6 +266,7 @@ class BadgeCacheManager {
 				case "discord":
 				case "enmity":
 				case "replugged":
+				case "badgevault":
 					return;
 
 				default:
