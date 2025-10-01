@@ -18,7 +18,29 @@ class BadgeCacheManager {
 	private readonly CACHE_TIMESTAMP_PREFIX = "badge_cache_timestamp:";
 
 	async initialize(): Promise<void> {
-		echo.debug("Initializing badge cache manager...");
+		echo.info("Initializing badge cache manager...");
+
+		try {
+			echo.info("Testing Redis connection...");
+			const pingPromise = redis.ping();
+			const timeoutPromise = new Promise((_, reject) =>
+				setTimeout(
+					() => reject(new Error("Redis connection timeout after 5s")),
+					5000,
+				),
+			);
+			await Promise.race([pingPromise, timeoutPromise]);
+			echo.info("Redis connection established successfully");
+		} catch (error) {
+			const errorMessage =
+				error instanceof Error ? error.message : String(error);
+			echo.error({
+				message: "Failed to connect to Redis - cannot start application",
+				error: errorMessage,
+			});
+			await new Promise((resolve) => setTimeout(resolve, 100));
+			throw new Error(`Redis connection failed: ${errorMessage}`);
+		}
 
 		const needsUpdate = await this.checkIfUpdateNeeded();
 		if (needsUpdate) {
