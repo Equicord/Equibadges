@@ -300,6 +300,37 @@ export async function fetchBadges(
 						break;
 					}
 
+					case "badgevault": {
+						if (typeof entry.url !== "function") {
+							break;
+						}
+
+						const url = entry.url(userId);
+						if (typeof url !== "string") {
+							break;
+						}
+
+						const res = await fetch(url);
+						if (!res.ok) break;
+
+						const data: BadgeVaultData = await res.json();
+
+						if (
+							data.customBadgesArray?.badges &&
+							Array.isArray(data.customBadgesArray.badges)
+						) {
+							for (const badgeItem of data.customBadgesArray.badges) {
+								if (!badgeItem.pending) {
+									result.push({
+										tooltip: badgeItem.name,
+										badge: badgeItem.badge,
+									});
+								}
+							}
+						}
+						break;
+					}
+
 					case "enmity": {
 						if (typeof entry.url !== "function") {
 							break;

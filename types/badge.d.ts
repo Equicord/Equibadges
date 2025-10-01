@@ -140,6 +140,18 @@ interface RepluggedBadgeData {
 	};
 }
 
+interface BadgeVaultData {
+	customBadgesArray: {
+		userId: string;
+		badges: Array<{
+			name: string;
+			badge: string;
+			_id: string;
+			pending: boolean;
+		}>;
+	};
+}
+
 interface DiscordUserData {
 	avatar: string;
 	flags: number;

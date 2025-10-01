@@ -156,6 +156,10 @@ const badgeServices: BadgeService[] = [
 		service: "Velocity",
 		url: "https://raw.githubusercontent.com/Velocity-Discord/Backend/main/api/Badges.json",
 	},
+	{
+		service: "BadgeVault",
+		url: (userId: string) => `https://api.obamabot.me/v2/text/badges?user=${userId}`,
+	},
 ];
 
 function getServiceDescription(service: string): string {
@@ -171,6 +175,7 @@ function getServiceDescription(service: string): string {
 		Ra1ncord: "Custom badges from Ra1ncord Discord client",
 		Replugged: "Custom badges from Replugged Discord client",
 		Velocity: "Custom badges from Velocity Discord client",
+		BadgeVault: "Custom badges from BadgeVault service",
 	};
 
 	return descriptions[service] || "Custom badge service";
