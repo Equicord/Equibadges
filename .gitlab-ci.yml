@@ -1,5 +1,6 @@
 stages:
     - quality
+    - build
 
 biome:
     image:
@@ -18,3 +19,21 @@ biome:
     rules:
         - if: $CI_COMMIT_BRANCH
         - if: $CI_MERGE_REQUEST_ID
+
+docker-build:
+    image: docker:latest
+    stage: build
+    services:
+        - docker:dind
+    variables:
+        DOCKER_DRIVER: overlay2
+        DOCKER_TLS_CERTDIR: "/certs"
+    before_script:
+        - docker login -u $DOCKER_REGISTRY_USER -p $DOCKER_REGISTRY_TOKEN $DOCKER_REGISTRY
+    script:
+        - docker build -t $DOCKER_IMAGE_NAME:$CI_COMMIT_SHORT_SHA .
+        - docker build -t $DOCKER_IMAGE_NAME:latest .
+        - docker push $DOCKER_IMAGE_NAME:$CI_COMMIT_SHORT_SHA
+        - docker push $DOCKER_IMAGE_NAME:latest
+    rules:
+        - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
