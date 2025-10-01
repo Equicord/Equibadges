@@ -18,7 +18,7 @@ const badgeFetchInterval: number = process.env.BADGE_FETCH_INTERVAL
 const botToken: string | undefined = process.env.DISCORD_TOKEN;
 
 function verifyRequiredVariables(): void {
-	const requiredVariables = ["HOST", "PORT"];
+	const requiredVariables = ["REDIS_URL", "DISCORD_TOKEN"];
 
 	let hasError = false;
 
