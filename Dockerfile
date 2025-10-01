@@ -28,5 +28,5 @@ RUN mkdir -p /usr/src/app/logs && chown bun:bun /usr/src/app/logs
 
 USER bun
 WORKDIR /usr/src/app
-ENTRYPOINT []
-CMD [ "bun", "src/index.ts" ]
+ENTRYPOINT [ "bun", "run" ]
+CMD [ "start" ]
