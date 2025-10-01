@@ -29,7 +29,10 @@ docker-build:
         - privileged
     variables:
         DOCKER_DRIVER: overlay2
+        DOCKER_HOST: tcp://docker:2376
         DOCKER_TLS_CERTDIR: "/certs"
+        DOCKER_TLS_VERIFY: 1
+        DOCKER_CERT_PATH: "/certs/client"
     before_script:
         - sleep 5
         - echo "$DOCKER_REGISTRY_TOKEN" | docker login -u "$DOCKER_REGISTRY_USER" --password-stdin "$DOCKER_REGISTRY"
