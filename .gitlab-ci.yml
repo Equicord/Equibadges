@@ -24,17 +24,17 @@ docker-build:
     image: docker:latest
     stage: build
     services:
-        - name: docker:dind
-          command: ["--tls=false"]
+        - docker:dind
+    tags:
+        - privileged
     variables:
         DOCKER_DRIVER: overlay2
-        DOCKER_HOST: tcp://docker:2375
-        DOCKER_TLS_CERTDIR: ""
+        DOCKER_TLS_CERTDIR: "/certs"
     before_script:
-        - echo "$DOCKER_REGISTRY_TOKEN" | docker login -u $DOCKER_REGISTRY_USER --password-stdin $DOCKER_REGISTRY
+        - echo "$DOCKER_REGISTRY_TOKEN" | docker login -u "$DOCKER_REGISTRY_USER" --password-stdin "$DOCKER_REGISTRY"
     script:
         - docker build -t $DOCKER_IMAGE_NAME:$CI_COMMIT_SHORT_SHA .
-        - docker build -t $DOCKER_IMAGE_NAME:$CI_COMMIT_BRANCH .
+        - docker tag $DOCKER_IMAGE_NAME:$CI_COMMIT_SHORT_SHA $DOCKER_IMAGE_NAME:$CI_COMMIT_BRANCH
         - docker push $DOCKER_IMAGE_NAME:$CI_COMMIT_SHORT_SHA
         - docker push $DOCKER_IMAGE_NAME:$CI_COMMIT_BRANCH
         - |
