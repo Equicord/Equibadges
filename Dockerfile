@@ -27,4 +27,4 @@ COPY --from=prerelease /usr/src/app/logger.json .
 RUN mkdir -p /usr/src/app/logs && chown bun:bun /usr/src/app/logs
 
 USER bun
-ENTRYPOINT [ "bun", "run", "start" ]
+ENTRYPOINT [ "bun", "run", "src/index.ts" ]
