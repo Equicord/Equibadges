@@ -15,6 +15,8 @@ COPY --from=install /temp/dev/node_modules node_modules
 COPY . .
 
 FROM base AS release
+RUN apt-get update && apt-get install -y git && rm -rf /var/lib/apt/lists/*
+
 COPY --from=install /temp/prod/node_modules node_modules
 COPY --from=prerelease /usr/src/app/src ./src
 COPY --from=prerelease /usr/src/app/public ./public
@@ -25,6 +27,7 @@ COPY --from=prerelease /usr/src/app/types ./types
 COPY --from=prerelease /usr/src/app/logger.json .
 
 RUN mkdir -p /usr/src/app/logs && chown bun:bun /usr/src/app/logs
+RUN mkdir -p /usr/src/app/cache && chown bun:bun /usr/src/app/cache
 
 USER bun
 WORKDIR /usr/src/app
