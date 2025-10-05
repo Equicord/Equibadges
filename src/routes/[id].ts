@@ -20,6 +20,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 	const { id: userId } = request.params;
 	const {
 		services,
+		exclude,
 		cache = "true",
 		seperated = "false",
 		capitalize = "false",
@@ -38,7 +39,36 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 	let validServices: string[];
 	const availableServices = badgeServices.map((b) => b.service);
 
-	if (services) {
+	if (exclude) {
+		const excludeList = parseServices(exclude);
+		if (!isValidServices(excludeList)) {
+			return Response.json(
+				{
+					status: 400,
+					error: "Invalid service(s) in exclude list",
+					availableServices,
+					provided: excludeList,
+				},
+				{ status: 400 },
+			);
+		}
+
+		const excludeLower = excludeList.map((s) => s.toLowerCase());
+		validServices = availableServices.filter(
+			(s) => !excludeLower.includes(s.toLowerCase()),
+		);
+
+		if (validServices.length === 0) {
+			return Response.json(
+				{
+					status: 400,
+					error: "Exclude list cannot exclude all services",
+					availableServices,
+				},
+				{ status: 400 },
+			);
+		}
+	} else if (services) {
 		const parsed = parseServices(services);
 		if (parsed.length === 0) {
 			return Response.json(
