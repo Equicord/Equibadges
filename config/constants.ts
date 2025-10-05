@@ -126,11 +126,6 @@ const badgeServices: BadgeService[] = [
 	},
 	{
 		service: "Enmity",
-		url: (userId: string) => ({
-			user: `https://raw.githubusercontent.com/enmity-mod/badges/main/${userId}.json`,
-			badge: (id: string) =>
-				`https://raw.githubusercontent.com/enmity-mod/badges/main/data/${id}.json`,
-		}),
 	},
 	{
 		service: "Discord",

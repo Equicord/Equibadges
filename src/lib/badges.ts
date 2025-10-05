@@ -16,7 +16,7 @@ function getRequestOrigin(request: Request): string {
 	return `${forwardedProto}://${host}`;
 }
 
-const USER_CACHE_SERVICES = ["discord", "enmity", "replugged"];
+const USER_CACHE_SERVICES = ["discord", "replugged"];
 
 export async function fetchBadges(
 	userId: string | undefined,
@@ -327,65 +327,40 @@ export async function fetchBadges(
 					}
 
 					case "enmity": {
-						if (typeof entry.url !== "function") {
+						const serviceData = await badgeCacheManager.getEnmityData();
+						if (!serviceData) {
+							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
 						}
 
-						const urlResult = entry.url(userId);
+						const userData = serviceData[userId];
+						if (userData?.badges) {
+							const origin = request ? getRequestOrigin(request) : "";
 
-						if (
-							typeof urlResult !== "object" ||
-							typeof urlResult.user !== "string" ||
-							typeof urlResult.badge !== "function"
-						) {
-							break;
-						}
+							for (const badge of userData.badges) {
+								if (!badge?.name) continue;
 
-						const userRes = await fetch(urlResult.user);
-						if (!userRes.ok) break;
+								const badgeName = badge.name.toLowerCase();
+								let badgeUrl = badge.url?.dark;
 
-						const badgeIds = await userRes.json();
-						if (!Array.isArray(badgeIds)) break;
-
-						const origin = request ? getRequestOrigin(request) : "";
-
-						await Promise.all(
-							badgeIds.map(async (id: string) => {
-								try {
-									const badgeRes = await fetch(urlResult.badge(id));
-									if (!badgeRes.ok) return;
-
-									const badge: EnmityBadgeItem = await badgeRes.json();
-									if (!badge?.name) return;
-
-									const badgeName = badge.name.toLowerCase();
-									let badgeUrl = badge.url?.dark;
-
-									if (badgeName.includes("dev")) {
-										badgeUrl = `${origin}/public/badges/enmity/dev.png`;
-									} else if (badgeName.includes("staff")) {
-										badgeUrl = `${origin}/public/badges/enmity/staff.png`;
-									} else if (badgeName.includes("support")) {
-										badgeUrl = `${origin}/public/badges/enmity/supporter.png`;
-									} else if (badgeName.includes("contributor")) {
-										badgeUrl = `${origin}/public/badges/enmity/contributor.png`;
-									}
-
-									if (!badgeUrl) return;
-
-									result.push({
-										tooltip: badge.name,
-										badge: badgeUrl,
-									});
-								} catch (error) {
-									echo.warn({
-										message: `Failed to fetch Enmity badge ${id}`,
-										error:
-											error instanceof Error ? error.message : String(error),
-									});
+								if (badgeName.includes("dev")) {
+									badgeUrl = `${origin}/public/badges/enmity/dev.png`;
+								} else if (badgeName.includes("staff")) {
+									badgeUrl = `${origin}/public/badges/enmity/staff.png`;
+								} else if (badgeName.includes("support")) {
+									badgeUrl = `${origin}/public/badges/enmity/supporter.png`;
+								} else if (badgeName.includes("contributor")) {
+									badgeUrl = `${origin}/public/badges/enmity/contributor.png`;
 								}
-							}),
-						);
+
+								if (!badgeUrl) continue;
+
+								result.push({
+									tooltip: badge.name,
+									badge: badgeUrl,
+								});
+							}
+						}
 						break;
 					}
 

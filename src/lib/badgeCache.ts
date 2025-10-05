@@ -1,7 +1,9 @@
+import path from "node:path";
 import { echo } from "@atums/echo";
 import {
 	badgeFetchInterval,
 	badgeServices,
+	cachePaths,
 	discordBadgeDetails,
 	gitUrl,
 	redisTtl,
@@ -77,6 +79,7 @@ class BadgeCacheManager {
 				"ra1ncord",
 				"velocity",
 				"badgevault",
+				"enmity",
 			];
 			const now = Date.now();
 
@@ -98,6 +101,21 @@ class BadgeCacheManager {
 				if (now - lastUpdate > badgeFetchInterval) {
 					echo.debug(`Cache expired for service: ${serviceName}`);
 					return true;
+				}
+
+				if (serviceName === "badgevault" || serviceName === "enmity") {
+					const gitConfigPath =
+						serviceName === "badgevault"
+							? path.join(cachePaths.badgevault, ".git/config")
+							: path.join(cachePaths.enmity, ".git/config");
+
+					const dirExists = await Bun.file(gitConfigPath).exists();
+					if (!dirExists) {
+						echo.debug(
+							`Cache directory missing for service: ${serviceName}, forcing update`,
+						);
+						return true;
+					}
 				}
 			}
 
@@ -287,12 +305,12 @@ class BadgeCacheManager {
 				}
 
 				case "badgevault": {
-					const cacheDir = "./cache/badgevault";
-					const userDir = `${cacheDir}/User`;
+					const cacheDir = cachePaths.badgevault;
+					const userDir = path.join(cacheDir, "User");
 
 					try {
 						const repoExists = await Bun.file(
-							`${cacheDir}/.git/config`,
+							path.join(cacheDir, ".git/config"),
 						).exists();
 						echo.debug(
 							`BadgeVault: Repository ${repoExists ? "exists, updating" : "not found, cloning"}`,
@@ -330,7 +348,7 @@ class BadgeCacheManager {
 
 						for (const file of userFiles) {
 							const userId = file.replace(".json", "");
-							const filePath = `${userDir}/${file}`;
+							const filePath = path.join(userDir, file);
 							const fileContent = await Bun.file(filePath).text();
 							const userData: BadgeVaultData = JSON.parse(fileContent);
 							badgeVaultData[userId] = userData;
@@ -349,8 +367,98 @@ class BadgeCacheManager {
 					break;
 				}
 
+				case "enmity": {
+					const cacheDir = cachePaths.enmity;
+					const dataDir = path.join(cacheDir, "data");
+
+					try {
+						const repoExists = await Bun.file(
+							path.join(cacheDir, ".git/config"),
+						).exists();
+						echo.debug(
+							`Enmity: Repository ${repoExists ? "exists, updating" : "not found, cloning"}`,
+						);
+
+						if (!repoExists) {
+							echo.debug("Enmity: Cloning repository from GitHub...");
+							const cloneProc = Bun.spawn([
+								"git",
+								"clone",
+								"https://github.com/enmity-mod/badges.git",
+								cacheDir,
+							]);
+							await cloneProc.exited;
+							echo.debug("Enmity: Repository cloned successfully");
+						} else {
+							echo.debug("Enmity: Pulling latest changes...");
+							const pullProc = Bun.spawn(["git", "pull"], {
+								cwd: cacheDir,
+							});
+							await pullProc.exited;
+							echo.debug("Enmity: Repository updated successfully");
+						}
+
+						echo.debug("Enmity: Reading user badge files...");
+						const userFiles = await Array.fromAsync(
+							new Bun.Glob("*.json").scan({
+								cwd: cacheDir,
+								onlyFiles: true,
+							}),
+						);
+
+						const badgeFiles = await Array.fromAsync(
+							new Bun.Glob("*.json").scan({
+								cwd: dataDir,
+							}),
+						);
+
+						echo.debug(
+							`Enmity: Found ${userFiles.length} user files and ${badgeFiles.length} badge definitions`,
+						);
+
+						const badgeDefinitions: Record<string, EnmityBadgeItem> = {};
+						for (const file of badgeFiles) {
+							const filePath = path.join(dataDir, file);
+							const fileContent = await Bun.file(filePath).text();
+							const badge: EnmityBadgeItem = JSON.parse(fileContent);
+							badgeDefinitions[badge.id] = badge;
+						}
+
+						const enmityData: Record<
+							string,
+							{ badgeIds: string[]; badges: EnmityBadgeItem[] }
+						> = {};
+
+						for (const file of userFiles) {
+							const userId = file.replace(".json", "");
+							const filePath = path.join(cacheDir, file);
+							const fileContent = await Bun.file(filePath).text();
+							const badgeIds: string[] = JSON.parse(fileContent);
+
+							const badges: EnmityBadgeItem[] = [];
+							for (const badgeId of badgeIds) {
+								if (badgeDefinitions[badgeId]) {
+									badges.push(badgeDefinitions[badgeId]);
+								}
+							}
+
+							enmityData[userId] = { badgeIds, badges };
+						}
+
+						echo.debug(
+							`Enmity: Consolidated ${Object.keys(enmityData).length} users into cache`,
+						);
+						data = enmityData;
+					} catch (error) {
+						echo.error({
+							message: "Failed to sync Enmity repository",
+							error: error instanceof Error ? error.message : String(error),
+						});
+					}
+					break;
+				}
+
 				case "discord":
-				case "enmity":
 				case "replugged":
 					return;
 
@@ -458,6 +566,20 @@ class BadgeCacheManager {
 		const data = await this.getServiceData("badgevault");
 		if (data) {
 			return data as Record<string, BadgeVaultData>;
+		}
+		return null;
+	}
+
+	async getEnmityData(): Promise<Record<
+		string,
+		{ badgeIds: string[]; badges: EnmityBadgeItem[] }
+	> | null> {
+		const data = await this.getServiceData("enmity");
+		if (data) {
+			return data as Record<
+				string,
+				{ badgeIds: string[]; badges: EnmityBadgeItem[] }
+			>;
 		}
 		return null;
 	}

@@ -1,3 +1,4 @@
+import path from "node:path";
 import { echo } from "@atums/echo";
 
 const environment: Environment = {
@@ -16,6 +17,11 @@ const badgeFetchInterval: number = process.env.BADGE_FETCH_INTERVAL
 	: 60 * 60 * 1000; // 1 hour
 
 const botToken: string | undefined = process.env.DISCORD_TOKEN;
+
+const cachePaths = {
+	badgevault: path.resolve(process.cwd(), "cache/badgevault"),
+	enmity: path.resolve(process.cwd(), "cache/enmity"),
+};
 
 function verifyRequiredVariables(): void {
 	const requiredVariables = ["REDIS_URL", "DISCORD_TOKEN"];
@@ -41,5 +47,6 @@ export {
 	redisTtl,
 	badgeFetchInterval,
 	botToken,
+	cachePaths,
 	verifyRequiredVariables,
 };

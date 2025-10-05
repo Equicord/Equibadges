@@ -98,7 +98,8 @@ type BadgeServiceData =
 	| AliucordData
 	| Ra1ncordData
 	| VelocityData
-	| Record<string, BadgeVaultData>;
+	| Record<string, BadgeVaultData>
+	| Record<string, { badgeIds: string[]; badges: EnmityBadgeItem[] }>;
 
 interface VencordBadgeItem {
 	tooltip: string;
@@ -117,6 +118,7 @@ interface ReviewDbBadgeItem {
 }
 
 interface EnmityBadgeItem {
+	id: string;
 	name: string;
 	url: {
 		dark: string;
