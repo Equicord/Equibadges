@@ -16,7 +16,7 @@ function getRequestOrigin(request: Request): string {
 	return `${forwardedProto}://${host}`;
 }
 
-const USER_CACHE_SERVICES = ["discord", "enmity", "aero"];
+const USER_CACHE_SERVICES = ["discord", "enmity", "replugged", "badgevault"];
 
 export async function fetchBadges(
 	userId: string | undefined,
@@ -467,7 +467,7 @@ export async function fetchBadges(
 				) {
 					const userCacheKey = `user_badges:${serviceKey}:${userId}`;
 					await redis.set(userCacheKey, JSON.stringify(result));
-					await redis.expire(userCacheKey, Math.min(redisTtl, 900));
+					await redis.expire(userCacheKey, Math.min(redisTtl, 3600));
 				}
 			} catch (error) {
 				echo.warn({
