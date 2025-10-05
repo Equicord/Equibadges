@@ -90,7 +90,7 @@ const discordBadgeDetails = {
 
 	VENCORD_CONTRIBUTOR: {
 		tooltip: "Vencord Contributor",
-		icon: "/public/badges/vencord.svg",
+		icon: "/public/badges/vencord.png",
 	},
 	EQUICORD_CONTRIBUTOR: {
 		tooltip: "Equicord Contributor",
