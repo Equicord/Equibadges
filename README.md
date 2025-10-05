@@ -64,6 +64,7 @@ GET /:userId
 | `services`   | A comma or space separated list of services to fetch badges from, if this is empty it fetches all |
 | `cache`      | Set to `true` or `false` (default: `true`). `false` bypasses Redis                                |
 | `seperated`  | Set to `true` to return results grouped by service, else merged array                             |
+| `capitalize` | Set to `true` to capitalize service names in response (only works with `seperated=true`)          |
 
 ### Supported Services
 

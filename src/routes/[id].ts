@@ -18,7 +18,12 @@ const routeDef: RouteDef = {
 
 async function handler(request: ExtendedRequest): Promise<Response> {
 	const { id: userId } = request.params;
-	const { services, cache = "true", seperated = "false" } = request.query;
+	const {
+		services,
+		cache = "true",
+		seperated = "false",
+		capitalize = "false",
+	} = request.query;
 
 	if (!validateID(userId)) {
 		return Response.json(
@@ -88,10 +93,35 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 		);
 	}
 
+	let responseBadges = badges;
+	if (capitalize === "true" && !Array.isArray(badges)) {
+		const serviceMap: Record<string, string> = {
+			nekocord: "Nekocord",
+			reviewdb: "ReviewDB",
+			aero: "Aero",
+			aliucord: "Aliucord",
+			ra1ncord: "Ra1ncord",
+			velocity: "Velocity",
+			enmity: "Enmity",
+			replugged: "Replugged",
+			badgevault: "BadgeVault",
+			vencord: "Vencord",
+			equicord: "Equicord",
+			discord: "Discord",
+		};
+
+		const capitalizedBadges: Record<string, Badge[]> = {};
+		for (const [key, value] of Object.entries(badges)) {
+			const capitalizedKey = serviceMap[key.toLowerCase()] || key;
+			capitalizedBadges[capitalizedKey] = value;
+		}
+		responseBadges = capitalizedBadges;
+	}
+
 	return Response.json(
 		{
 			status: 200,
-			badges,
+			badges: responseBadges,
 		},
 		{
 			status: 200,
