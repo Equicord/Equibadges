@@ -16,7 +16,7 @@ function getRequestOrigin(request: Request): string {
 	return `${forwardedProto}://${host}`;
 }
 
-const USER_CACHE_SERVICES = ["discord", "enmity", "replugged", "badgevault"];
+const USER_CACHE_SERVICES = ["discord", "enmity", "replugged"];
 
 export async function fetchBadges(
 	userId: string | undefined,
@@ -301,25 +301,20 @@ export async function fetchBadges(
 					}
 
 					case "badgevault": {
-						if (typeof entry.url !== "function") {
+						const serviceData = await badgeCacheManager.getBadgeVaultData();
+						if (!serviceData) {
+							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
 						}
 
-						const url = entry.url(userId);
-						if (typeof url !== "string") {
-							break;
-						}
-
-						const res = await fetch(url);
-						if (!res.ok) break;
-
-						const data: BadgeVaultData = await res.json();
-
+						const userData = serviceData[userId];
 						if (
-							data.customBadgesArray?.badges &&
-							Array.isArray(data.customBadgesArray.badges)
+							userData &&
+							!userData.blocked &&
+							userData.badges &&
+							Array.isArray(userData.badges)
 						) {
-							for (const badgeItem of data.customBadgesArray.badges) {
+							for (const badgeItem of userData.badges) {
 								if (!badgeItem.pending) {
 									result.push({
 										tooltip: badgeItem.name,

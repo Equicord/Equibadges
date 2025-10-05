@@ -76,6 +76,7 @@ class BadgeCacheManager {
 				"aliucord",
 				"ra1ncord",
 				"velocity",
+				"badgevault",
 			];
 			const now = Date.now();
 
@@ -285,10 +286,72 @@ class BadgeCacheManager {
 					break;
 				}
 
+				case "badgevault": {
+					const cacheDir = "./cache/badgevault";
+					const userDir = `${cacheDir}/User`;
+
+					try {
+						const repoExists = await Bun.file(
+							`${cacheDir}/.git/config`,
+						).exists();
+						echo.debug(
+							`BadgeVault: Repository ${repoExists ? "exists, updating" : "not found, cloning"}`,
+						);
+
+						if (!repoExists) {
+							echo.debug("BadgeVault: Cloning repository from GitHub...");
+							const cloneProc = Bun.spawn([
+								"git",
+								"clone",
+								"https://github.com/WolfPlugs/BadgeVault.git",
+								cacheDir,
+							]);
+							await cloneProc.exited;
+							echo.debug("BadgeVault: Repository cloned successfully");
+						} else {
+							echo.debug("BadgeVault: Pulling latest changes...");
+							const pullProc = Bun.spawn(["git", "pull"], {
+								cwd: cacheDir,
+							});
+							await pullProc.exited;
+							echo.debug("BadgeVault: Repository updated successfully");
+						}
+
+						echo.debug("BadgeVault: Reading user badge files...");
+						const userFiles = await Array.fromAsync(
+							new Bun.Glob("*.json").scan({
+								cwd: userDir,
+							}),
+						);
+
+						echo.debug(`BadgeVault: Found ${userFiles.length} user files`);
+
+						const badgeVaultData: Record<string, BadgeVaultData> = {};
+
+						for (const file of userFiles) {
+							const userId = file.replace(".json", "");
+							const filePath = `${userDir}/${file}`;
+							const fileContent = await Bun.file(filePath).text();
+							const userData: BadgeVaultData = JSON.parse(fileContent);
+							badgeVaultData[userId] = userData;
+						}
+
+						echo.debug(
+							`BadgeVault: Consolidated ${Object.keys(badgeVaultData).length} users into cache`,
+						);
+						data = badgeVaultData;
+					} catch (error) {
+						echo.error({
+							message: "Failed to sync BadgeVault repository",
+							error: error instanceof Error ? error.message : String(error),
+						});
+					}
+					break;
+				}
+
 				case "discord":
 				case "enmity":
 				case "replugged":
-				case "badgevault":
 					return;
 
 				default:
@@ -387,6 +450,14 @@ class BadgeCacheManager {
 		const data = await this.getServiceData("velocity");
 		if (data) {
 			return data as VelocityData;
+		}
+		return null;
+	}
+
+	async getBadgeVaultData(): Promise<Record<string, BadgeVaultData> | null> {
+		const data = await this.getServiceData("badgevault");
+		if (data) {
+			return data as Record<string, BadgeVaultData>;
 		}
 		return null;
 	}

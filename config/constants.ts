@@ -158,8 +158,6 @@ const badgeServices: BadgeService[] = [
 	},
 	{
 		service: "BadgeVault",
-		url: (userId: string) =>
-			`https://api.obamabot.me/v2/text/badges?user=${userId}`,
 	},
 ];
 

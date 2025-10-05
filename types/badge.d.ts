@@ -12,7 +12,7 @@ interface FetchBadgesOptions {
 
 type BadgeService = {
 	service: string;
-	url:
+	url?:
 		| string
 		| ((userId: string) => string)
 		| ((userId: string) => {
@@ -97,7 +97,8 @@ type BadgeServiceData =
 	| AeroData
 	| AliucordData
 	| Ra1ncordData
-	| VelocityData;
+	| VelocityData
+	| Record<string, BadgeVaultData>;
 
 interface VencordBadgeItem {
 	tooltip: string;
@@ -141,15 +142,14 @@ interface RepluggedBadgeData {
 }
 
 interface BadgeVaultData {
-	customBadgesArray: {
-		userId: string;
-		badges: Array<{
-			name: string;
-			badge: string;
-			_id: string;
-			pending: boolean;
-		}>;
-	};
+	_id: string;
+	userId: string;
+	badges: Array<{
+		name: string;
+		badge: string;
+		pending: boolean;
+	}>;
+	blocked: boolean;
 }
 
 interface DiscordUserData {

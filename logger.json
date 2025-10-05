@@ -1,6 +1,6 @@
 {
 	"directory": "logs",
-	"level": "info",
+	"level": "debug",
 	"disableFile": false,
 
 	"rotate": true,
