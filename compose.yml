@@ -1,9 +1,7 @@
 services:
     badge-api:
         container_name: badge-api
-        pull_policy: build
-        build:
-            context: .
+        image: cr8ns/badgeapi:latest
         restart: unless-stopped
         ports:
             - "8080:8080"
