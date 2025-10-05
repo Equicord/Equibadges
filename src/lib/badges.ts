@@ -352,6 +352,8 @@ export async function fetchBadges(
 						const badgeIds = await userRes.json();
 						if (!Array.isArray(badgeIds)) break;
 
+						const origin = request ? getRequestOrigin(request) : "";
+
 						await Promise.all(
 							badgeIds.map(async (id: string) => {
 								try {
@@ -359,11 +361,26 @@ export async function fetchBadges(
 									if (!badgeRes.ok) return;
 
 									const badge: EnmityBadgeItem = await badgeRes.json();
-									if (!badge?.name || !badge?.url?.dark) return;
+									if (!badge?.name) return;
+
+									const badgeName = badge.name.toLowerCase();
+									let badgeUrl = badge.url?.dark;
+
+									if (badgeName.includes("dev")) {
+										badgeUrl = `${origin}/public/badges/enmity/dev.png`;
+									} else if (badgeName.includes("staff")) {
+										badgeUrl = `${origin}/public/badges/enmity/staff.png`;
+									} else if (badgeName.includes("support")) {
+										badgeUrl = `${origin}/public/badges/enmity/supporter.png`;
+									} else if (badgeName.includes("contributor")) {
+										badgeUrl = `${origin}/public/badges/enmity/contributor.png`;
+									}
+
+									if (!badgeUrl) return;
 
 									result.push({
 										tooltip: badge.name,
-										badge: badge.url.dark,
+										badge: badgeUrl,
 									});
 								} catch (error) {
 									echo.warn({

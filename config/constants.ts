@@ -90,11 +90,11 @@ const discordBadgeDetails = {
 
 	VENCORD_CONTRIBUTOR: {
 		tooltip: "Vencord Contributor",
-		icon: "/public/badges/vencord.png",
+		icon: "/public/badges/vencord.svg",
 	},
 	EQUICORD_CONTRIBUTOR: {
 		tooltip: "Equicord Contributor",
-		icon: "/public/badges/equicord.svg",
+		icon: "/public/badges/equicord.png",
 	},
 
 	DISCORD_NITRO: {
