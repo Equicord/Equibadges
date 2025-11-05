@@ -1,6 +1,7 @@
-import { badgeServices } from "@config";
+import { badgeServices, blocklistConfig } from "@config";
 import { fetchBadges } from "@lib/badges";
 import { parseServices, validateID } from "@lib/char";
+import { blocklist } from "@lib/security";
 
 function isValidServices(services: string[]): boolean {
 	if (!Array.isArray(services)) return false;
@@ -34,6 +35,21 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 			},
 			{ status: 400 },
 		);
+	}
+
+	if (blocklistConfig.enabled) {
+		const userBlockedInfo = await blocklist.isUserBlocked(userId);
+		if (userBlockedInfo.blocked) {
+			return Response.json(
+				{
+					status: 403,
+					error: "User is blocked",
+					reason:
+						userBlockedInfo.reason || "User is blocked from accessing badges",
+				},
+				{ status: 403 },
+			);
+		}
 	}
 
 	let validServices: string[];

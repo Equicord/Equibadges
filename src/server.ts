@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 import { Echo, echo } from "@atums/echo";
-import { environment } from "@config";
+import { blocklistConfig, environment, rateLimitConfig } from "@config";
+import { blocklist, rateLimiter } from "@lib/security";
 import {
 	type BunFile,
 	FileSystemRouter,
@@ -21,6 +22,16 @@ class ServerHandler {
 			fileExtensions: [".ts"],
 			origin: `http://${this.host}:${this.port}`,
 		});
+
+		if (rateLimitConfig.enabled) {
+			echo.info(
+				`Rate limiting enabled: ${rateLimitConfig.maxRequests} requests per ${rateLimitConfig.windowMs / 1000}s`,
+			);
+		}
+
+		if (blocklistConfig.enabled) {
+			echo.info("Blocklist enabled");
+		}
 	}
 
 	public initialize(): void {
@@ -136,6 +147,55 @@ class ServerHandler {
 		}
 
 		const pathname: string = new URL(request.url).pathname;
+
+		if (blocklistConfig.enabled && ip !== "unknown") {
+			const ipBlockedInfo = await blocklist.isIpBlocked(ip);
+			if (ipBlockedInfo.blocked) {
+				response = Response.json(
+					{
+						success: false,
+						code: 403,
+						error: "Access denied",
+						reason: ipBlockedInfo.reason || "IP address is blocked",
+					},
+					{ status: 403 },
+				);
+				this.logRequest(extendedRequest, response, ip);
+				return response;
+			}
+		}
+
+		if (rateLimitConfig.enabled && ip !== "unknown") {
+			const rateLimitResult = await rateLimiter.checkLimit(ip);
+			if (!rateLimitResult.allowed) {
+				response = Response.json(
+					{
+						success: false,
+						code: 429,
+						error: "Too Many Requests",
+						retryAfter: rateLimitResult.retryAfter,
+						resetAt: rateLimitResult.resetAt.toISOString(),
+					},
+					{
+						status: 429,
+						headers: {
+							"X-RateLimit-Limit": rateLimitConfig.maxRequests.toString(),
+							"X-RateLimit-Remaining": "0",
+							"X-RateLimit-Reset": rateLimitResult.resetAt.getTime().toString(),
+							"Retry-After": rateLimitResult.retryAfter?.toString() || "60",
+						},
+					},
+				);
+				this.logRequest(extendedRequest, response, ip);
+				return response;
+			}
+
+			extendedRequest.rateLimitInfo = {
+				limit: rateLimitConfig.maxRequests,
+				remaining: rateLimitResult.remaining,
+				reset: rateLimitResult.resetAt.getTime(),
+			};
+		}
 
 		const baseDir = resolve("public", "custom");
 		const customPath = resolve(baseDir, pathname.slice(1));
