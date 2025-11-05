@@ -1,4 +1,6 @@
-import type { Redis } from "ioredis";
+import type { redis } from "bun";
+
+export type Redis = typeof redis;
 
 export interface RateLimitConfig {
 	windowMs: number;
@@ -29,31 +31,32 @@ export class RateLimiter {
 	async checkLimit(identifier: string): Promise<RateLimitResult> {
 		const key = `${this.config.keyPrefix}:${identifier}`;
 		const now = Date.now();
-		const windowStart = now - this.config.windowMs;
 
 		try {
-			await this.redis.zremrangebyscore(key, "-inf", windowStart.toString());
-			const count = await this.redis.zcard(key);
+			// Simple counter-based rate limiting with expiry
+			const countStr = await this.redis.get(key);
+			const count = countStr ? Number.parseInt(countStr, 10) : 0;
 
 			if (count >= this.config.maxRequests) {
-				const oldestEntry = await this.redis.zrange(key, 0, 0, "WITHSCORES");
-				const resetTime =
-					oldestEntry.length > 1
-						? Number.parseInt(oldestEntry[1], 10) + this.config.windowMs
-						: now + this.config.windowMs;
-
+				const resetAt = new Date(now + this.config.windowMs);
 				return {
 					allowed: false,
 					remaining: 0,
-					resetAt: new Date(resetTime),
-					retryAfter: Math.ceil((resetTime - now) / 1000),
+					resetAt,
+					retryAfter: Math.ceil(this.config.windowMs / 1000),
 				};
 			}
 
-			await this.redis.zadd(key, now.toString(), `${now}-${Math.random()}`);
-			await this.redis.pexpire(key, this.config.windowMs);
+			// Increment counter
+			const newCount = count + 1;
+			await this.redis.set(key, newCount.toString());
 
-			const remaining = this.config.maxRequests - (count + 1);
+			// Set expiry on first request
+			if (count === 0) {
+				await this.redis.expire(key, Math.ceil(this.config.windowMs / 1000));
+			}
+
+			const remaining = this.config.maxRequests - newCount;
 			const resetAt = new Date(now + this.config.windowMs);
 
 			return {
@@ -77,10 +80,7 @@ export class RateLimiter {
 
 	async getCount(identifier: string): Promise<number> {
 		const key = `${this.config.keyPrefix}:${identifier}`;
-		const now = Date.now();
-		const windowStart = now - this.config.windowMs;
-
-		await this.redis.zremrangebyscore(key, "-inf", windowStart.toString());
-		return await this.redis.zcard(key);
+		const countStr = await this.redis.get(key);
+		return countStr ? Number.parseInt(countStr, 10) : 0;
 	}
 }

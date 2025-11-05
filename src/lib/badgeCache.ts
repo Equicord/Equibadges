@@ -504,6 +504,46 @@ class BadgeCacheManager {
 		return null;
 	}
 
+	async getMultipleServiceData(
+		serviceKeys: string[],
+	): Promise<Map<string, BadgeServiceData>> {
+		const result = new Map<string, BadgeServiceData>();
+
+		if (serviceKeys.length === 0) {
+			return result;
+		}
+
+		try {
+			const cacheKeys = serviceKeys.map((key) => `${this.CACHE_PREFIX}${key}`);
+			const cachedValues = await redis.mget(...cacheKeys);
+
+			for (let i = 0; i < serviceKeys.length; i++) {
+				const cached = cachedValues[i];
+				const serviceKey = serviceKeys[i];
+				if (cached && typeof cached === "string" && serviceKey) {
+					try {
+						result.set(serviceKey, JSON.parse(cached) as BadgeServiceData);
+					} catch (parseError) {
+						echo.warn({
+							message: `Failed to parse cached data for service: ${serviceKey}`,
+							error:
+								parseError instanceof Error
+									? parseError.message
+									: String(parseError),
+						});
+					}
+				}
+			}
+		} catch (error) {
+			echo.warn({
+				message: "Failed to get multiple cached services",
+				error: error instanceof Error ? error.message : String(error),
+			});
+		}
+
+		return result;
+	}
+
 	async getVencordEquicordData(
 		serviceKey: string,
 	): Promise<VencordEquicordData | null> {

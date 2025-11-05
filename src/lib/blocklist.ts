@@ -1,4 +1,6 @@
-import type { Redis } from "ioredis";
+import type { redis } from "bun";
+
+export type Redis = typeof redis;
 
 export interface BlocklistConfig {
 	keyPrefix?: string;
@@ -35,13 +37,14 @@ export class Blocklist {
 			}
 
 			const blockInfo = JSON.parse(data);
-			return {
+			const result: BlockedInfo = {
 				blocked: true,
 				reason: blockInfo.reason,
-				blockedAt: blockInfo.blockedAt
-					? new Date(blockInfo.blockedAt)
-					: undefined,
 			};
+			if (blockInfo.blockedAt) {
+				result.blockedAt = new Date(blockInfo.blockedAt);
+			}
+			return result;
 		} catch {
 			return { blocked: false };
 		}
@@ -55,13 +58,14 @@ export class Blocklist {
 			}
 
 			const blockInfo = JSON.parse(data);
-			return {
+			const result: BlockedInfo = {
 				blocked: true,
 				reason: blockInfo.reason,
-				blockedAt: blockInfo.blockedAt
-					? new Date(blockInfo.blockedAt)
-					: undefined,
 			};
+			if (blockInfo.blockedAt) {
+				result.blockedAt = new Date(blockInfo.blockedAt);
+			}
+			return result;
 		} catch (_error) {
 			return { blocked: false };
 		}
@@ -73,11 +77,10 @@ export class Blocklist {
 			blockedAt: new Date().toISOString(),
 		};
 
-		await this.redis.hset(
-			this.config.userBlocklistKey,
+		await this.redis.hmset(this.config.userBlocklistKey, [
 			userId,
 			JSON.stringify(blockInfo),
-		);
+		]);
 	}
 
 	async blockIp(ip: string, reason?: string): Promise<void> {
@@ -86,58 +89,82 @@ export class Blocklist {
 			blockedAt: new Date().toISOString(),
 		};
 
-		await this.redis.hset(
-			this.config.ipBlocklistKey,
+		await this.redis.hmset(this.config.ipBlocklistKey, [
 			ip,
 			JSON.stringify(blockInfo),
-		);
+		]);
 	}
 
 	async unblockUser(userId: string): Promise<boolean> {
-		const result = await this.redis.hdel(this.config.userBlocklistKey, userId);
-		return result > 0;
+		const result = await this.redis.send("HDEL", [
+			this.config.userBlocklistKey,
+			userId,
+		]);
+		return (result as number) > 0;
 	}
 
 	async unblockIp(ip: string): Promise<boolean> {
-		const result = await this.redis.hdel(this.config.ipBlocklistKey, ip);
-		return result > 0;
+		const result = await this.redis.send("HDEL", [
+			this.config.ipBlocklistKey,
+			ip,
+		]);
+		return (result as number) > 0;
 	}
 
 	async getBlockedUsers(): Promise<Record<string, BlockedInfo>> {
-		const data = await this.redis.hgetall(this.config.userBlocklistKey);
+		const data = (await this.redis.send("HGETALL", [
+			this.config.userBlocklistKey,
+		])) as string[] | null;
 		const result: Record<string, BlockedInfo> = {};
 
-		for (const [userId, jsonData] of Object.entries(data)) {
-			try {
-				const blockInfo = JSON.parse(jsonData);
-				result[userId] = {
-					blocked: true,
-					reason: blockInfo.reason,
-					blockedAt: blockInfo.blockedAt
-						? new Date(blockInfo.blockedAt)
-						: undefined,
-				};
-			} catch (_error) {}
+		if (!data || data.length === 0) return result;
+
+		// HGETALL returns [key1, value1, key2, value2, ...]
+		for (let i = 0; i < data.length; i += 2) {
+			const userId = data[i];
+			const jsonData = data[i + 1];
+			if (userId && jsonData) {
+				try {
+					const blockInfo = JSON.parse(jsonData);
+					const info: BlockedInfo = {
+						blocked: true,
+						reason: blockInfo.reason,
+					};
+					if (blockInfo.blockedAt) {
+						info.blockedAt = new Date(blockInfo.blockedAt);
+					}
+					result[userId] = info;
+				} catch (_error) {}
+			}
 		}
 
 		return result;
 	}
 
 	async getBlockedIps(): Promise<Record<string, BlockedInfo>> {
-		const data = await this.redis.hgetall(this.config.ipBlocklistKey);
+		const data = (await this.redis.send("HGETALL", [
+			this.config.ipBlocklistKey,
+		])) as string[] | null;
 		const result: Record<string, BlockedInfo> = {};
 
-		for (const [ip, jsonData] of Object.entries(data)) {
-			try {
-				const blockInfo = JSON.parse(jsonData);
-				result[ip] = {
-					blocked: true,
-					reason: blockInfo.reason,
-					blockedAt: blockInfo.blockedAt
-						? new Date(blockInfo.blockedAt)
-						: undefined,
-				};
-			} catch (_error) {}
+		if (!data || data.length === 0) return result;
+
+		for (let i = 0; i < data.length; i += 2) {
+			const ip = data[i];
+			const jsonData = data[i + 1];
+			if (ip && jsonData) {
+				try {
+					const blockInfo = JSON.parse(jsonData);
+					const info: BlockedInfo = {
+						blocked: true,
+						reason: blockInfo.reason,
+					};
+					if (blockInfo.blockedAt) {
+						info.blockedAt = new Date(blockInfo.blockedAt);
+					}
+					result[ip] = info;
+				} catch (_error) {}
+			}
 		}
 
 		return result;

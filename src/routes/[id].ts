@@ -37,7 +37,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 		);
 	}
 
-	if (blocklistConfig.enabled) {
+	if (blocklistConfig.enabled && userId) {
 		const userBlockedInfo = await blocklist.isUserBlocked(userId);
 		if (userBlockedInfo.blocked) {
 			return Response.json(

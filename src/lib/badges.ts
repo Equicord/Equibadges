@@ -55,6 +55,10 @@ export async function fetchBadges(
 	const cacheHits = await Promise.all(userCachePromises);
 	const servicesToFetch = services.filter((_, index) => !cacheHits[index]);
 
+	const serviceKeys = servicesToFetch.map((s) => s.toLowerCase());
+	const serviceDataMap =
+		await badgeCacheManager.getMultipleServiceData(serviceKeys);
+
 	await Promise.all(
 		servicesToFetch.map(async (service) => {
 			const entry = badgeServices.find(
@@ -69,8 +73,9 @@ export async function fetchBadges(
 				switch (serviceKey) {
 					case "vencord":
 					case "equicord": {
-						const serviceData =
-							await badgeCacheManager.getVencordEquicordData(serviceKey);
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| VencordEquicordData
+							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
@@ -95,7 +100,9 @@ export async function fetchBadges(
 					}
 
 					case "nekocord": {
-						const serviceData = await badgeCacheManager.getNekocordData();
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| NekocordData
+							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
@@ -117,7 +124,9 @@ export async function fetchBadges(
 					}
 
 					case "reviewdb": {
-						const serviceData = await badgeCacheManager.getReviewDbData();
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| ReviewDbData
+							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
@@ -135,7 +144,9 @@ export async function fetchBadges(
 					}
 
 					case "aero": {
-						const serviceData = await badgeCacheManager.getAeroData();
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| AeroData
+							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
@@ -167,7 +178,9 @@ export async function fetchBadges(
 					}
 
 					case "aliucord": {
-						const serviceData = await badgeCacheManager.getAliucordData();
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| AliucordData
+							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
@@ -206,7 +219,9 @@ export async function fetchBadges(
 					}
 
 					case "ra1ncord": {
-						const serviceData = await badgeCacheManager.getRa1ncordData();
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| Ra1ncordData
+							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
@@ -225,7 +240,9 @@ export async function fetchBadges(
 					}
 
 					case "velocity": {
-						const serviceData = await badgeCacheManager.getVelocityData();
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| VelocityData
+							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
@@ -301,7 +318,9 @@ export async function fetchBadges(
 					}
 
 					case "badgevault": {
-						const serviceData = await badgeCacheManager.getBadgeVaultData();
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| Record<string, BadgeVaultData>
+							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
@@ -327,7 +346,12 @@ export async function fetchBadges(
 					}
 
 					case "enmity": {
-						const serviceData = await badgeCacheManager.getEnmityData();
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| Record<
+									string,
+									{ badgeIds: string[]; badges: EnmityBadgeItem[] }
+							  >
+							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
