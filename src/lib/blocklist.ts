@@ -119,7 +119,6 @@ export class Blocklist {
 
 		if (!data || data.length === 0) return result;
 
-		// HGETALL returns [key1, value1, key2, value2, ...]
 		for (let i = 0; i < data.length; i += 2) {
 			const userId = data[i];
 			const jsonData = data[i + 1];

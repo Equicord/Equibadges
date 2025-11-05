@@ -33,7 +33,6 @@ export class RateLimiter {
 		const now = Date.now();
 
 		try {
-			// Simple counter-based rate limiting with expiry
 			const countStr = await this.redis.get(key);
 			const count = countStr ? Number.parseInt(countStr, 10) : 0;
 
@@ -47,11 +46,9 @@ export class RateLimiter {
 				};
 			}
 
-			// Increment counter
 			const newCount = count + 1;
 			await this.redis.set(key, newCount.toString());
 
-			// Set expiry on first request
 			if (count === 0) {
 				await this.redis.expire(key, Math.ceil(this.config.windowMs / 1000));
 			}
