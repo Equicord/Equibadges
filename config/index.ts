@@ -18,6 +18,8 @@ const badgeFetchInterval: number = process.env.BADGE_FETCH_INTERVAL
 
 const botToken: string | undefined = process.env.DISCORD_TOKEN;
 
+const githubToken: string | undefined = process.env.GITHUB_TOKEN;
+
 const cachePaths = {
 	badgevault: path.resolve(process.cwd(), "cache/badgevault"),
 	enmity: path.resolve(process.cwd(), "cache/enmity"),
@@ -61,6 +63,7 @@ export {
 	redisTtl,
 	badgeFetchInterval,
 	botToken,
+	githubToken,
 	cachePaths,
 	rateLimitConfig,
 	blocklistConfig,

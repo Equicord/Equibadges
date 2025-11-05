@@ -5,6 +5,7 @@ import {
 	badgeServices,
 	cachePaths,
 	discordBadgeDetails,
+	githubToken,
 	gitUrl,
 	redisTtl,
 } from "@config";
@@ -318,12 +319,10 @@ class BadgeCacheManager {
 
 						if (!repoExists) {
 							echo.debug("BadgeVault: Cloning repository from GitHub...");
-							const cloneProc = Bun.spawn([
-								"git",
-								"clone",
-								"https://github.com/WolfPlugs/BadgeVault.git",
-								cacheDir,
-							]);
+							const repoUrl = githubToken
+								? `https://${githubToken}@github.com/WolfPlugs/BadgeVault.git`
+								: "https://github.com/WolfPlugs/BadgeVault.git";
+							const cloneProc = Bun.spawn(["git", "clone", repoUrl, cacheDir]);
 							await cloneProc.exited;
 							echo.debug("BadgeVault: Repository cloned successfully");
 						} else {
@@ -381,12 +380,10 @@ class BadgeCacheManager {
 
 						if (!repoExists) {
 							echo.debug("Enmity: Cloning repository from GitHub...");
-							const cloneProc = Bun.spawn([
-								"git",
-								"clone",
-								"https://github.com/enmity-mod/badges.git",
-								cacheDir,
-							]);
+							const repoUrl = githubToken
+								? `https://${githubToken}@github.com/enmity-mod/badges.git`
+								: "https://github.com/enmity-mod/badges.git";
+							const cloneProc = Bun.spawn(["git", "clone", repoUrl, cacheDir]);
 							await cloneProc.exited;
 							echo.debug("Enmity: Repository cloned successfully");
 						} else {
