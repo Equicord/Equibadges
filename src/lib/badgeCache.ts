@@ -9,6 +9,7 @@ import {
 	gitUrl,
 	redisTtl,
 } from "@config";
+import { syncGitRepository } from "@lib/gitSync";
 import { redis } from "bun";
 
 const BADGE_API_HEADERS = {
@@ -50,6 +51,11 @@ class BadgeCacheManager {
 			await this.updateAllServiceData();
 		} else {
 			echo.debug("Badge cache is still valid, skipping initial update");
+		}
+
+		if (this.updateInterval) {
+			clearInterval(this.updateInterval);
+			this.updateInterval = null;
 		}
 
 		this.updateInterval = setInterval(
@@ -310,29 +316,12 @@ class BadgeCacheManager {
 					const userDir = path.join(cacheDir, "User");
 
 					try {
-						const repoExists = await Bun.file(
-							path.join(cacheDir, ".git/config"),
-						).exists();
-						echo.debug(
-							`BadgeVault: Repository ${repoExists ? "exists, updating" : "not found, cloning"}`,
+						await syncGitRepository(
+							cacheDir,
+							"https://github.com/WolfPlugs/BadgeVault.git",
+							"BadgeVault",
+							githubToken,
 						);
-
-						if (!repoExists) {
-							echo.debug("BadgeVault: Cloning repository from GitHub...");
-							const repoUrl = githubToken
-								? `https://${githubToken}@github.com/WolfPlugs/BadgeVault.git`
-								: "https://github.com/WolfPlugs/BadgeVault.git";
-							const cloneProc = Bun.spawn(["git", "clone", repoUrl, cacheDir]);
-							await cloneProc.exited;
-							echo.debug("BadgeVault: Repository cloned successfully");
-						} else {
-							echo.debug("BadgeVault: Pulling latest changes...");
-							const pullProc = Bun.spawn(["git", "pull"], {
-								cwd: cacheDir,
-							});
-							await pullProc.exited;
-							echo.debug("BadgeVault: Repository updated successfully");
-						}
 
 						echo.debug("BadgeVault: Reading user badge files...");
 						const userFiles = await Array.fromAsync(
@@ -371,29 +360,12 @@ class BadgeCacheManager {
 					const dataDir = path.join(cacheDir, "data");
 
 					try {
-						const repoExists = await Bun.file(
-							path.join(cacheDir, ".git/config"),
-						).exists();
-						echo.debug(
-							`Enmity: Repository ${repoExists ? "exists, updating" : "not found, cloning"}`,
+						await syncGitRepository(
+							cacheDir,
+							"https://github.com/enmity-mod/badges.git",
+							"Enmity",
+							githubToken,
 						);
-
-						if (!repoExists) {
-							echo.debug("Enmity: Cloning repository from GitHub...");
-							const repoUrl = githubToken
-								? `https://${githubToken}@github.com/enmity-mod/badges.git`
-								: "https://github.com/enmity-mod/badges.git";
-							const cloneProc = Bun.spawn(["git", "clone", repoUrl, cacheDir]);
-							await cloneProc.exited;
-							echo.debug("Enmity: Repository cloned successfully");
-						} else {
-							echo.debug("Enmity: Pulling latest changes...");
-							const pullProc = Bun.spawn(["git", "pull"], {
-								cwd: cacheDir,
-							});
-							await pullProc.exited;
-							echo.debug("Enmity: Repository updated successfully");
-						}
 
 						echo.debug("Enmity: Reading user badge files...");
 						const userFiles = await Array.fromAsync(

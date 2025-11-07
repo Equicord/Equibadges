@@ -28,11 +28,11 @@ async function handler(): Promise<Response> {
 					query: {
 						services: "Comma/space separated list of services (optional)",
 						cache: "Enable/disable caching (true/false, default: true)",
-						seperated:
+						separated:
 							"Return results grouped by service (true/false, default: false)",
 					},
 				},
-				example: "/:userId?services=discord,vencord&seperated=true&cache=true",
+				example: "/:userId?services=discord,vencord&separated=true&cache=true",
 			},
 		},
 		supportedServices: badgeServices.map((service) => ({

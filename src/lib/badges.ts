@@ -5,8 +5,15 @@ import {
 	discordBadgeDetails,
 	discordBadges,
 	redisTtl,
+	SECONDS_PER_HOUR,
 } from "@config";
 import { badgeCacheManager } from "@lib/badgeCache";
+import {
+	AERO_BADGE_KEYWORDS,
+	determineBadgeType,
+	ENMITY_BADGE_KEYWORDS,
+	VELOCITY_BADGE_KEYWORDS,
+} from "@lib/badgeUtils";
 import { redis } from "bun";
 
 function getRequestOrigin(request: Request): string {
@@ -157,16 +164,10 @@ export async function fetchBadges(
 							const origin = request ? getRequestOrigin(request) : "";
 
 							for (const badgeItem of userBadges) {
-								let badgeType = "developer";
-								const textLower = badgeItem.text.toLowerCase();
-
-								if (textLower.includes("contributor")) {
-									badgeType = "contributor";
-								} else if (textLower.includes("tester")) {
-									badgeType = "tester";
-								} else if (textLower.includes("developer")) {
-									badgeType = "developer";
-								}
+								const badgeType = determineBadgeType(
+									badgeItem.text,
+									AERO_BADGE_KEYWORDS,
+								);
 
 								result.push({
 									tooltip: badgeItem.text,
@@ -251,18 +252,10 @@ export async function fetchBadges(
 						const userBadge = serviceData[userId];
 						if (userBadge) {
 							const origin = request ? getRequestOrigin(request) : "";
-							const badgeName = userBadge.name.toLowerCase();
-							let badgeType = "developer";
-
-							if (badgeName.includes("contributor")) {
-								badgeType = "contributor";
-							} else if (badgeName.includes("translator")) {
-								badgeType = "translator";
-							} else if (badgeName.includes("early")) {
-								badgeType = "early";
-							} else if (badgeName.includes("developer")) {
-								badgeType = "developer";
-							}
+							const badgeType = determineBadgeType(
+								userBadge.name,
+								VELOCITY_BADGE_KEYWORDS,
+							);
 
 							result.push({
 								tooltip: userBadge.name,
@@ -364,18 +357,15 @@ export async function fetchBadges(
 							for (const badge of userData.badges) {
 								if (!badge?.name) continue;
 
-								const badgeName = badge.name.toLowerCase();
-								let badgeUrl = badge.url?.dark;
+								const badgeType = determineBadgeType(
+									badge.name,
+									ENMITY_BADGE_KEYWORDS,
+									"",
+								);
 
-								if (badgeName.includes("dev")) {
-									badgeUrl = `${origin}/public/badges/enmity/dev.png`;
-								} else if (badgeName.includes("staff")) {
-									badgeUrl = `${origin}/public/badges/enmity/staff.png`;
-								} else if (badgeName.includes("support")) {
-									badgeUrl = `${origin}/public/badges/enmity/supporter.png`;
-								} else if (badgeName.includes("contributor")) {
-									badgeUrl = `${origin}/public/badges/enmity/contributor.png`;
-								}
+								const badgeUrl = badgeType
+									? `${origin}/public/badges/enmity/${badgeType}.png`
+									: badge.url?.dark;
 
 								if (!badgeUrl) continue;
 
@@ -461,7 +451,10 @@ export async function fetchBadges(
 				) {
 					const userCacheKey = `user_badges:${serviceKey}:${userId}`;
 					await redis.set(userCacheKey, JSON.stringify(result));
-					await redis.expire(userCacheKey, Math.min(redisTtl, 3600));
+					await redis.expire(
+						userCacheKey,
+						Math.min(redisTtl, SECONDS_PER_HOUR),
+					);
 				}
 			} catch (error) {
 				echo.warn({

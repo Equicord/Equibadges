@@ -64,8 +64,8 @@ GET /:userId
 | `services`   | A comma or space separated list of services to fetch badges from, if this is empty it fetches all |
 | `exclude`    | A comma or space separated list of services to exclude (overrides `services`)                    |
 | `cache`      | Set to `true` or `false` (default: `true`). `false` bypasses Redis                                |
-| `seperated`  | Set to `true` to return results grouped by service, else merged array                             |
-| `capitalize` | Set to `true` to capitalize service names in response (only works with `seperated=true`)          |
+| `separated`  | Set to `true` to return results grouped by service, else merged array                             |
+| `capitalize` | Set to `true` to capitalize service names in response (only works with `separated=true`)          |
 
 ### Supported Services
 
@@ -79,7 +79,7 @@ GET /:userId
 ### Example
 
 ```http
-GET /209830981060788225?seperated=true&cache=true&services=equicord
+GET /209830981060788225?separated=true&cache=true&services=equicord
 ```
 
 ## Start the Server

@@ -8,16 +8,20 @@ async function main(): Promise<void> {
 
 	await badgeCacheManager.initialize();
 
-	process.on("SIGINT", async () => {
+	process.on("SIGINT", () => {
 		echo.debug("Received SIGINT, shutting down gracefully...");
-		await badgeCacheManager.shutdown();
-		process.exit(0);
+		void (async () => {
+			await badgeCacheManager.shutdown();
+			process.exit(0);
+		})();
 	});
 
-	process.on("SIGTERM", async () => {
+	process.on("SIGTERM", () => {
 		echo.debug("Received SIGTERM, shutting down gracefully...");
-		await badgeCacheManager.shutdown();
-		process.exit(0);
+		void (async () => {
+			await badgeCacheManager.shutdown();
+			process.exit(0);
+		})();
 	});
 
 	serverHandler.initialize();

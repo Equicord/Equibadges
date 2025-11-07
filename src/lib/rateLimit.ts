@@ -2,19 +2,6 @@ import type { redis } from "bun";
 
 export type Redis = typeof redis;
 
-export interface RateLimitConfig {
-	windowMs: number;
-	maxRequests: number;
-	keyPrefix?: string;
-}
-
-export interface RateLimitResult {
-	allowed: boolean;
-	remaining: number;
-	resetAt: Date;
-	retryAfter?: number;
-}
-
 export class RateLimiter {
 	private redis: Redis;
 	private config: Required<RateLimitConfig>;
@@ -31,30 +18,31 @@ export class RateLimiter {
 	async checkLimit(identifier: string): Promise<RateLimitResult> {
 		const key = `${this.config.keyPrefix}:${identifier}`;
 		const now = Date.now();
+		const windowSeconds = Math.ceil(this.config.windowMs / 1000);
 
 		try {
-			const countStr = await this.redis.get(key);
-			const count = countStr ? Number.parseInt(countStr, 10) : 0;
+			const newCount = await this.redis.incr(key);
 
-			if (count >= this.config.maxRequests) {
-				const resetAt = new Date(now + this.config.windowMs);
+			if (newCount === 1) {
+				await this.redis.expire(key, windowSeconds);
+			}
+
+			const ttl = await this.redis.ttl(key);
+			const resetAt =
+				ttl > 0
+					? new Date(now + ttl * 1000)
+					: new Date(now + this.config.windowMs);
+
+			if (newCount > this.config.maxRequests) {
 				return {
 					allowed: false,
 					remaining: 0,
 					resetAt,
-					retryAfter: Math.ceil(this.config.windowMs / 1000),
+					retryAfter: ttl > 0 ? ttl : windowSeconds,
 				};
 			}
 
-			const newCount = count + 1;
-			await this.redis.set(key, newCount.toString());
-
-			if (count === 0) {
-				await this.redis.expire(key, Math.ceil(this.config.windowMs / 1000));
-			}
-
 			const remaining = this.config.maxRequests - newCount;
-			const resetAt = new Date(now + this.config.windowMs);
 
 			return {
 				allowed: true,

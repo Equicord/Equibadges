@@ -8,13 +8,20 @@ const environment: Environment = {
 		process.env.NODE_ENV === "development" || process.argv.includes("--dev"),
 };
 
+const SECONDS_PER_MINUTE = 60;
+const MINUTES_PER_HOUR = 60;
+const SECONDS_PER_HOUR = SECONDS_PER_MINUTE * MINUTES_PER_HOUR;
+const MILLISECONDS_PER_SECOND = 1000;
+const MILLISECONDS_PER_MINUTE = SECONDS_PER_MINUTE * MILLISECONDS_PER_SECOND;
+const MILLISECONDS_PER_HOUR = SECONDS_PER_HOUR * MILLISECONDS_PER_SECOND;
+
 const redisTtl: number = process.env.REDIS_TTL
 	? Number.parseInt(process.env.REDIS_TTL, 10)
-	: 60 * 60 * 1; // 1 hour
+	: SECONDS_PER_HOUR; // 1 hour
 
 const badgeFetchInterval: number = process.env.BADGE_FETCH_INTERVAL
 	? Number.parseInt(process.env.BADGE_FETCH_INTERVAL, 10)
-	: 60 * 60 * 1000; // 1 hour
+	: MILLISECONDS_PER_HOUR; // 1 hour
 
 const botToken: string | undefined = process.env.DISCORD_TOKEN;
 
@@ -29,7 +36,7 @@ const rateLimitConfig = {
 	enabled: process.env.RATE_LIMIT_ENABLED !== "false",
 	windowMs: process.env.RATE_LIMIT_WINDOW_MS
 		? Number.parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10)
-		: 60 * 1000,
+		: MILLISECONDS_PER_MINUTE,
 	maxRequests: process.env.RATE_LIMIT_MAX_REQUESTS
 		? Number.parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10)
 		: 60,
@@ -59,6 +66,12 @@ function verifyRequiredVariables(): void {
 
 export * from "@config/constants";
 export {
+	SECONDS_PER_MINUTE,
+	MINUTES_PER_HOUR,
+	SECONDS_PER_HOUR,
+	MILLISECONDS_PER_SECOND,
+	MILLISECONDS_PER_MINUTE,
+	MILLISECONDS_PER_HOUR,
 	environment,
 	redisTtl,
 	badgeFetchInterval,

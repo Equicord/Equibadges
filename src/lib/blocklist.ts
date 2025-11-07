@@ -2,18 +2,6 @@ import type { redis } from "bun";
 
 export type Redis = typeof redis;
 
-export interface BlocklistConfig {
-	keyPrefix?: string;
-	userBlocklistKey?: string;
-	ipBlocklistKey?: string;
-}
-
-export interface BlockedInfo {
-	blocked: boolean;
-	reason?: string;
-	blockedAt?: Date;
-}
-
 export class Blocklist {
 	private redis: Redis;
 	private config: Required<BlocklistConfig>;

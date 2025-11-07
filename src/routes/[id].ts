@@ -1,7 +1,9 @@
 import { badgeServices, blocklistConfig } from "@config";
 import { fetchBadges } from "@lib/badges";
 import { parseServices, validateID } from "@lib/char";
+import { createErrorResponse } from "@lib/errorResponse";
 import { blocklist } from "@lib/security";
+import { validateBadgesQuery } from "@lib/validation";
 
 function isValidServices(services: string[]): boolean {
 	if (!Array.isArray(services)) return false;
@@ -19,35 +21,35 @@ const routeDef: RouteDef = {
 
 async function handler(request: ExtendedRequest): Promise<Response> {
 	const { id: userId } = request.params;
-	const {
-		services,
-		exclude,
-		cache = "true",
-		seperated = "false",
-		capitalize = "false",
-	} = request.query;
+	const { services, exclude, seperated, ...queryParams } = request.query;
+
+	if (seperated !== undefined && queryParams.separated === undefined) {
+		queryParams.separated = seperated;
+	}
+
+	const validation = validateBadgesQuery(queryParams);
+	if (!validation.valid) {
+		return createErrorResponse(400, "Invalid query parameters", undefined, {
+			errors: validation.errors,
+		});
+	}
+
+	const { cache, separated, capitalize } = validation.normalized;
 
 	if (!validateID(userId)) {
-		return Response.json(
-			{
-				status: 400,
-				error: "Invalid Discord User ID. Must be 17-20 digits.",
-			},
-			{ status: 400 },
+		return createErrorResponse(
+			400,
+			"Invalid Discord User ID. Must be 17-20 digits.",
 		);
 	}
 
 	if (blocklistConfig.enabled && userId) {
 		const userBlockedInfo = await blocklist.isUserBlocked(userId);
 		if (userBlockedInfo.blocked) {
-			return Response.json(
-				{
-					status: 403,
-					error: "User is blocked",
-					reason:
-						userBlockedInfo.reason || "User is blocked from accessing badges",
-				},
-				{ status: 403 },
+			return createErrorResponse(
+				403,
+				"User is blocked",
+				userBlockedInfo.reason || "User is blocked from accessing badges",
 			);
 		}
 	}
@@ -58,14 +60,11 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 	if (exclude) {
 		const excludeList = parseServices(exclude);
 		if (!isValidServices(excludeList)) {
-			return Response.json(
-				{
-					status: 400,
-					error: "Invalid service(s) in exclude list",
-					availableServices,
-					provided: excludeList,
-				},
-				{ status: 400 },
+			return createErrorResponse(
+				400,
+				"Invalid service(s) in exclude list",
+				undefined,
+				{ availableServices, provided: excludeList },
 			);
 		}
 
@@ -75,37 +74,27 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 		);
 
 		if (validServices.length === 0) {
-			return Response.json(
-				{
-					status: 400,
-					error: "Exclude list cannot exclude all services",
-					availableServices,
-				},
-				{ status: 400 },
+			return createErrorResponse(
+				400,
+				"Exclude list cannot exclude all services",
+				undefined,
+				{ availableServices },
 			);
 		}
 	} else if (services) {
 		const parsed = parseServices(services);
 		if (parsed.length === 0) {
-			return Response.json(
-				{
-					status: 400,
-					error: "No valid services provided",
-					availableServices,
-				},
-				{ status: 400 },
-			);
+			return createErrorResponse(400, "No valid services provided", undefined, {
+				availableServices,
+			});
 		}
 
 		if (!isValidServices(parsed)) {
-			return Response.json(
-				{
-					status: 400,
-					error: "Invalid service(s) provided",
-					availableServices,
-					provided: parsed,
-				},
-				{ status: 400 },
+			return createErrorResponse(
+				400,
+				"Invalid service(s) provided",
+				undefined,
+				{ availableServices, provided: parsed },
 			);
 		}
 
@@ -118,8 +107,8 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 		userId,
 		validServices,
 		{
-			nocache: cache !== "true",
-			separated: seperated === "true",
+			nocache: !cache,
+			separated,
 		},
 		request,
 	);
@@ -129,18 +118,16 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 		: Object.keys(badges).length === 0;
 
 	if (isEmpty) {
-		return Response.json(
-			{
-				status: 404,
-				error: "No badges found for this user",
-				services: validServices,
-			},
-			{ status: 404 },
+		return createErrorResponse(
+			404,
+			"No badges found for this user",
+			undefined,
+			{ services: validServices },
 		);
 	}
 
 	let responseBadges = badges;
-	if (capitalize === "true" && !Array.isArray(badges)) {
+	if (capitalize && !Array.isArray(badges)) {
 		const serviceMap: Record<string, string> = {
 			nekocord: "Nekocord",
 			reviewdb: "ReviewDB",

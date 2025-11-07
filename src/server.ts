@@ -1,6 +1,7 @@
 import { resolve } from "node:path";
 import { Echo, echo } from "@atums/echo";
 import { blocklistConfig, environment, rateLimitConfig } from "@config";
+import { createErrorResponse } from "@lib/errorResponse";
 import { blocklist, rateLimiter } from "@lib/security";
 import {
 	type BunFile,
@@ -144,11 +145,30 @@ class ServerHandler {
 			ip.startsWith("10.") ||
 			ip === "127.0.0.1"
 		) {
-			ip =
-				headers.get("CF-Connecting-IP")?.trim() ||
-				headers.get("X-Real-IP")?.trim() ||
-				headers.get("X-Forwarded-For")?.split(",")[0]?.trim() ||
-				"unknown";
+			const cfIp = headers.get("CF-Connecting-IP")?.trim();
+			if (cfIp) {
+				ip = cfIp;
+			} else {
+				const xRealIp = headers.get("X-Real-IP")?.trim();
+				if (xRealIp) {
+					ip = xRealIp;
+				} else {
+					const xForwardedFor = headers.get("X-Forwarded-For");
+					if (xForwardedFor) {
+						const firstIp = xForwardedFor.split(",")[0]?.trim();
+						if (
+							firstIp &&
+							/^(?:\d{1,3}\.){3}\d{1,3}$|^[0-9a-f:]+$/i.test(firstIp)
+						) {
+							ip = firstIp;
+						} else {
+							ip = "unknown";
+						}
+					} else {
+						ip = "unknown";
+					}
+				}
+			}
 		}
 
 		const pathname: string = new URL(request.url).pathname;
@@ -156,14 +176,10 @@ class ServerHandler {
 		if (blocklistConfig.enabled && ip !== "unknown") {
 			const ipBlockedInfo = await blocklist.isIpBlocked(ip);
 			if (ipBlockedInfo.blocked) {
-				response = Response.json(
-					{
-						success: false,
-						code: 403,
-						error: "Access denied",
-						reason: ipBlockedInfo.reason || "IP address is blocked",
-					},
-					{ status: 403 },
+				response = createErrorResponse(
+					403,
+					"Access denied",
+					ipBlockedInfo.reason || "IP address is blocked",
 				);
 				this.logRequest(extendedRequest, response, ip);
 				return response;
@@ -173,22 +189,19 @@ class ServerHandler {
 		if (rateLimitConfig.enabled && ip !== "unknown") {
 			const rateLimitResult = await rateLimiter.checkLimit(ip);
 			if (!rateLimitResult.allowed) {
-				response = Response.json(
+				response = createErrorResponse(
+					429,
+					"Too Many Requests",
+					undefined,
 					{
-						success: false,
-						code: 429,
-						error: "Too Many Requests",
 						retryAfter: rateLimitResult.retryAfter,
 						resetAt: rateLimitResult.resetAt.toISOString(),
 					},
 					{
-						status: 429,
-						headers: {
-							"X-RateLimit-Limit": rateLimitConfig.maxRequests.toString(),
-							"X-RateLimit-Remaining": "0",
-							"X-RateLimit-Reset": rateLimitResult.resetAt.getTime().toString(),
-							"Retry-After": rateLimitResult.retryAfter?.toString() || "60",
-						},
+						"X-RateLimit-Limit": rateLimitConfig.maxRequests.toString(),
+						"X-RateLimit-Remaining": "0",
+						"X-RateLimit-Reset": rateLimitResult.resetAt.getTime().toString(),
+						"Retry-After": rateLimitResult.retryAfter?.toString() || "60",
 					},
 				);
 				this.logRequest(extendedRequest, response, ip);
@@ -265,17 +278,13 @@ class ServerHandler {
 					(!Array.isArray(routeModule.routeDef.method) &&
 						routeModule.routeDef.method !== request.method)
 				) {
-					response = Response.json(
-						{
-							success: false,
-							code: 405,
-							error: `Method ${request.method} Not Allowed, expected ${
-								Array.isArray(routeModule.routeDef.method)
-									? routeModule.routeDef.method.join(", ")
-									: routeModule.routeDef.method
-							}`,
-						},
-						{ status: 405 },
+					response = createErrorResponse(
+						405,
+						`Method ${request.method} Not Allowed, expected ${
+							Array.isArray(routeModule.routeDef.method)
+								? routeModule.routeDef.method.join(", ")
+								: routeModule.routeDef.method
+						}`,
 					);
 				} else {
 					const expectedContentType: string | string[] | null =
@@ -294,17 +303,13 @@ class ServerHandler {
 					}
 
 					if (!matchesAccepts) {
-						response = Response.json(
-							{
-								success: false,
-								code: 406,
-								error: `Content-Type ${actualContentType} Not Acceptable, expected ${
-									Array.isArray(expectedContentType)
-										? expectedContentType.join(", ")
-										: expectedContentType
-								}`,
-							},
-							{ status: 406 },
+						response = createErrorResponse(
+							406,
+							`Content-Type ${actualContentType} Not Acceptable, expected ${
+								Array.isArray(expectedContentType)
+									? expectedContentType.join(", ")
+									: expectedContentType
+							}`,
 						);
 					} else {
 						extendedRequest.params = params;
@@ -330,24 +335,10 @@ class ServerHandler {
 					error: error,
 				});
 
-				response = Response.json(
-					{
-						success: false,
-						code: 500,
-						error: "Internal Server Error",
-					},
-					{ status: 500 },
-				);
+				response = createErrorResponse(500, "Internal Server Error");
 			}
 		} else {
-			response = Response.json(
-				{
-					success: false,
-					code: 404,
-					error: "Not Found",
-				},
-				{ status: 404 },
-			);
+			response = createErrorResponse(404, "Not Found");
 		}
 
 		this.logRequest(extendedRequest, response, ip);
