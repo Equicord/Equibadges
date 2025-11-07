@@ -138,12 +138,17 @@ class ServerHandler {
 		let ip = server.requestIP(request)?.address;
 		let response: Response;
 
-		if (!ip || ip.startsWith("172.") || ip.startsWith("10.") || ip === "127.0.0.1") {
-		    ip =
-		        headers.get("CF-Connecting-IP")?.trim() ||
-		        headers.get("X-Real-IP")?.trim() ||
-		        headers.get("X-Forwarded-For")?.split(",")[0]?.trim() ||
-		        "unknown";
+		if (
+			!ip ||
+			ip.startsWith("172.") ||
+			ip.startsWith("10.") ||
+			ip === "127.0.0.1"
+		) {
+			ip =
+				headers.get("CF-Connecting-IP")?.trim() ||
+				headers.get("X-Real-IP")?.trim() ||
+				headers.get("X-Forwarded-For")?.split(",")[0]?.trim() ||
+				"unknown";
 		}
 
 		const pathname: string = new URL(request.url).pathname;
