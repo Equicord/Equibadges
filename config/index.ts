@@ -26,7 +26,7 @@ const cachePaths = {
 };
 
 const rateLimitConfig = {
-	enabled: process.env.RATE_LIMIT_ENABLED !== "false", // Enabled by default
+	enabled: process.env.RATE_LIMIT_ENABLED !== "false",
 	windowMs: process.env.RATE_LIMIT_WINDOW_MS
 		? Number.parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10)
 		: 60 * 1000,
