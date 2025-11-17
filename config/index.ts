@@ -36,6 +36,24 @@ const blocklistConfig = {
 	enabled: process.env.BLOCKLIST_ENABLED !== "false",
 };
 
+const cacheConfig = {
+	version: process.env.CACHE_VERSION || "v1",
+	redisTimeout: process.env.REDIS_TIMEOUT
+		? Number.parseInt(process.env.REDIS_TIMEOUT, 10)
+		: 5000,
+	httpFetchTimeout: process.env.HTTP_FETCH_TIMEOUT
+		? Number.parseInt(process.env.HTTP_FETCH_TIMEOUT, 10)
+		: 10000,
+	httpFetchRetries: process.env.HTTP_FETCH_RETRIES
+		? Number.parseInt(process.env.HTTP_FETCH_RETRIES, 10)
+		: 3,
+	preloadOnStartup: process.env.CACHE_PRELOAD_ON_STARTUP !== "false",
+};
+
+const adminConfig = {
+	apiKey: process.env.ADMIN_API_KEY,
+};
+
 function verifyRequiredVariables(): void {
 	const requiredVariables = ["REDIS_URL"];
 
@@ -69,5 +87,7 @@ export {
 	githubToken,
 	cachePaths,
 	blocklistConfig,
+	cacheConfig,
+	adminConfig,
 	verifyRequiredVariables,
 };

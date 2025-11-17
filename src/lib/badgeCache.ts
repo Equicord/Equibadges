@@ -3,6 +3,7 @@ import { echo } from "@atums/echo";
 import {
 	badgeFetchInterval,
 	badgeServices,
+	cacheConfig,
 	cachePaths,
 	discordBadgeDetails,
 	githubToken,
@@ -16,10 +17,71 @@ const BADGE_API_HEADERS = {
 	"User-Agent": `BadgeAPI ${gitUrl}`,
 };
 
+async function fetchWithTimeout(
+	url: string,
+	options: RequestInit = {},
+	timeout: number = cacheConfig.httpFetchTimeout,
+): Promise<Response> {
+	const controller = new AbortController();
+	const timeoutId = setTimeout(() => controller.abort(), timeout);
+
+	try {
+		const response = await fetch(url, {
+			...options,
+			signal: controller.signal,
+		});
+		clearTimeout(timeoutId);
+		return response;
+	} catch (error) {
+		clearTimeout(timeoutId);
+		throw error;
+	}
+}
+
+async function fetchWithRetry(
+	url: string,
+	options: RequestInit = {},
+	maxRetries: number = cacheConfig.httpFetchRetries,
+): Promise<Response> {
+	let lastError: Error | null = null;
+
+	for (let attempt = 0; attempt <= maxRetries; attempt++) {
+		try {
+			const response = await fetchWithTimeout(url, options);
+			if (response.ok) {
+				return response;
+			}
+			if (response.status >= 400 && response.status < 500) {
+				return response;
+			}
+			lastError = new Error(`HTTP ${response.status}: ${response.statusText}`);
+		} catch (error) {
+			lastError = error instanceof Error ? error : new Error(String(error));
+		}
+
+		if (attempt < maxRetries) {
+			const backoffMs = 2 ** attempt * 1000;
+			echo.debug(
+				`Fetch failed for ${url}, retrying in ${backoffMs}ms (attempt ${attempt + 1}/${maxRetries})`,
+			);
+			await new Promise((resolve) => setTimeout(resolve, backoffMs));
+		}
+	}
+
+	throw lastError || new Error("Fetch failed after all retries");
+}
+
 class BadgeCacheManager {
 	private updateInterval: Timer | null = null;
-	private readonly CACHE_PREFIX = "badge_service_data:";
-	private readonly CACHE_TIMESTAMP_PREFIX = "badge_cache_timestamp:";
+	private readonly CACHE_PREFIX = `badge_service_data:${cacheConfig.version}:`;
+	private readonly CACHE_TIMESTAMP_PREFIX =
+		`badge_cache_timestamp:${cacheConfig.version}:`;
+	private readonly GIT_LOCK_PREFIX = "git_lock:";
+	private metrics = {
+		hits: 0,
+		misses: 0,
+		errors: 0,
+	};
 
 	async initialize(): Promise<void> {
 		echo.info("Initializing badge cache manager...");
@@ -29,8 +91,13 @@ class BadgeCacheManager {
 			const pingPromise = redis.ping();
 			const timeoutPromise = new Promise((_, reject) =>
 				setTimeout(
-					() => reject(new Error("Redis connection timeout after 5s")),
-					5000,
+					() =>
+						reject(
+							new Error(
+								`Redis connection timeout after ${cacheConfig.redisTimeout}ms`,
+							),
+						),
+					cacheConfig.redisTimeout,
 				),
 			);
 			await Promise.race([pingPromise, timeoutPromise]);
@@ -46,11 +113,16 @@ class BadgeCacheManager {
 			throw new Error(`Redis connection failed: ${errorMessage}`);
 		}
 
-		const needsUpdate = await this.checkIfUpdateNeeded();
-		if (needsUpdate) {
+		if (cacheConfig.preloadOnStartup) {
+			echo.info("Preloading all service data on startup...");
 			await this.updateAllServiceData();
 		} else {
-			echo.debug("Badge cache is still valid, skipping initial update");
+			const needsUpdate = await this.checkIfUpdateNeeded();
+			if (needsUpdate) {
+				await this.updateAllServiceData();
+			} else {
+				echo.debug("Badge cache is still valid, skipping initial update");
+			}
 		}
 
 		if (this.updateInterval) {
@@ -72,6 +144,49 @@ class BadgeCacheManager {
 			this.updateInterval = null;
 		}
 		echo.debug("Badge cache manager shut down");
+	}
+
+	private async acquireGitLock(service: string): Promise<boolean> {
+		const lockKey = `${this.GIT_LOCK_PREFIX}${service}`;
+		const lockValue = Date.now().toString();
+		const lockTTL = 300;
+
+		try {
+			const result = await redis.send("SET", [
+				lockKey,
+				lockValue,
+				"EX",
+				lockTTL.toString(),
+				"NX",
+			]);
+			return result === "OK";
+		} catch (error) {
+			echo.error({
+				message: `Failed to acquire git lock for ${service}`,
+				error: error instanceof Error ? error.message : String(error),
+			});
+			return false;
+		}
+	}
+
+	private async releaseGitLock(service: string): Promise<void> {
+		const lockKey = `${this.GIT_LOCK_PREFIX}${service}`;
+		try {
+			await redis.del(lockKey);
+		} catch (error) {
+			echo.error({
+				message: `Failed to release git lock for ${service}`,
+				error: error instanceof Error ? error.message : String(error),
+			});
+		}
+	}
+
+	getMetrics() {
+		return { ...this.metrics };
+	}
+
+	resetMetrics() {
+		this.metrics = { hits: 0, misses: 0, errors: 0 };
 	}
 
 	private async checkIfUpdateNeeded(): Promise<boolean> {
@@ -167,7 +282,7 @@ class BadgeCacheManager {
 				case "vencord":
 				case "equicord": {
 					if (typeof service.url === "string") {
-						const res = await fetch(service.url, {
+						const res = await fetchWithRetry(service.url, {
 							headers: BADGE_API_HEADERS,
 						});
 
@@ -177,7 +292,7 @@ class BadgeCacheManager {
 					}
 
 					if (typeof service.pluginsUrl === "string") {
-						const contributorRes = await fetch(service.pluginsUrl, {
+						const contributorRes = await fetchWithRetry(service.pluginsUrl, {
 							headers: BADGE_API_HEADERS,
 						});
 
@@ -235,7 +350,7 @@ class BadgeCacheManager {
 
 				case "nekocord": {
 					if (typeof service.url === "string") {
-						const res = await fetch(service.url, {
+						const res = await fetchWithRetry(service.url, {
 							headers: BADGE_API_HEADERS,
 						});
 
@@ -248,7 +363,7 @@ class BadgeCacheManager {
 
 				case "reviewdb": {
 					if (typeof service.url === "string") {
-						const res = await fetch(service.url, {
+						const res = await fetchWithRetry(service.url, {
 							headers: BADGE_API_HEADERS,
 						});
 
@@ -261,7 +376,7 @@ class BadgeCacheManager {
 
 				case "aero": {
 					if (typeof service.url === "string") {
-						const res = await fetch(service.url, {
+						const res = await fetchWithRetry(service.url, {
 							headers: BADGE_API_HEADERS,
 						});
 
@@ -274,7 +389,7 @@ class BadgeCacheManager {
 
 				case "aliucord": {
 					if (typeof service.url === "string") {
-						const res = await fetch(service.url, {
+						const res = await fetchWithRetry(service.url, {
 							headers: BADGE_API_HEADERS,
 						});
 
@@ -287,7 +402,7 @@ class BadgeCacheManager {
 
 				case "ra1ncord": {
 					if (typeof service.url === "string") {
-						const res = await fetch(service.url, {
+						const res = await fetchWithRetry(service.url, {
 							headers: BADGE_API_HEADERS,
 						});
 
@@ -300,7 +415,7 @@ class BadgeCacheManager {
 
 				case "velocity": {
 					if (typeof service.url === "string") {
-						const res = await fetch(service.url, {
+						const res = await fetchWithRetry(service.url, {
 							headers: BADGE_API_HEADERS,
 						});
 
@@ -314,6 +429,14 @@ class BadgeCacheManager {
 				case "badgevault": {
 					const cacheDir = cachePaths.badgevault;
 					const userDir = path.join(cacheDir, "User");
+
+					const lockAcquired = await this.acquireGitLock("badgevault");
+					if (!lockAcquired) {
+						echo.warn(
+							"BadgeVault: Git operation already in progress, skipping",
+						);
+						return;
+					}
 
 					try {
 						await syncGitRepository(
@@ -351,6 +474,8 @@ class BadgeCacheManager {
 							message: "Failed to sync BadgeVault repository",
 							error: error instanceof Error ? error.message : String(error),
 						});
+					} finally {
+						await this.releaseGitLock("badgevault");
 					}
 					break;
 				}
@@ -358,6 +483,12 @@ class BadgeCacheManager {
 				case "enmity": {
 					const cacheDir = cachePaths.enmity;
 					const dataDir = path.join(cacheDir, "data");
+
+					const lockAcquired = await this.acquireGitLock("enmity");
+					if (!lockAcquired) {
+						echo.warn("Enmity: Git operation already in progress, skipping");
+						return;
+					}
 
 					try {
 						await syncGitRepository(
@@ -423,6 +554,8 @@ class BadgeCacheManager {
 							message: "Failed to sync Enmity repository",
 							error: error instanceof Error ? error.message : String(error),
 						});
+					} finally {
+						await this.releaseGitLock("enmity");
 					}
 					break;
 				}
@@ -439,10 +572,16 @@ class BadgeCacheManager {
 			if (data) {
 				const now = Date.now();
 				await Promise.all([
-					redis.set(cacheKey, JSON.stringify(data)),
-					redis.set(timestampKey, now.toString()),
-					redis.expire(cacheKey, redisTtl * 2),
-					redis.expire(timestampKey, redisTtl * 2),
+					redis.send("SETEX", [
+						cacheKey,
+						redisTtl.toString(),
+						JSON.stringify(data),
+					]),
+					redis.send("SETEX", [
+						timestampKey,
+						redisTtl.toString(),
+						now.toString(),
+					]),
 				]);
 
 				echo.debug(`Updated cache for service: ${service.service}`);
@@ -461,9 +600,12 @@ class BadgeCacheManager {
 		try {
 			const cached = await redis.get(cacheKey);
 			if (cached) {
+				this.metrics.hits++;
 				return JSON.parse(cached) as BadgeServiceData;
 			}
+			this.metrics.misses++;
 		} catch (error) {
+			this.metrics.errors++;
 			echo.warn({
 				message: `Failed to get cached data for service: ${serviceKey}`,
 				error: error instanceof Error ? error.message : String(error),
@@ -513,86 +655,6 @@ class BadgeCacheManager {
 		return result;
 	}
 
-	async getVencordEquicordData(
-		serviceKey: string,
-	): Promise<VencordEquicordData | null> {
-		const data = await this.getServiceData(serviceKey);
-		if (data && (serviceKey === "vencord" || serviceKey === "equicord")) {
-			return data as VencordEquicordData;
-		}
-		return null;
-	}
-
-	async getNekocordData(): Promise<NekocordData | null> {
-		const data = await this.getServiceData("nekocord");
-		if (data) {
-			return data as NekocordData;
-		}
-		return null;
-	}
-
-	async getReviewDbData(): Promise<ReviewDbData | null> {
-		const data = await this.getServiceData("reviewdb");
-		if (data) {
-			return data as ReviewDbData;
-		}
-		return null;
-	}
-
-	async getAeroData(): Promise<AeroData | null> {
-		const data = await this.getServiceData("aero");
-		if (data) {
-			return data as AeroData;
-		}
-		return null;
-	}
-
-	async getAliucordData(): Promise<AliucordData | null> {
-		const data = await this.getServiceData("aliucord");
-		if (data) {
-			return data as AliucordData;
-		}
-		return null;
-	}
-
-	async getRa1ncordData(): Promise<Ra1ncordData | null> {
-		const data = await this.getServiceData("ra1ncord");
-		if (data) {
-			return data as Ra1ncordData;
-		}
-		return null;
-	}
-
-	async getVelocityData(): Promise<VelocityData | null> {
-		const data = await this.getServiceData("velocity");
-		if (data) {
-			return data as VelocityData;
-		}
-		return null;
-	}
-
-	async getBadgeVaultData(): Promise<Record<string, BadgeVaultData> | null> {
-		const data = await this.getServiceData("badgevault");
-		if (data) {
-			return data as Record<string, BadgeVaultData>;
-		}
-		return null;
-	}
-
-	async getEnmityData(): Promise<Record<
-		string,
-		{ badgeIds: string[]; badges: EnmityBadgeItem[] }
-	> | null> {
-		const data = await this.getServiceData("enmity");
-		if (data) {
-			return data as Record<
-				string,
-				{ badgeIds: string[]; badges: EnmityBadgeItem[] }
-			>;
-		}
-		return null;
-	}
-
 	async forceUpdateService(serviceName: string): Promise<void> {
 		const service = badgeServices.find(
 			(s: BadgeService) =>
@@ -605,6 +667,40 @@ class BadgeCacheManager {
 		} else {
 			throw new Error(`Service not found: ${serviceName}`);
 		}
+	}
+
+	async clearCache(serviceName?: string): Promise<number> {
+		if (serviceName) {
+			const cacheKey = `${this.CACHE_PREFIX}${serviceName}`;
+			const timestampKey = `${this.CACHE_TIMESTAMP_PREFIX}${serviceName}`;
+			await Promise.all([redis.del(cacheKey), redis.del(timestampKey)]);
+			echo.info(`Cleared cache for service: ${serviceName}`);
+			return 2;
+		}
+
+		const services = [
+			"vencord",
+			"equicord",
+			"nekocord",
+			"reviewdb",
+			"aero",
+			"aliucord",
+			"ra1ncord",
+			"velocity",
+			"badgevault",
+			"enmity",
+		];
+
+		let deleteCount = 0;
+		for (const service of services) {
+			const cacheKey = `${this.CACHE_PREFIX}${service}`;
+			const timestampKey = `${this.CACHE_TIMESTAMP_PREFIX}${service}`;
+			await Promise.all([redis.del(cacheKey), redis.del(timestampKey)]);
+			deleteCount += 2;
+		}
+
+		echo.info(`Cleared cache for all services (${deleteCount} keys)`);
+		return deleteCount;
 	}
 }
 

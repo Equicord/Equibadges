@@ -34,8 +34,3 @@ main().catch((error: Error) => {
 	});
 	process.exit(1);
 });
-
-if (process.env.IN_PTERODACTYL === "true") {
-	// biome-ignore lint/suspicious/noConsole: Needed for Pterodactyl to actually know the server started
-	console.log("Server Started");
-}

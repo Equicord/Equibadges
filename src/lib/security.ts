@@ -11,7 +11,7 @@ function getBlocklist(): Blocklist {
 }
 
 export const blocklist = new Proxy({} as Blocklist, {
-	get(_target, prop) {
+	get(_, prop) {
 		return getBlocklist()[prop as keyof Blocklist];
 	},
 });

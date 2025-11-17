@@ -144,7 +144,6 @@ interface RepluggedBadgeData {
 }
 
 interface BadgeVaultData {
-	_id: string;
 	userId: string;
 	badges: Array<{
 		name: string;

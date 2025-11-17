@@ -1,93 +1,69 @@
-# Badge Aggregator API
+# Badge API
 
-A fast Discord badge aggregation API built with [Bun](https://bun.sh) and Redis caching.
+Discord badge aggregation API built with Bun and Redis.
 
-# Preview
-https://badges.atums.world
+**Live:** https://badges.equicord.org
 
-## Features
-
-- Aggregates custom badge data from multiple sources (e.g. Vencord, Nekocord, Equicord, etc.)
-- Optional caching via Redis (1 hour per user-service combo)
-- Supports query options for service filtering, separated output, and cache bypass
-- Written in TypeScript with formatting and linting using [BiomeJS](https://biomejs.dev)
-
-## Requirements
-
-- [Bun](https://bun.sh) (v1.2.9+)
-- Redis instance, i suggest [Dragonfly](https://www.dragonflydb.io/)
-
-## Environment
-
-Copy the `.env.example` file in the root:
+## Setup
 
 ```bash
+bun install
 cp .env.example .env
-```
-
-Then edit the `.env` file as needed:
-
-```env
-# NODE_ENV is optional and can be used for conditional logic
-NODE_ENV=development
-
-# The server will bind to this host and port
-HOST=0.0.0.0
-PORT=8080
-
-# Redis connection URL, password isn't required
-REDIS_URL=redis://username:password@localhost:6379
-
-# Value is in seconds
-REDIS_TTL=3600
-
-#only use this if you want to show discord badges
-DISCORD_TOKEN=discord_bot_token
-```
-
-## Endpoint
-
-```http
-GET /:userId
-```
-
-### Path Parameters
-
-| Name    | Description              |
-|---------|--------------------------|
-| userId  | Discord User ID to query |
-
-### Query Parameters
-
-| Name         | Description                                                                                       |
-|--------------|---------------------------------------------------------------------------------------------------|
-| `services`   | A comma or space separated list of services to fetch badges from, if this is empty it fetches all |
-| `exclude`    | A comma or space separated list of services to exclude (overrides `services`)                    |
-| `cache`      | Set to `true` or `false` (default: `true`). `false` bypasses Redis                                |
-| `separated`  | Set to `true` to return results grouped by service, else merged array                             |
-| `capitalize` | Set to `true` to capitalize service names in response (only works with `separated=true`)          |
-
-### Supported Services
-
-- Vencord
-- Equicord
-- Nekocord
-- ReviewDb
-- Enmity
-- Discord ( some )
-
-### Example
-
-```http
-GET /209830981060788225?separated=true&cache=true&services=equicord
-```
-
-## Start the Server
-
-```bash
-bun i
+# Edit .env with REDIS_URL
 bun run start
 ```
 
+**Requirements:** [Bun](https://bun.sh) v1.2.9+, Redis
+
+## API
+
+```http
+GET /:userId?services=vencord,equicord&separated=true
+```
+
+### Query Parameters
+- `services` - Comma/space-separated list (default: all)
+- `exclude` - Exclude services
+- `cache` - Use cache (default: true)
+- `separated` - Group by service (default: false)
+- `capitalize` - Capitalize service names (with separated)
+
+### Supported Services
+Vencord, Equicord, Nekocord, ReviewDB, Aero, Aliucord, Ra1ncord, Velocity, BadgeVault, Enmity, Discord, Replugged
+
+## Admin API
+
+Requires `X-Admin-API-Key` header.
+
+```http
+POST /admin/cache/refresh?service=vencord
+POST /admin/cache/clear?service=vencord
+GET  /admin/cache/metrics
+POST /admin/cache/reset-metrics
+```
+
+## Configuration
+
+Required:
+- `REDIS_URL` - Redis connection string
+
+Optional:
+- `REDIS_TTL` - Cache TTL in seconds (default: 3600)
+- `DISCORD_TOKEN` - For Discord badges
+- `ADMIN_API_KEY` - Admin endpoints auth
+- `BLOCKLIST_ENABLED` - Enable blocklist (default: true)
+
+See `.env.example` for all options.
+
+## Development
+
+```bash
+bun run lint        # Check code
+bun run lint:fix    # Auto-fix issues
+bunx tsc --noEmit   # Type check
+docker compose up   # Run with Docker
+```
+
 ## License
-[BSD 3](LICENSE)
+
+[BSD-3-Clause](LICENSE)

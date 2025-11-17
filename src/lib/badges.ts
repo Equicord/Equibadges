@@ -54,7 +54,12 @@ export async function fetchBadges(
 				results[serviceKey] = parsed;
 				return true;
 			}
-		} catch {}
+		} catch (error) {
+			echo.warn({
+				message: `Failed to get user badge cache for ${serviceKey}:${userId}`,
+				error: error instanceof Error ? error.message : String(error),
+			});
+		}
 
 		return false;
 	});

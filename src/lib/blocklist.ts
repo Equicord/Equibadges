@@ -1,3 +1,4 @@
+import { echo } from "@atums/echo";
 import type { redis } from "bun";
 
 export type Redis = typeof redis;
@@ -33,7 +34,11 @@ export class Blocklist {
 				result.blockedAt = new Date(blockInfo.blockedAt);
 			}
 			return result;
-		} catch {
+		} catch (error) {
+			echo.warn({
+				message: `Failed to check if user ${userId} is blocked`,
+				error: error instanceof Error ? error.message : String(error),
+			});
 			return { blocked: false };
 		}
 	}
@@ -54,7 +59,11 @@ export class Blocklist {
 				result.blockedAt = new Date(blockInfo.blockedAt);
 			}
 			return result;
-		} catch (_error) {
+		} catch (error) {
+			echo.warn({
+				message: `Failed to check if IP ${ip} is blocked`,
+				error: error instanceof Error ? error.message : String(error),
+			});
 			return { blocked: false };
 		}
 	}
@@ -121,7 +130,12 @@ export class Blocklist {
 						info.blockedAt = new Date(blockInfo.blockedAt);
 					}
 					result[userId] = info;
-				} catch (_error) {}
+				} catch (error) {
+					echo.warn({
+						message: `Failed to parse blocked user data for ${userId}`,
+						error: error instanceof Error ? error.message : String(error),
+					});
+				}
 			}
 		}
 
@@ -150,7 +164,12 @@ export class Blocklist {
 						info.blockedAt = new Date(blockInfo.blockedAt);
 					}
 					result[ip] = info;
-				} catch (_error) {}
+				} catch (error) {
+					echo.warn({
+						message: `Failed to parse blocked IP data for ${ip}`,
+						error: error instanceof Error ? error.message : String(error),
+					});
+				}
 			}
 		}
 
