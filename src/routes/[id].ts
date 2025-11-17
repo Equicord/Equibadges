@@ -20,18 +20,6 @@ const routeDef: RouteDef = {
 };
 
 async function handler(request: ExtendedRequest): Promise<Response> {
-	if (request.method === "OPTIONS") {
-		return new Response(null, {
-			status: 204,
-			headers: {
-				"Access-Control-Allow-Origin": "*",
-				"Access-Control-Allow-Methods": "GET, OPTIONS",
-				"Access-Control-Allow-Headers": "Content-Type",
-				"Access-Control-Max-Age": "86400",
-			},
-		});
-	}
-
 	const { id: userId } = request.params;
 	const { services, exclude, seperated, ...queryParams } = request.query;
 
@@ -163,6 +151,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 		responseBadges = capitalizedBadges;
 	}
 
+	const origin = request.headers.get("Origin") || "*";
 	return Response.json(
 		{
 			status: 200,
@@ -173,9 +162,10 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 			headers: {
 				"Cache-Control": "public, max-age=60",
 				"Content-Type": "application/json",
-				"Access-Control-Allow-Origin": "*",
+				"Access-Control-Allow-Origin": origin,
 				"Access-Control-Allow-Methods": "GET, OPTIONS",
 				"Access-Control-Allow-Headers": "Content-Type",
+				"Access-Control-Allow-Credentials": "true",
 			},
 		},
 	);

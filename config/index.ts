@@ -32,22 +32,12 @@ const cachePaths = {
 	enmity: path.resolve(process.cwd(), "cache/enmity"),
 };
 
-const rateLimitConfig = {
-	enabled: process.env.RATE_LIMIT_ENABLED !== "false",
-	windowMs: process.env.RATE_LIMIT_WINDOW_MS
-		? Number.parseInt(process.env.RATE_LIMIT_WINDOW_MS, 10)
-		: MILLISECONDS_PER_MINUTE,
-	maxRequests: process.env.RATE_LIMIT_MAX_REQUESTS
-		? Number.parseInt(process.env.RATE_LIMIT_MAX_REQUESTS, 10)
-		: 60,
-};
-
 const blocklistConfig = {
 	enabled: process.env.BLOCKLIST_ENABLED !== "false",
 };
 
 function verifyRequiredVariables(): void {
-	const requiredVariables = ["REDIS_URL", "DISCORD_TOKEN"];
+	const requiredVariables = ["REDIS_URL"];
 
 	let hasError = false;
 
@@ -78,7 +68,6 @@ export {
 	botToken,
 	githubToken,
 	cachePaths,
-	rateLimitConfig,
 	blocklistConfig,
 	verifyRequiredVariables,
 };

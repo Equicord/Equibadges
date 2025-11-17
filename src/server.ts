@@ -1,8 +1,8 @@
 import { resolve } from "node:path";
 import { Echo, echo } from "@atums/echo";
-import { blocklistConfig, environment, rateLimitConfig } from "@config";
+import { blocklistConfig, environment } from "@config";
 import { createErrorResponse } from "@lib/errorResponse";
-import { blocklist, rateLimiter } from "@lib/security";
+import { blocklist } from "@lib/security";
 import {
 	type BunFile,
 	FileSystemRouter,
@@ -23,12 +23,6 @@ class ServerHandler {
 			fileExtensions: [".ts"],
 			origin: `http://${this.host}:${this.port}`,
 		});
-
-		if (rateLimitConfig.enabled) {
-			echo.info(
-				`Rate limiting enabled: ${rateLimitConfig.maxRequests} requests per ${rateLimitConfig.windowMs / 1000}s`,
-			);
-		}
 
 		if (blocklistConfig.enabled) {
 			echo.info("Blocklist enabled");
@@ -173,6 +167,24 @@ class ServerHandler {
 
 		const pathname: string = new URL(request.url).pathname;
 
+		if (request.method === "OPTIONS") {
+			const origin = request.headers.get("Origin") || "*";
+			response = new Response(null, {
+				status: 204,
+				headers: {
+					"Access-Control-Allow-Origin": origin,
+					"Access-Control-Allow-Methods":
+						"GET, POST, PUT, DELETE, PATCH, OPTIONS",
+					"Access-Control-Allow-Headers":
+						"Content-Type, Authorization, X-Requested-With",
+					"Access-Control-Max-Age": "86400",
+					"Access-Control-Allow-Credentials": "true",
+				},
+			});
+			this.logRequest(extendedRequest, response, ip);
+			return response;
+		}
+
 		if (blocklistConfig.enabled && ip !== "unknown") {
 			const ipBlockedInfo = await blocklist.isIpBlocked(ip);
 			if (ipBlockedInfo.blocked) {
@@ -184,35 +196,6 @@ class ServerHandler {
 				this.logRequest(extendedRequest, response, ip);
 				return response;
 			}
-		}
-
-		if (rateLimitConfig.enabled && ip !== "unknown") {
-			const rateLimitResult = await rateLimiter.checkLimit(ip);
-			if (!rateLimitResult.allowed) {
-				response = createErrorResponse(
-					429,
-					"Too Many Requests",
-					undefined,
-					{
-						retryAfter: rateLimitResult.retryAfter,
-						resetAt: rateLimitResult.resetAt.toISOString(),
-					},
-					{
-						"X-RateLimit-Limit": rateLimitConfig.maxRequests.toString(),
-						"X-RateLimit-Remaining": "0",
-						"X-RateLimit-Reset": rateLimitResult.resetAt.getTime().toString(),
-						"Retry-After": rateLimitResult.retryAfter?.toString() || "60",
-					},
-				);
-				this.logRequest(extendedRequest, response, ip);
-				return response;
-			}
-
-			extendedRequest.rateLimitInfo = {
-				limit: rateLimitConfig.maxRequests,
-				remaining: rateLimitResult.remaining,
-				reset: rateLimitResult.resetAt.getTime(),
-			};
 		}
 
 		const baseDir = resolve("public", "custom");
