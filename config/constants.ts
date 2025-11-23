@@ -141,7 +141,7 @@ const badgeServices: BadgeService[] = [
 	},
 	{
 		service: "Ra1ncord",
-		url: "https://raw.githubusercontent.com/ra1ncord/badges/main/badges.json",
+		url: "https://codeberg.org/raincord/badges/raw/branch/main/badges.json",
 	},
 	{
 		service: "Replugged",
