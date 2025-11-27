@@ -16,7 +16,7 @@ import {
 } from "@lib/badgeUtils";
 import { redis } from "bun";
 
-function getRequestOrigin(request: Request): string {
+export function getRequestOrigin(request: Request): string {
 	const headers = request.headers;
 	const forwardedProto = headers.get("X-Forwarded-Proto") || "http";
 	const host = headers.get("Host") || new URL(request.url).host;

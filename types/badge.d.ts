@@ -1,6 +1,7 @@
 type Badge = {
 	tooltip: string;
 	badge: string;
+	mod?: string;
 };
 
 type BadgeResult = Badge[] | Record<string, Badge[]>;

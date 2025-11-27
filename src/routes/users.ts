@@ -1,4 +1,11 @@
 import { badgeCacheManager } from "@lib/badgeCache";
+import { getRequestOrigin } from "@lib/badges";
+import {
+	AERO_BADGE_KEYWORDS,
+	determineBadgeType,
+	ENMITY_BADGE_KEYWORDS,
+	VELOCITY_BADGE_KEYWORDS,
+} from "@lib/badgeUtils";
 import { createErrorResponse } from "@lib/errorResponse";
 
 const routeDef: RouteDef = {
@@ -8,8 +15,7 @@ const routeDef: RouteDef = {
 };
 
 async function handler(request: ExtendedRequest): Promise<Response> {
-	const { separated } = request.query;
-	const groupByService = separated === "true";
+	const url = request ? getRequestOrigin(request) : "";
 
 	try {
 		const userServices = [
@@ -29,7 +35,6 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 			await badgeCacheManager.getMultipleServiceData(userServices);
 
 		const allUsersMap = new Map<string, Badge[]>();
-		const usersByService: Record<string, Record<string, Badge[]>> = {};
 
 		for (const [serviceName, data] of serviceDataMap.entries()) {
 			if (!data) continue;
@@ -37,11 +42,36 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 			const serviceUsers: Record<string, Badge[]> = {};
 
 			switch (serviceName) {
-				case "vencord":
+				case "vencord": {
+					const vencordData = data as Record<string, Badge[]>;
+					for (const [userId, badges] of Object.entries(vencordData)) {
+						serviceUsers[userId] = badges.map((b) => {
+							const badgeUrl = b.badge.startsWith("/")
+								? `${url}${b.badge}`
+								: b.badge;
+							return {
+								tooltip: b.tooltip,
+								mod: "vencord",
+								badge: badgeUrl,
+							};
+						});
+					}
+					break;
+				}
+
 				case "equicord": {
 					const vencordData = data as Record<string, Badge[]>;
 					for (const [userId, badges] of Object.entries(vencordData)) {
-						serviceUsers[userId] = badges;
+						serviceUsers[userId] = badges.map((b) => {
+							const badgeUrl = b.badge.startsWith("/")
+								? `${url}${b.badge}`
+								: b.badge;
+							return {
+								tooltip: b.tooltip,
+								mod: "equicord",
+								badge: badgeUrl,
+							};
+						});
 					}
 					break;
 				}
@@ -62,6 +92,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 									if (badgeInfo) {
 										badges.push({
 											tooltip: badgeInfo.name,
+											mod: "nekocord",
 											badge: badgeInfo.image,
 										});
 									}
@@ -90,6 +121,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 								}
 								grouped.get(item.discordID)?.push({
 									tooltip: item.name,
+									mod: "reviewdb",
 									badge: item.icon,
 								});
 							}
@@ -102,9 +134,19 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "aero": {
-					const aeroData = data as Record<string, Badge[]>;
+					const aeroData = data as Record<
+						string,
+						Array<{ text: string; image: string; color: string }>
+					>;
 					for (const [userId, badges] of Object.entries(aeroData)) {
-						serviceUsers[userId] = badges;
+						serviceUsers[userId] = badges.map((b) => {
+							const badgeType = determineBadgeType(b.text, AERO_BADGE_KEYWORDS);
+							return {
+								tooltip: b.text,
+								mod: "aero",
+								badge: `${url}/public/badges/aero/${badgeType}.png`,
+							};
+						});
 					}
 					break;
 				}
@@ -126,12 +168,27 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 							const badges: Badge[] = [];
 							if (Array.isArray(userData.roles)) {
 								for (const role of userData.roles) {
-									badges.push({ tooltip: role, badge: role });
+									const roleLower = role.toLowerCase();
+									if (
+										roleLower === "donor" ||
+										roleLower === "contributor" ||
+										roleLower === "dev"
+									) {
+										badges.push({
+											tooltip: role,
+											mod: "aliucord",
+											badge: `${url}/public/badges/aliucord/${roleLower}.png`,
+										});
+									}
 								}
 							}
 							if (Array.isArray(userData.custom)) {
 								for (const custom of userData.custom) {
-									badges.push({ tooltip: custom.text, badge: custom.url });
+									badges.push({
+										tooltip: custom.text,
+										mod: "aliucord",
+										badge: custom.url,
+									});
 								}
 							}
 							if (badges.length > 0) {
@@ -143,9 +200,16 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "ra1ncord": {
-					const ra1ncordData = data as Record<string, Badge[]>;
+					const ra1ncordData = data as Record<
+						string,
+						Array<{ label: string; url: string }>
+					>;
 					for (const [userId, badges] of Object.entries(ra1ncordData)) {
-						serviceUsers[userId] = badges;
+						serviceUsers[userId] = badges.map((b) => ({
+							tooltip: b.label,
+							mod: "ra1ncord",
+							badge: b.url,
+						}));
 					}
 					break;
 				}
@@ -153,8 +217,16 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				case "velocity": {
 					const velocityData = data as Record<string, { name: string }>;
 					for (const [userId, userData] of Object.entries(velocityData)) {
+						const badgeType = determineBadgeType(
+							userData.name,
+							VELOCITY_BADGE_KEYWORDS,
+						);
 						serviceUsers[userId] = [
-							{ tooltip: userData.name, badge: userData.name },
+							{
+								tooltip: userData.name,
+								mod: "velocity",
+								badge: `${url}/public/badges/velocity/${badgeType}.png`,
+							},
 						];
 					}
 					break;
@@ -173,7 +245,11 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 							const badges: Badge[] = [];
 							for (const badge of userData.badges) {
 								if (!badge.pending) {
-									badges.push({ tooltip: badge.name, badge: badge.badge });
+									badges.push({
+										tooltip: badge.name,
+										mod: "badgevault",
+										badge: badge.badge,
+									});
 								}
 							}
 							if (badges.length > 0) {
@@ -193,8 +269,22 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 						if (Array.isArray(userData.badges)) {
 							const badges: Badge[] = [];
 							for (const badge of userData.badges) {
-								if (badge.name && badge.url?.dark) {
-									badges.push({ tooltip: badge.name, badge: badge.url.dark });
+								if (badge.name) {
+									const badgeType = determineBadgeType(
+										badge.name,
+										ENMITY_BADGE_KEYWORDS,
+										"",
+									);
+									const badgeUrl = badgeType
+										? `${url}/public/badges/enmity/${badgeType}.png`
+										: badge.url?.dark;
+									if (!badgeUrl) continue;
+
+									badges.push({
+										tooltip: badge.name,
+										mod: "enmity",
+										badge: badgeUrl,
+									});
 								}
 							}
 							if (badges.length > 0) {
@@ -207,8 +297,6 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 			}
 
 			if (Object.keys(serviceUsers).length > 0) {
-				usersByService[serviceName] = serviceUsers;
-
 				for (const [userId, badges] of Object.entries(serviceUsers)) {
 					if (!allUsersMap.has(userId)) {
 						allUsersMap.set(userId, []);
@@ -225,27 +313,6 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 		}
 
 		const origin = request.headers.get("Origin") || "*";
-
-		if (groupByService) {
-			return Response.json(
-				{
-					status: 200,
-					totalUsers: allUsersMap.size,
-					users: usersByService,
-				},
-				{
-					status: 200,
-					headers: {
-						"Cache-Control": "public, max-age=60",
-						"Content-Type": "application/json",
-						"Access-Control-Allow-Origin": origin,
-						"Access-Control-Allow-Methods": "GET, OPTIONS",
-						"Access-Control-Allow-Headers": "Content-Type",
-						"Access-Control-Allow-Credentials": "true",
-					},
-				},
-			);
-		}
 
 		return Response.json(
 			{
