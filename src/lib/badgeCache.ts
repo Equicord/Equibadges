@@ -6,7 +6,6 @@ import {
 	cacheConfig,
 	cachePaths,
 	discordBadgeDetails,
-	githubToken,
 	gitUrl,
 	redisTtl,
 } from "@config";
@@ -16,6 +15,28 @@ import { redis } from "bun";
 const BADGE_API_HEADERS = {
 	"User-Agent": `BadgeAPI ${gitUrl}`,
 };
+
+const PER_USER_SERVICES = ["discord", "replugged"];
+
+function getStaticServices(): string[] {
+	return badgeServices
+		.map((s) => s.service.toLowerCase())
+		.filter((s) => !PER_USER_SERVICES.includes(s));
+}
+
+async function readFileWithTimeout(
+	filePath: string,
+	timeoutMs = 5000,
+): Promise<string> {
+	const filePromise = Bun.file(filePath).text();
+	const timeoutPromise = new Promise<never>((_, reject) => {
+		setTimeout(
+			() => reject(new Error(`File read timeout: ${filePath}`)),
+			timeoutMs,
+		);
+	});
+	return Promise.race([filePromise, timeoutPromise]);
+}
 
 async function fetchWithTimeout(
 	url: string,
@@ -77,6 +98,7 @@ class BadgeCacheManager {
 	private readonly CACHE_TIMESTAMP_PREFIX =
 		`badge_cache_timestamp:${cacheConfig.version}:`;
 	private readonly GIT_LOCK_PREFIX = "git_lock:";
+	private readonly lockTokens = new Map<string, string>();
 	private metrics = {
 		hits: 0,
 		misses: 0,
@@ -143,12 +165,23 @@ class BadgeCacheManager {
 			clearInterval(this.updateInterval);
 			this.updateInterval = null;
 		}
+
+		try {
+			redis.close();
+			echo.debug("Redis connection closed");
+		} catch (error) {
+			echo.warn({
+				message: "Failed to close Redis connection",
+				error: error instanceof Error ? error.message : String(error),
+			});
+		}
+
 		echo.debug("Badge cache manager shut down");
 	}
 
 	private async acquireGitLock(service: string): Promise<boolean> {
 		const lockKey = `${this.GIT_LOCK_PREFIX}${service}`;
-		const lockValue = Date.now().toString();
+		const lockValue = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
 		const lockTTL = 300;
 
 		try {
@@ -159,7 +192,11 @@ class BadgeCacheManager {
 				lockTTL.toString(),
 				"NX",
 			]);
-			return result === "OK";
+			if (result === "OK") {
+				this.lockTokens.set(service, lockValue);
+				return true;
+			}
+			return false;
 		} catch (error) {
 			echo.error({
 				message: `Failed to acquire git lock for ${service}`,
@@ -171,13 +208,37 @@ class BadgeCacheManager {
 
 	private async releaseGitLock(service: string): Promise<void> {
 		const lockKey = `${this.GIT_LOCK_PREFIX}${service}`;
+		const expectedToken = this.lockTokens.get(service);
+
+		if (!expectedToken) {
+			echo.warn(`No lock token found for ${service}, skipping release`);
+			return;
+		}
+
 		try {
-			await redis.del(lockKey);
+			const luaScript = `
+				if redis.call("GET", KEYS[1]) == ARGV[1] then
+					return redis.call("DEL", KEYS[1])
+				else
+					return 0
+				end
+			`;
+			const result = await redis.send("EVAL", [
+				luaScript,
+				"1",
+				lockKey,
+				expectedToken,
+			]);
+			if (result === 0) {
+				echo.warn(`Lock token mismatch for ${service}, lock may have expired`);
+			}
+			this.lockTokens.delete(service);
 		} catch (error) {
 			echo.error({
 				message: `Failed to release git lock for ${service}`,
 				error: error instanceof Error ? error.message : String(error),
 			});
+			this.lockTokens.delete(service);
 		}
 	}
 
@@ -191,19 +252,7 @@ class BadgeCacheManager {
 
 	private async checkIfUpdateNeeded(): Promise<boolean> {
 		try {
-			const staticServices = [
-				"vencord",
-				"equicord",
-				"nekocord",
-				"reviewdb",
-				"aero",
-				"aliucord",
-				"ra1ncord",
-				"velocity",
-				"badgevault",
-				"enmity",
-				"paicord",
-			];
+			const staticServices = getStaticServices();
 			const now = Date.now();
 
 			for (const serviceName of staticServices) {
@@ -445,7 +494,6 @@ class BadgeCacheManager {
 							cacheDir,
 							"https://github.com/WolfPlugs/BadgeVault.git",
 							"BadgeVault",
-							githubToken,
 						);
 
 						echo.debug("BadgeVault: Reading user badge files...");
@@ -462,7 +510,7 @@ class BadgeCacheManager {
 						for (const file of userFiles) {
 							const userId = file.replace(".json", "");
 							const filePath = path.join(userDir, file);
-							const fileContent = await Bun.file(filePath).text();
+							const fileContent = await readFileWithTimeout(filePath);
 							const userData: BadgeVaultData = JSON.parse(fileContent);
 							badgeVaultData[userId] = userData;
 						}
@@ -497,7 +545,6 @@ class BadgeCacheManager {
 							cacheDir,
 							"https://github.com/enmity-mod/badges.git",
 							"Enmity",
-							githubToken,
 						);
 
 						echo.debug("Enmity: Reading user badge files...");
@@ -521,7 +568,7 @@ class BadgeCacheManager {
 						const badgeDefinitions: Record<string, EnmityBadgeItem> = {};
 						for (const file of badgeFiles) {
 							const filePath = path.join(dataDir, file);
-							const fileContent = await Bun.file(filePath).text();
+							const fileContent = await readFileWithTimeout(filePath);
 							const badge: EnmityBadgeItem = JSON.parse(fileContent);
 							badgeDefinitions[badge.id] = badge;
 						}
@@ -534,7 +581,7 @@ class BadgeCacheManager {
 						for (const file of userFiles) {
 							const userId = file.replace(".json", "");
 							const filePath = path.join(cacheDir, file);
-							const fileContent = await Bun.file(filePath).text();
+							const fileContent = await readFileWithTimeout(filePath);
 							const badgeIds: string[] = JSON.parse(fileContent);
 
 							const badges: EnmityBadgeItem[] = [];
@@ -680,19 +727,7 @@ class BadgeCacheManager {
 			return 2;
 		}
 
-		const services = [
-			"vencord",
-			"equicord",
-			"nekocord",
-			"reviewdb",
-			"aero",
-			"aliucord",
-			"ra1ncord",
-			"velocity",
-			"badgevault",
-			"enmity",
-			"paicord",
-		];
+		const services = getStaticServices();
 
 		let deleteCount = 0;
 		for (const service of services) {

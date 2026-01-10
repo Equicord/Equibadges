@@ -5,4 +5,5 @@ interface ExtendedRequest extends Request {
 	startPerf: number;
 	query: Query;
 	params: Params;
+	requestId: string;
 }

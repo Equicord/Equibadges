@@ -1,3 +1,4 @@
+import { badgeServices, cacheConfig } from "@config";
 import { redis } from "bun";
 
 const routeDef: RouteDef = {
@@ -5,6 +6,14 @@ const routeDef: RouteDef = {
 	accepts: "*/*",
 	returns: "application/json",
 };
+
+const PER_USER_SERVICES = ["discord", "replugged"];
+
+function getStaticServices(): string[] {
+	return badgeServices
+		.map((s) => s.service.toLowerCase())
+		.filter((s) => !PER_USER_SERVICES.includes(s));
+}
 
 async function handler(): Promise<Response> {
 	const health: HealthResponse = {
@@ -29,8 +38,8 @@ async function handler(): Promise<Response> {
 	}
 
 	if (health.services.redis === "ok") {
-		const services = ["vencord", "equicord", "nekocord", "reviewdb"];
-		const timestampPrefix = "badge_cache_timestamp:";
+		const services = getStaticServices();
+		const timestampPrefix = `badge_cache_timestamp:${cacheConfig.version}:`;
 
 		try {
 			const timestamps = await Promise.all(

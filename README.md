@@ -29,7 +29,7 @@ GET /:userId?services=vencord,equicord&separated=true
 - `capitalize` - Capitalize service names (with separated)
 
 ### Supported Services
-Vencord, Equicord, Nekocord, ReviewDB, Aero, Aliucord, Ra1ncord, Velocity, BadgeVault, Enmity, Discord, Replugged
+Vencord, Equicord, Nekocord, ReviewDB, Aero, Aliucord, Ra1ncord, Velocity, BadgeVault, Enmity, Discord, Replugged, Paicord
 
 ## Admin API
 

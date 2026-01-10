@@ -70,8 +70,7 @@ async function handler(): Promise<Response> {
 			users: {
 				path: "/users",
 				method: "GET",
-				description:
-					"Get all users with badges across all supported services",
+				description: "Get all users with badges across all supported services",
 				response: {
 					totalUsers: "Total number of users with badges",
 					users: "Object mapping user IDs to their badges",

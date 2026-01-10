@@ -3,25 +3,36 @@ import { verifyRequiredVariables } from "@config";
 import { badgeCacheManager } from "@lib/badgeCache";
 import { serverHandler } from "@server";
 
+let isShuttingDown = false;
+
+async function gracefulShutdown(signal: string): Promise<void> {
+	if (isShuttingDown) {
+		echo.debug(`Already shutting down, ignoring ${signal}`);
+		return;
+	}
+	isShuttingDown = true;
+
+	echo.info(`Received ${signal}, shutting down gracefully...`);
+
+	await serverHandler.waitForRequestsToComplete(30000);
+
+	await badgeCacheManager.shutdown();
+
+	echo.info("Shutdown complete");
+	process.exit(0);
+}
+
 async function main(): Promise<void> {
 	verifyRequiredVariables();
 
 	await badgeCacheManager.initialize();
 
 	process.on("SIGINT", () => {
-		echo.debug("Received SIGINT, shutting down gracefully...");
-		void (async () => {
-			await badgeCacheManager.shutdown();
-			process.exit(0);
-		})();
+		void gracefulShutdown("SIGINT");
 	});
 
 	process.on("SIGTERM", () => {
-		echo.debug("Received SIGTERM, shutting down gracefully...");
-		void (async () => {
-			await badgeCacheManager.shutdown();
-			process.exit(0);
-		})();
+		void gracefulShutdown("SIGTERM");
 	});
 
 	serverHandler.initialize();

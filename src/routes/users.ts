@@ -1,3 +1,4 @@
+import { badgeServices } from "@config";
 import { badgeCacheManager } from "@lib/badgeCache";
 import { getRequestOrigin } from "@lib/badges";
 import {
@@ -14,23 +15,19 @@ const routeDef: RouteDef = {
 	returns: "application/json",
 };
 
+const PER_USER_SERVICES = ["discord", "replugged"];
+
+function getStaticServices(): string[] {
+	return badgeServices
+		.map((s) => s.service.toLowerCase())
+		.filter((s) => !PER_USER_SERVICES.includes(s));
+}
+
 async function handler(request: ExtendedRequest): Promise<Response> {
 	const url = request ? getRequestOrigin(request) : "";
 
 	try {
-		const userServices = [
-			"vencord",
-			"equicord",
-			"nekocord",
-			"reviewdb",
-			"aero",
-			"aliucord",
-			"ra1ncord",
-			"velocity",
-			"badgevault",
-			"enmity",
-			"paicord",
-		];
+		const userServices = getStaticServices();
 
 		const serviceDataMap =
 			await badgeCacheManager.getMultipleServiceData(userServices);
