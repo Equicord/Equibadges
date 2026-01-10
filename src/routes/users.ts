@@ -29,6 +29,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 			"velocity",
 			"badgevault",
 			"enmity",
+			"paicord",
 		];
 
 		const serviceDataMap =
@@ -291,6 +292,18 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 								serviceUsers[userId] = badges;
 							}
 						}
+					}
+					break;
+				}
+
+				case "paicord": {
+					const paicordData = data as Record<string, Badge[]>;
+					for (const [userId, badges] of Object.entries(paicordData)) {
+						serviceUsers[userId] = badges.map((b) => ({
+							tooltip: b.tooltip,
+							mod: "paicord",
+							badge: b.badge,
+						}));
 					}
 					break;
 				}

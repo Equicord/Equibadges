@@ -84,7 +84,8 @@ export async function fetchBadges(
 			try {
 				switch (serviceKey) {
 					case "vencord":
-					case "equicord": {
+					case "equicord":
+					case "paicord": {
 						const serviceData = serviceDataMap.get(serviceKey) as
 							| VencordEquicordData
 							| undefined;

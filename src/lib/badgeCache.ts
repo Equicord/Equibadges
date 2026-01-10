@@ -202,6 +202,7 @@ class BadgeCacheManager {
 				"velocity",
 				"badgevault",
 				"enmity",
+				"paicord",
 			];
 			const now = Date.now();
 
@@ -280,7 +281,8 @@ class BadgeCacheManager {
 
 			switch (serviceKey) {
 				case "vencord":
-				case "equicord": {
+				case "equicord":
+				case "paicord": {
 					if (typeof service.url === "string") {
 						const res = await fetchWithRetry(service.url, {
 							headers: BADGE_API_HEADERS,
@@ -689,6 +691,7 @@ class BadgeCacheManager {
 			"velocity",
 			"badgevault",
 			"enmity",
+			"paicord",
 		];
 
 		let deleteCount = 0;
