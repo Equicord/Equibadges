@@ -1,4 +1,5 @@
 FROM oven/bun:latest AS base
+LABEL org.opencontainers.image.description="Discord badge aggregation API built with Bun and Redis"
 WORKDIR /usr/src/app
 
 FROM base AS install

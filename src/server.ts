@@ -1,3 +1,4 @@
+import { realpath } from "node:fs/promises";
 import { resolve } from "node:path";
 import { Echo, echo } from "@atums/echo";
 import { blocklistConfig, environment } from "@config";
@@ -7,11 +8,14 @@ import {
 	type BunFile,
 	FileSystemRouter,
 	type MatchedRoute,
+	randomUUIDv7,
 	type Server,
 } from "bun";
 
 class ServerHandler {
 	private router: FileSystemRouter;
+	private activeRequests = 0;
+	private shutdownPromiseResolve: (() => void) | null = null;
 
 	constructor(
 		private port: number,
@@ -26,6 +30,61 @@ class ServerHandler {
 
 		if (blocklistConfig.enabled) {
 			echo.info("Blocklist enabled");
+		}
+	}
+
+	public getActiveRequestCount(): number {
+		return this.activeRequests;
+	}
+
+	public async waitForRequestsToComplete(timeoutMs = 30000): Promise<void> {
+		if (this.activeRequests === 0) {
+			return;
+		}
+
+		echo.info(
+			`Waiting for ${this.activeRequests} active requests to complete...`,
+		);
+
+		let timeoutId: Timer | null = null;
+
+		try {
+			await Promise.race([
+				new Promise<void>((resolve) => {
+					if (this.activeRequests === 0) {
+						resolve();
+						return;
+					}
+					this.shutdownPromiseResolve = resolve;
+				}),
+				new Promise<void>((resolve) => {
+					timeoutId = setTimeout(() => {
+						if (this.activeRequests > 0) {
+							echo.warn(
+								`Timeout reached with ${this.activeRequests} requests still active`,
+							);
+						}
+						resolve();
+					}, timeoutMs);
+				}),
+			]);
+		} finally {
+			if (timeoutId) {
+				clearTimeout(timeoutId);
+			}
+			this.shutdownPromiseResolve = null;
+		}
+	}
+
+	private trackRequestStart(): void {
+		this.activeRequests++;
+	}
+
+	private trackRequestEnd(): void {
+		this.activeRequests--;
+		if (this.activeRequests === 0 && this.shutdownPromiseResolve) {
+			this.shutdownPromiseResolve();
+			this.shutdownPromiseResolve = null;
 		}
 	}
 
@@ -84,14 +143,18 @@ class ServerHandler {
 				});
 			} else {
 				echo.warn(`File not found: ${filePath}`);
-				response = new Response("Not Found", { status: 404 });
+				response = createErrorResponse(
+					404,
+					"Not Found",
+					`File not found: ${pathname}`,
+				);
 			}
 		} catch (error) {
 			echo.error({
 				message: `Error serving static file: ${pathname}`,
 				error: error as Error,
 			});
-			response = new Response("Internal Server Error", { status: 500 });
+			response = createErrorResponse(500, "Internal Server Error");
 		}
 
 		this.logRequest(request, response, ip);
@@ -116,6 +179,7 @@ class ServerHandler {
 		}
 
 		echo.custom(`${request.method}`, `${response.status}`, [
+			`[${request.requestId}]`,
 			request.url,
 			`${(performance.now() - request.startPerf).toFixed(2)}ms`,
 			ip || "unknown",
@@ -126,8 +190,22 @@ class ServerHandler {
 		request: Request,
 		server: Server,
 	): Promise<Response> {
+		this.trackRequestStart();
+
+		try {
+			return await this.processRequest(request, server);
+		} finally {
+			this.trackRequestEnd();
+		}
+	}
+
+	private async processRequest(
+		request: Request,
+		server: Server,
+	): Promise<Response> {
 		const extendedRequest: ExtendedRequest = request as ExtendedRequest;
 		extendedRequest.startPerf = performance.now();
+		extendedRequest.requestId = randomUUIDv7().slice(0, 8);
 
 		const headers = request.headers;
 		let ip = server.requestIP(request)?.address;
@@ -202,13 +280,27 @@ class ServerHandler {
 		const customPath = resolve(baseDir, pathname.slice(1));
 
 		if (!customPath.startsWith(baseDir)) {
-			response = new Response("Forbidden", { status: 403 });
+			response = createErrorResponse(403, "Forbidden", "Access denied");
 			this.logRequest(extendedRequest, response, ip);
 			return response;
 		}
 
 		const customFile = Bun.file(customPath);
 		if (await customFile.exists()) {
+			try {
+				const realCustomPath = await realpath(customPath);
+				const realBaseDir = await realpath(baseDir);
+				if (!realCustomPath.startsWith(realBaseDir)) {
+					response = createErrorResponse(403, "Forbidden", "Access denied");
+					this.logRequest(extendedRequest, response, ip);
+					return response;
+				}
+			} catch {
+				response = createErrorResponse(403, "Forbidden", "Access denied");
+				this.logRequest(extendedRequest, response, ip);
+				return response;
+			}
+
 			const content = await customFile.arrayBuffer();
 			const type: string = customFile.type ?? "application/octet-stream";
 			response = new Response(content, {

@@ -1,3 +1,4 @@
+import { timingSafeEqual } from "node:crypto";
 import { adminConfig, badgeServices } from "@config";
 import { badgeCacheManager } from "@lib/badgeCache";
 import { createErrorResponse } from "@lib/errorResponse";
@@ -8,9 +9,22 @@ const routeDef: RouteDef = {
 	returns: "application/json",
 };
 
+function safeCompare(a: string, b: string): boolean {
+	const bufA = Buffer.from(a);
+	const bufB = Buffer.from(b);
+	if (bufA.length !== bufB.length) {
+		return false;
+	}
+	return timingSafeEqual(bufA, bufB);
+}
+
 async function handler(request: ExtendedRequest): Promise<Response> {
 	const apiKey = request.headers.get("X-Admin-API-Key");
-	if (!adminConfig.apiKey || apiKey !== adminConfig.apiKey) {
+	if (
+		!adminConfig.apiKey ||
+		!apiKey ||
+		!safeCompare(apiKey, adminConfig.apiKey)
+	) {
 		return createErrorResponse(
 			401,
 			"Unauthorized",

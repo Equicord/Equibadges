@@ -1,7 +1,7 @@
 services:
     badge-api:
         container_name: badge-api
-        image: cr8ns/badgeapi:latest
+        image: ghcr.io/equicord/equibadges:latest
         restart: unless-stopped
         ports:
             - "8080:8080"
