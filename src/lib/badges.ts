@@ -225,9 +225,9 @@ export async function fetchBadges(
 						break;
 					}
 
-					case "ra1ncord": {
+					case "raincord": {
 						const serviceData = serviceDataMap.get(serviceKey) as
-							| Ra1ncordData
+							| RaincordData
 							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);

@@ -197,15 +197,15 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 					break;
 				}
 
-				case "ra1ncord": {
-					const ra1ncordData = data as Record<
+				case "raincord": {
+					const raincordData = data as Record<
 						string,
 						Array<{ label: string; url: string }>
 					>;
-					for (const [userId, badges] of Object.entries(ra1ncordData)) {
+					for (const [userId, badges] of Object.entries(raincordData)) {
 						serviceUsers[userId] = badges.map((b) => ({
 							tooltip: b.label,
-							mod: "ra1ncord",
+							mod: "raincord",
 							badge: b.url,
 						}));
 					}

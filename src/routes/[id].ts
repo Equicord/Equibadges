@@ -133,7 +133,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 			reviewdb: "ReviewDB",
 			aero: "Aero",
 			aliucord: "Aliucord",
-			ra1ncord: "Ra1ncord",
+			raincord: "Raincord",
 			velocity: "Velocity",
 			enmity: "Enmity",
 			replugged: "Replugged",

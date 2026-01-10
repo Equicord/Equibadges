@@ -140,7 +140,7 @@ const badgeServices: BadgeService[] = [
 		url: "https://aliucord.com/files/badges/data.json",
 	},
 	{
-		service: "Ra1ncord",
+		service: "Raincord",
 		url: "https://codeberg.org/raincord/badges/raw/branch/main/badges.json",
 	},
 	{
@@ -170,7 +170,7 @@ function getServiceDescription(service: string): string {
 		Discord: "Official Discord badges (staff, partner, hypesquad, etc.)",
 		Aero: "Custom badges from Aero mod",
 		Aliucord: "Custom badges from Aliucord mobile Discord client",
-		Ra1ncord: "Custom badges from Ra1ncord Discord client",
+		Raincord: "Custom badges from Raincord Discord client",
 		Replugged: "Custom badges from Replugged Discord client",
 		Velocity: "Custom badges from Velocity Discord client",
 		BadgeVault: "Custom badges from BadgeVault service",

@@ -451,14 +451,14 @@ class BadgeCacheManager {
 					break;
 				}
 
-				case "ra1ncord": {
+				case "raincord": {
 					if (typeof service.url === "string") {
 						const res = await fetchWithRetry(service.url, {
 							headers: BADGE_API_HEADERS,
 						});
 
 						if (res.ok) {
-							data = (await res.json()) as Ra1ncordData;
+							data = (await res.json()) as RaincordData;
 						}
 					}
 					break;

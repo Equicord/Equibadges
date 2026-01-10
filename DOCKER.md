@@ -63,7 +63,7 @@ GET /:userId?services=vencord,equicord&cache=true
 - Discord
 - Aero
 - Aliucord
-- Ra1ncord
+- Raincord
 - Replugged
 - Velocity
 - BadgeVault

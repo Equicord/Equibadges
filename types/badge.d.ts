@@ -77,7 +77,7 @@ interface AliucordData {
 	};
 }
 
-interface Ra1ncordData {
+interface RaincordData {
 	[userId: string]: Array<{
 		label: string;
 		url: string;
@@ -97,7 +97,7 @@ type BadgeServiceData =
 	| ReviewDbData
 	| AeroData
 	| AliucordData
-	| Ra1ncordData
+	| RaincordData
 	| VelocityData
 	| Record<string, BadgeVaultData>
 	| Record<string, { badgeIds: string[]; badges: EnmityBadgeItem[] }>;
