@@ -112,7 +112,7 @@ const badgeServices: BadgeService[] = [
 	},
 	{
 		service: "Equicord", // Ekwekord ! WOOP
-		url: "https://raw.githubusercontent.com/Equicord/Equibored/refs/heads/main/badges.json",
+		url: "https://badge.equicord.org/badges.json",
 		pluginsUrl:
 			"https://raw.githubusercontent.com/Equicord/Equibored/refs/heads/main/plugins.json",
 	},
