@@ -453,12 +453,28 @@ class BadgeCacheManager {
 
 				case "raincord": {
 					if (typeof service.url === "string") {
-						const res = await fetchWithRetry(service.url, {
-							headers: BADGE_API_HEADERS,
-						});
+						const fetches: [Promise<Response>, Promise<Response> | null] = [
+							fetchWithRetry(service.url, { headers: BADGE_API_HEADERS }),
+							typeof service.rolesUrl === "string"
+								? fetchWithRetry(service.rolesUrl, {
+										headers: BADGE_API_HEADERS,
+									})
+								: null,
+						];
 
-						if (res.ok) {
-							data = (await res.json()) as RaincordData;
+						const [usersRes, rolesRes] = await Promise.all(
+							fetches.map((f) => f ?? Promise.resolve(null)),
+						);
+
+						if (usersRes?.ok) {
+							const users = await usersRes.json();
+							let roles: RaincordRolesData = {};
+
+							if (rolesRes?.ok) {
+								roles = await rolesRes.json();
+							}
+
+							data = { users, roles } as RaincordData;
 						}
 					}
 					break;

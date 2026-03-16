@@ -11,4 +11,4 @@ function parseServices(input: string): string[] {
 		.filter(Boolean);
 }
 
-export { validateID, parseServices };
+export { parseServices, validateID };

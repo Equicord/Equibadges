@@ -21,6 +21,7 @@ type BadgeService = {
 				badge: (id: string) => string;
 		  });
 	pluginsUrl?: string;
+	rolesUrl?: string;
 };
 
 interface VencordEquicordData {
@@ -77,11 +78,24 @@ interface AliucordData {
 	};
 }
 
-interface RaincordData {
-	[userId: string]: Array<{
+interface RaincordRolesData {
+	[roleId: string]: {
 		label: string;
 		url: string;
-	}>;
+	};
+}
+
+interface RaincordData {
+	users: {
+		[userId: string]: {
+			roles: string[];
+			custom: Array<{
+				label: string;
+				url: string;
+			}>;
+		};
+	};
+	roles: RaincordRolesData;
 }
 
 interface VelocityData {

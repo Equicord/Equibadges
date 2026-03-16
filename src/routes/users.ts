@@ -198,16 +198,44 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "raincord": {
-					const raincordData = data as Record<
-						string,
-						Array<{ label: string; url: string }>
-					>;
-					for (const [userId, badges] of Object.entries(raincordData)) {
-						serviceUsers[userId] = badges.map((b) => ({
-							tooltip: b.label,
-							mod: "raincord",
-							badge: b.url,
-						}));
+					const raincordData = data as RaincordData;
+					if (raincordData.users) {
+						for (const [userId, userEntry] of Object.entries(
+							raincordData.users,
+						)) {
+							const badges: Array<{
+								tooltip: string;
+								mod: string;
+								badge: string;
+							}> = [];
+
+							if (Array.isArray(userEntry.roles)) {
+								for (const role of userEntry.roles) {
+									const roleInfo = raincordData.roles?.[role];
+									if (roleInfo) {
+										badges.push({
+											tooltip: roleInfo.label,
+											mod: "raincord",
+											badge: roleInfo.url,
+										});
+									}
+								}
+							}
+
+							if (Array.isArray(userEntry.custom)) {
+								for (const b of userEntry.custom) {
+									badges.push({
+										tooltip: b.label,
+										mod: "raincord",
+										badge: b.url,
+									});
+								}
+							}
+
+							if (badges.length > 0) {
+								serviceUsers[userId] = badges;
+							}
+						}
 					}
 					break;
 				}

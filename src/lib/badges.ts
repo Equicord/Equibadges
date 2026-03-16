@@ -234,13 +234,27 @@ export async function fetchBadges(
 							break;
 						}
 
-						const userBadges = serviceData[userId];
-						if (Array.isArray(userBadges)) {
-							for (const badgeItem of userBadges) {
-								result.push({
-									tooltip: badgeItem.label,
-									badge: badgeItem.url,
-								});
+						const userEntry = serviceData.users?.[userId];
+						if (userEntry) {
+							if (Array.isArray(userEntry.roles)) {
+								for (const role of userEntry.roles) {
+									const roleInfo = serviceData.roles?.[role];
+									if (roleInfo) {
+										result.push({
+											tooltip: roleInfo.label,
+											badge: roleInfo.url,
+										});
+									}
+								}
+							}
+
+							if (Array.isArray(userEntry.custom)) {
+								for (const badgeItem of userEntry.custom) {
+									result.push({
+										tooltip: badgeItem.label,
+										badge: badgeItem.url,
+									});
+								}
 							}
 						}
 						break;
