@@ -1,15 +1,30 @@
 {
 	"compilerOptions": {
-		"baseUrl": "./",
 		"paths": {
-			"@*": ["src/*"],
-			"@config": ["config/index.ts"],
-			"@config/*": ["config/*"],
-			"@types/*": ["types/*"],
-			"@lib/*": ["src/lib/*"]
+			"@*": [
+				"./src/*"
+			],
+			"@config": [
+				"./config/index.ts"
+			],
+			"@config/*": [
+				"./config/*"
+			],
+			"@types/*": [
+				"./types/*"
+			],
+			"@lib/*": [
+				"./src/lib/*"
+			]
 		},
-		"typeRoots": ["./types", "./node_modules/@types"],
-		"lib": ["ESNext", "DOM"],
+		"typeRoots": [
+			"./types",
+			"./node_modules/@types"
+		],
+		"lib": [
+			"ESNext",
+			"DOM"
+		],
 		"target": "ESNext",
 		"module": "ESNext",
 		"moduleDetection": "force",
@@ -25,7 +40,11 @@
 		"noUnusedParameters": true,
 		"exactOptionalPropertyTypes": true,
 		"noUncheckedIndexedAccess": true,
-		"noPropertyAccessFromIndexSignature": false
+		"noPropertyAccessFromIndexSignature": false,
+		"forceConsistentCasingInFileNames": true
 	},
-	"include": ["src", "types"]
+	"include": [
+		"src",
+		"types"
+	]
 }
