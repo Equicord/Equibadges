@@ -1,10 +1,8 @@
-import path from "node:path";
 import { echo } from "@atums/echo";
 import {
 	badgeFetchInterval,
 	badgeServices,
 	cacheConfig,
-	cachePaths,
 	discordBadgeDetails,
 	gitUrl,
 	redisTtl,
@@ -21,20 +19,6 @@ function getStaticServices(): string[] {
 	return badgeServices
 		.map((s) => s.service.toLowerCase())
 		.filter((s) => !PER_USER_SERVICES.includes(s));
-}
-
-async function readFileWithTimeout(
-	filePath: string,
-	timeoutMs = 5000,
-): Promise<string> {
-	const filePromise = Bun.file(filePath).text();
-	const timeoutPromise = new Promise<never>((_, reject) => {
-		setTimeout(
-			() => reject(new Error(`File read timeout: ${filePath}`)),
-			timeoutMs,
-		);
-	});
-	return Promise.race([filePromise, timeoutPromise]);
 }
 
 async function fetchWithTimeout(
@@ -96,8 +80,6 @@ class BadgeCacheManager {
 	private readonly CACHE_PREFIX = `badge_service_data:${cacheConfig.version}:`;
 	private readonly CACHE_TIMESTAMP_PREFIX =
 		`badge_cache_timestamp:${cacheConfig.version}:`;
-	private readonly GIT_LOCK_PREFIX = "git_lock:";
-	private readonly lockTokens = new Map<string, string>();
 	private metrics = {
 		hits: 0,
 		misses: 0,
@@ -178,69 +160,6 @@ class BadgeCacheManager {
 		echo.debug("Badge cache manager shut down");
 	}
 
-	private async acquireGitLock(service: string): Promise<boolean> {
-		const lockKey = `${this.GIT_LOCK_PREFIX}${service}`;
-		const lockValue = `${Date.now()}-${Math.random().toString(36).slice(2)}`;
-		const lockTTL = 300;
-
-		try {
-			const result = await redis.send("SET", [
-				lockKey,
-				lockValue,
-				"EX",
-				lockTTL.toString(),
-				"NX",
-			]);
-			if (result === "OK") {
-				this.lockTokens.set(service, lockValue);
-				return true;
-			}
-			return false;
-		} catch (error) {
-			echo.error({
-				message: `Failed to acquire git lock for ${service}`,
-				error: error instanceof Error ? error.message : String(error),
-			});
-			return false;
-		}
-	}
-
-	private async releaseGitLock(service: string): Promise<void> {
-		const lockKey = `${this.GIT_LOCK_PREFIX}${service}`;
-		const expectedToken = this.lockTokens.get(service);
-
-		if (!expectedToken) {
-			echo.warn(`No lock token found for ${service}, skipping release`);
-			return;
-		}
-
-		try {
-			const luaScript = `
-				if redis.call("GET", KEYS[1]) == ARGV[1] then
-					return redis.call("DEL", KEYS[1])
-				else
-					return 0
-				end
-			`;
-			const result = await redis.send("EVAL", [
-				luaScript,
-				"1",
-				lockKey,
-				expectedToken,
-			]);
-			if (result === 0) {
-				echo.warn(`Lock token mismatch for ${service}, lock may have expired`);
-			}
-			this.lockTokens.delete(service);
-		} catch (error) {
-			echo.error({
-				message: `Failed to release git lock for ${service}`,
-				error: error instanceof Error ? error.message : String(error),
-			});
-			this.lockTokens.delete(service);
-		}
-	}
-
 	getMetrics() {
 		return { ...this.metrics };
 	}
@@ -273,8 +192,6 @@ class BadgeCacheManager {
 					echo.debug(`Cache expired for service: ${serviceName}`);
 					return true;
 				}
-
-
 			}
 
 			echo.debug("All service caches are valid");
@@ -356,15 +273,15 @@ class BadgeCacheManager {
 								const badgeDetails =
 									serviceKey === "vencord"
 										? {
-												tooltip:
-													discordBadgeDetails.VENCORD_CONTRIBUTOR.tooltip,
-												badge: discordBadgeDetails.VENCORD_CONTRIBUTOR.icon,
-											}
+											tooltip:
+												discordBadgeDetails.VENCORD_CONTRIBUTOR.tooltip,
+											badge: discordBadgeDetails.VENCORD_CONTRIBUTOR.icon,
+										}
 										: {
-												tooltip:
-													discordBadgeDetails.EQUICORD_CONTRIBUTOR.tooltip,
-												badge: discordBadgeDetails.EQUICORD_CONTRIBUTOR.icon,
-											};
+											tooltip:
+												discordBadgeDetails.EQUICORD_CONTRIBUTOR.tooltip,
+											badge: discordBadgeDetails.EQUICORD_CONTRIBUTOR.icon,
+										};
 
 								for (const authorId of contributors) {
 									if (!data[authorId]) {
@@ -443,8 +360,8 @@ class BadgeCacheManager {
 							fetchWithRetry(service.url, { headers: BADGE_API_HEADERS }),
 							typeof service.rolesUrl === "string"
 								? fetchWithRetry(service.rolesUrl, {
-										headers: BADGE_API_HEADERS,
-									})
+									headers: BADGE_API_HEADERS,
+								})
 								: null,
 						];
 

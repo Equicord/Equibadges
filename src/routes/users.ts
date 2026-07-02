@@ -255,18 +255,12 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				case "enmity": {
 					const enmityData = data as EnmityData;
 					for (const [userId, userBadges] of Object.entries(enmityData)) {
-						if (Array.isArray(userBadges)) {
-							const badges: Badge[] = [];
-							for (const badge of userBadges) {
-								badges.push({
-									tooltip: badge.name,
-									mod: "enmity",
-									badge: badge.badge,
-								});
-							}
-							if (badges.length > 0) {
-								serviceUsers[userId] = badges;
-							}
+						if (Array.isArray(userBadges) && userBadges.length > 0) {
+							serviceUsers[userId] = userBadges.map((b) => ({
+								tooltip: b.name,
+								mod: "enmity",
+								badge: b.badge,
+							}));
 						}
 					}
 					break;

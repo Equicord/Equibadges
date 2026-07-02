@@ -28,4 +28,3 @@ export const VELOCITY_BADGE_KEYWORDS: Record<string, string[]> = {
 	early: ["early"],
 	developer: ["developer"],
 };
-

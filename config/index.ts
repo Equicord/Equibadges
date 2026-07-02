@@ -1,4 +1,3 @@
-import path from "node:path";
 import { echo } from "@atums/echo";
 
 const environment: Environment = {
@@ -24,10 +23,6 @@ const badgeFetchInterval: number = process.env.BADGE_FETCH_INTERVAL
 	: MILLISECONDS_PER_HOUR; // 1 hour
 
 const botToken: string | undefined = process.env.DISCORD_TOKEN;
-
-const cachePaths = {
-	enmity: path.resolve(process.cwd(), "cache/enmity"),
-};
 
 const blocklistConfig = {
 	enabled: process.env.BLOCKLIST_ENABLED !== "false",
@@ -76,7 +71,6 @@ export {
 	blocklistConfig,
 	botToken,
 	cacheConfig,
-	cachePaths,
 	environment,
 	MILLISECONDS_PER_HOUR,
 	MILLISECONDS_PER_MINUTE,
