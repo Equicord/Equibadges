@@ -4,7 +4,6 @@ import { getRequestOrigin } from "@lib/badges";
 import {
 	AERO_BADGE_KEYWORDS,
 	determineBadgeType,
-	ENMITY_BADGE_KEYWORDS,
 	VELOCITY_BADGE_KEYWORDS,
 } from "@lib/badgeUtils";
 import { createErrorResponse } from "@lib/errorResponse";
@@ -268,35 +267,14 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "enmity": {
-					const enmityData = data as Record<
-						string,
-						{ badges: Array<{ name: string; url?: { dark?: string } }> }
-					>;
-					for (const [userId, userData] of Object.entries(enmityData)) {
-						if (Array.isArray(userData.badges)) {
-							const badges: Badge[] = [];
-							for (const badge of userData.badges) {
-								if (badge.name) {
-									const badgeType = determineBadgeType(
-										badge.name,
-										ENMITY_BADGE_KEYWORDS,
-										"",
-									);
-									const badgeUrl = badgeType
-										? `${url}/public/badges/enmity/${badgeType}.png`
-										: badge.url?.dark;
-									if (!badgeUrl) continue;
-
-									badges.push({
-										tooltip: badge.name,
-										mod: "enmity",
-										badge: badgeUrl,
-									});
-								}
-							}
-							if (badges.length > 0) {
-								serviceUsers[userId] = badges;
-							}
+					const enmityData = data as EnmityData;
+					for (const [userId, userBadges] of Object.entries(enmityData)) {
+						if (Array.isArray(userBadges) && userBadges.length > 0) {
+							serviceUsers[userId] = userBadges.map((b) => ({
+								tooltip: b.name,
+								mod: "enmity",
+								badge: b.badge,
+							}));
 						}
 					}
 					break;

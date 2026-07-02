@@ -28,10 +28,3 @@ export const VELOCITY_BADGE_KEYWORDS: Record<string, string[]> = {
 	early: ["early"],
 	developer: ["developer"],
 };
-
-export const ENMITY_BADGE_KEYWORDS: Record<string, string[]> = {
-	dev: ["dev"],
-	staff: ["staff"],
-	supporter: ["support"],
-	contributor: ["contributor"],
-};

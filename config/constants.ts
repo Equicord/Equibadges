@@ -126,6 +126,7 @@ const badgeServices: BadgeService[] = [
 	},
 	{
 		service: "Enmity",
+		url: "https://enmity.equicord.org/badges.json",
 	},
 	{
 		service: "Discord",
