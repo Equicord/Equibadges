@@ -33,4 +33,4 @@ RUN mkdir -p /usr/src/app/cache && chown bun:bun /usr/src/app/cache
 USER bun
 WORKDIR /usr/src/app
 ENTRYPOINT [ "bun", "run" ]
-CMD [ "start" ]
+CMD [ "src/index.ts" ]
