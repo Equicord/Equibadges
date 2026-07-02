@@ -11,7 +11,6 @@ import { badgeCacheManager } from "@lib/badgeCache";
 import {
 	AERO_BADGE_KEYWORDS,
 	determineBadgeType,
-	ENMITY_BADGE_KEYWORDS,
 	VELOCITY_BADGE_KEYWORDS,
 } from "@lib/badgeUtils";
 import { redis } from "bun";
@@ -356,38 +355,19 @@ export async function fetchBadges(
 
 					case "enmity": {
 						const serviceData = serviceDataMap.get(serviceKey) as
-							| Record<
-								string,
-								{ badgeIds: string[]; badges: EnmityBadgeItem[] }
-							>
+							| EnmityData
 							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
 						}
 
-						const userData = serviceData[userId];
-						if (userData?.badges) {
-							const origin = request ? getRequestOrigin(request) : "";
-
-							for (const badge of userData.badges) {
-								if (!badge?.name) continue;
-
-								const badgeType = determineBadgeType(
-									badge.name,
-									ENMITY_BADGE_KEYWORDS,
-									"",
-								);
-
-								const badgeUrl = badgeType
-									? `${origin}/public/badges/enmity/${badgeType}.png`
-									: badge.url?.dark;
-
-								if (!badgeUrl) continue;
-
+						const userBadges = serviceData[userId];
+						if (Array.isArray(userBadges)) {
+							for (const badgeItem of userBadges) {
 								result.push({
-									tooltip: badge.name,
-									badge: badgeUrl,
+									tooltip: badgeItem.name,
+									badge: badgeItem.badge,
 								});
 							}
 						}

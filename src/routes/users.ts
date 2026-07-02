@@ -4,7 +4,6 @@ import { getRequestOrigin } from "@lib/badges";
 import {
 	AERO_BADGE_KEYWORDS,
 	determineBadgeType,
-	ENMITY_BADGE_KEYWORDS,
 	VELOCITY_BADGE_KEYWORDS,
 } from "@lib/badgeUtils";
 import { createErrorResponse } from "@lib/errorResponse";
@@ -41,7 +40,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 
 			switch (serviceName) {
 				case "vencord": {
-					const vencordData = data as Record<string, Badge[]>;
+					const vencordData = data as VencordEquicordData;
 					for (const [userId, badges] of Object.entries(vencordData)) {
 						serviceUsers[userId] = badges.map((b) => {
 							const badgeUrl = b.badge.startsWith("/")
@@ -58,7 +57,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "equicord": {
-					const vencordData = data as Record<string, Badge[]>;
+					const vencordData = data as VencordEquicordData;
 					for (const [userId, badges] of Object.entries(vencordData)) {
 						serviceUsers[userId] = badges.map((b) => {
 							const badgeUrl = b.badge.startsWith("/")
@@ -75,10 +74,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "nekocord": {
-					const nekocordData = data as {
-						users?: Record<string, { badges: string[] }>;
-						badges?: Record<string, { name: string; image: string }>;
-					};
+					const nekocordData = data as NekocordData;
 					if (nekocordData.users && nekocordData.badges) {
 						for (const [userId, userData] of Object.entries(
 							nekocordData.users,
@@ -119,10 +115,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "aero": {
-					const aeroData = data as Record<
-						string,
-						Array<{ text: string; image: string; color: string }>
-					>;
+					const aeroData = data as AeroData;
 					for (const [userId, badges] of Object.entries(aeroData)) {
 						serviceUsers[userId] = badges.map((b) => {
 							const badgeType = determineBadgeType(b.text, AERO_BADGE_KEYWORDS);
@@ -137,15 +130,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "aliucord": {
-					const aliucordData = data as {
-						users?: Record<
-							string,
-							{
-								roles?: string[];
-								custom?: Array<{ text: string; url: string }>;
-							}
-						>;
-					};
+					const aliucordData = data as AliucordData;
 					if (aliucordData.users) {
 						for (const [userId, userData] of Object.entries(
 							aliucordData.users,
@@ -228,7 +213,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "velocity": {
-					const velocityData = data as Record<string, { name: string }>;
+					const velocityData = data as VelocityData;
 					for (const [userId, userData] of Object.entries(velocityData)) {
 						const badgeType = determineBadgeType(
 							userData.name,
@@ -268,31 +253,16 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "enmity": {
-					const enmityData = data as Record<
-						string,
-						{ badges: Array<{ name: string; url?: { dark?: string } }> }
-					>;
-					for (const [userId, userData] of Object.entries(enmityData)) {
-						if (Array.isArray(userData.badges)) {
+					const enmityData = data as EnmityData;
+					for (const [userId, userBadges] of Object.entries(enmityData)) {
+						if (Array.isArray(userBadges)) {
 							const badges: Badge[] = [];
-							for (const badge of userData.badges) {
-								if (badge.name) {
-									const badgeType = determineBadgeType(
-										badge.name,
-										ENMITY_BADGE_KEYWORDS,
-										"",
-									);
-									const badgeUrl = badgeType
-										? `${url}/public/badges/enmity/${badgeType}.png`
-										: badge.url?.dark;
-									if (!badgeUrl) continue;
-
-									badges.push({
-										tooltip: badge.name,
-										mod: "enmity",
-										badge: badgeUrl,
-									});
-								}
+							for (const badge of userBadges) {
+								badges.push({
+									tooltip: badge.name,
+									mod: "enmity",
+									badge: badge.badge,
+								});
 							}
 							if (badges.length > 0) {
 								serviceUsers[userId] = badges;
@@ -303,7 +273,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "paicord": {
-					const paicordData = data as Record<string, Badge[]>;
+					const paicordData = data as PaicordData;
 					for (const [userId, badges] of Object.entries(paicordData)) {
 						serviceUsers[userId] = badges.map((b) => ({
 							tooltip: b.tooltip,

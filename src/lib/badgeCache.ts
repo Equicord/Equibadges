@@ -9,7 +9,6 @@ import {
 	gitUrl,
 	redisTtl,
 } from "@config";
-import { syncGitRepository } from "@lib/gitSync";
 import { redis } from "bun";
 
 const BADGE_API_HEADERS = {
@@ -275,17 +274,7 @@ class BadgeCacheManager {
 					return true;
 				}
 
-				if (serviceName === "enmity") {
-					const gitConfigPath = path.join(cachePaths.enmity, ".git/config");
 
-					const dirExists = await Bun.file(gitConfigPath).exists();
-					if (!dirExists) {
-						echo.debug(
-							`Cache directory missing for service: ${serviceName}, forcing update`,
-						);
-						return true;
-					}
-				}
 			}
 
 			echo.debug("All service caches are valid");
@@ -504,80 +493,14 @@ class BadgeCacheManager {
 				}
 
 				case "enmity": {
-					const cacheDir = cachePaths.enmity;
-					const dataDir = path.join(cacheDir, "data");
-
-					const lockAcquired = await this.acquireGitLock("enmity");
-					if (!lockAcquired) {
-						echo.warn("Enmity: Git operation already in progress, skipping");
-						return;
-					}
-
-					try {
-						await syncGitRepository(
-							cacheDir,
-							"https://github.com/enmity-mod/badges.git",
-							"Enmity",
-						);
-
-						echo.debug("Enmity: Reading user badge files...");
-						const userFiles = await Array.fromAsync(
-							new Bun.Glob("*.json").scan({
-								cwd: cacheDir,
-								onlyFiles: true,
-							}),
-						);
-
-						const badgeFiles = await Array.fromAsync(
-							new Bun.Glob("*.json").scan({
-								cwd: dataDir,
-							}),
-						);
-
-						echo.debug(
-							`Enmity: Found ${userFiles.length} user files and ${badgeFiles.length} badge definitions`,
-						);
-
-						const badgeDefinitions: Record<string, EnmityBadgeItem> = {};
-						for (const file of badgeFiles) {
-							const filePath = path.join(dataDir, file);
-							const fileContent = await readFileWithTimeout(filePath);
-							const badge: EnmityBadgeItem = JSON.parse(fileContent);
-							badgeDefinitions[badge.id] = badge;
-						}
-
-						const enmityData: Record<
-							string,
-							{ badgeIds: string[]; badges: EnmityBadgeItem[] }
-						> = {};
-
-						for (const file of userFiles) {
-							const userId = file.replace(".json", "");
-							const filePath = path.join(cacheDir, file);
-							const fileContent = await readFileWithTimeout(filePath);
-							const badgeIds: string[] = JSON.parse(fileContent);
-
-							const badges: EnmityBadgeItem[] = [];
-							for (const badgeId of badgeIds) {
-								if (badgeDefinitions[badgeId]) {
-									badges.push(badgeDefinitions[badgeId]);
-								}
-							}
-
-							enmityData[userId] = { badgeIds, badges };
-						}
-
-						echo.debug(
-							`Enmity: Consolidated ${Object.keys(enmityData).length} users into cache`,
-						);
-						data = enmityData;
-					} catch (error) {
-						echo.error({
-							message: "Failed to sync Enmity repository",
-							error: error instanceof Error ? error.message : String(error),
+					if (typeof service.url === "string") {
+						const res = await fetchWithRetry(service.url, {
+							headers: BADGE_API_HEADERS,
 						});
-					} finally {
-						await this.releaseGitLock("enmity");
+
+						if (res.ok) {
+							data = (await res.json()) as EnmityData;
+						}
 					}
 					break;
 				}
