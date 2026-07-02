@@ -112,7 +112,7 @@ const badgeServices: BadgeService[] = [
 	},
 	{
 		service: "Equicord", // Ekwekord ! WOOP
-		url: "https://raw.githubusercontent.com/Equicord/Equibored/refs/heads/main/badges.json",
+		url: "https://badge.equicord.org/badges.json",
 		pluginsUrl:
 			"https://raw.githubusercontent.com/Equicord/Equibored/refs/heads/main/plugins.json",
 	},
@@ -142,6 +142,8 @@ const badgeServices: BadgeService[] = [
 	{
 		service: "Raincord",
 		url: "https://codeberg.org/raincord/badges/raw/branch/main/badges.json",
+		rolesUrl:
+			"https://codeberg.org/raincord/badges/raw/branch/main/assets/roles/roles.json",
 	},
 	{
 		service: "Replugged",
@@ -185,8 +187,8 @@ const gitUrl = "https://github.com/Equicord/Equibadges";
 
 export {
 	badgeServices,
-	discordBadges,
 	discordBadgeDetails,
+	discordBadges,
 	getServiceDescription,
 	gitUrl,
 };

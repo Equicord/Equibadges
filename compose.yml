@@ -3,6 +3,7 @@ services:
         container_name: badge-api
         image: ghcr.io/equicord/equibadges:latest
         restart: unless-stopped
+        init: true
         ports:
             - "8080:8080"
         env_file:

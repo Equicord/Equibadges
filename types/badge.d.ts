@@ -14,13 +14,14 @@ interface FetchBadgesOptions {
 type BadgeService = {
 	service: string;
 	url?:
-		| string
-		| ((userId: string) => string)
-		| ((userId: string) => {
-				user: string;
-				badge: (id: string) => string;
-		  });
+	| string
+	| ((userId: string) => string)
+	| ((userId: string) => {
+		user: string;
+		badge: (id: string) => string;
+	});
 	pluginsUrl?: string;
+	rolesUrl?: string;
 };
 
 interface VencordEquicordData {
@@ -45,13 +46,7 @@ interface NekocordData {
 }
 
 interface ReviewDbData {
-	[userId: string]: Array<{
-		name: string;
-		icon: string;
-		redirectURL?: string;
-		type?: number;
-		description?: string;
-	}>;
+	[userId: string]: ReviewDbBadgeItem[];
 }
 
 interface AeroData {
@@ -80,11 +75,24 @@ interface AliucordData {
 	};
 }
 
-interface RaincordData {
-	[userId: string]: Array<{
+interface RaincordRolesData {
+	[roleId: string]: {
 		label: string;
 		url: string;
-	}>;
+	};
+}
+
+interface RaincordData {
+	users: {
+		[userId: string]: {
+			roles: string[];
+			custom: Array<{
+				label: string;
+				url: string;
+			}>;
+		};
+	};
+	roles: RaincordRolesData;
 }
 
 interface VelocityData {
@@ -116,9 +124,11 @@ interface NekocordBadgeInfo {
 }
 
 interface ReviewDbBadgeItem {
-	discordID: string;
 	name: string;
 	icon: string;
+	redirectURL?: string;
+	type?: number;
+	description?: string;
 }
 
 interface EnmityBadgeItem {
@@ -147,11 +157,14 @@ interface RepluggedBadgeData {
 	};
 }
 
+interface BadgeVaultBadgeItem {
+	name: string;
+	badge: string;
+	pending: boolean;
+}
+
 interface BadgeVaultData {
-	[userId: string]: Array<{
-		name: string;
-		badge: string;
-	}>;
+	[userId: string]: BadgeVaultBadgeItem[];
 }
 
 interface DiscordUserData {

@@ -235,13 +235,27 @@ export async function fetchBadges(
 							break;
 						}
 
-						const userBadges = serviceData[userId];
-						if (Array.isArray(userBadges)) {
-							for (const badgeItem of userBadges) {
-								result.push({
-									tooltip: badgeItem.label,
-									badge: badgeItem.url,
-								});
+						const userEntry = serviceData.users?.[userId];
+						if (userEntry) {
+							if (Array.isArray(userEntry.roles)) {
+								for (const role of userEntry.roles) {
+									const roleInfo = serviceData.roles?.[role];
+									if (roleInfo) {
+										result.push({
+											tooltip: roleInfo.label,
+											badge: roleInfo.url,
+										});
+									}
+								}
+							}
+
+							if (Array.isArray(userEntry.custom)) {
+								for (const badgeItem of userEntry.custom) {
+									result.push({
+										tooltip: badgeItem.label,
+										badge: badgeItem.url,
+									});
+								}
 							}
 						}
 						break;
@@ -328,17 +342,13 @@ export async function fetchBadges(
 
 						const userBadges = serviceData[userId];
 						if (Array.isArray(userBadges)) {
-							const origin = request ? getRequestOrigin(request) : "";
-
 							for (const badgeItem of userBadges) {
-								const badgeUrl = badgeItem.badge.startsWith("/")
-									? `${origin}${badgeItem.badge}`
-									: badgeItem.badge;
-
-								result.push({
-									tooltip: badgeItem.name,
-									badge: badgeUrl,
-								});
+								if (!badgeItem.pending) {
+									result.push({
+										tooltip: badgeItem.name,
+										badge: badgeItem.badge,
+									});
+								}
 							}
 						}
 						break;
@@ -347,9 +357,9 @@ export async function fetchBadges(
 					case "enmity": {
 						const serviceData = serviceDataMap.get(serviceKey) as
 							| Record<
-									string,
-									{ badgeIds: string[]; badges: EnmityBadgeItem[] }
-							  >
+								string,
+								{ badgeIds: string[]; badges: EnmityBadgeItem[] }
+							>
 							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);
@@ -429,7 +439,7 @@ export async function fetchBadges(
 								if (data.flags & bitwise) {
 									const badge =
 										discordBadgeDetails[
-											flag as keyof typeof discordBadgeDetails
+										flag as keyof typeof discordBadgeDetails
 										];
 									if (badge) {
 										result.push({

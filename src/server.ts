@@ -89,7 +89,7 @@ class ServerHandler {
 	}
 
 	public initialize(): void {
-		const server: Server = Bun.serve({
+		const server: Server<unknown> = Bun.serve({
 			port: this.port,
 			hostname: this.host,
 			fetch: this.handleRequest.bind(this),
@@ -188,7 +188,7 @@ class ServerHandler {
 
 	private async handleRequest(
 		request: Request,
-		server: Server,
+		server: Server<unknown>,
 	): Promise<Response> {
 		this.trackRequestStart();
 
@@ -201,7 +201,7 @@ class ServerHandler {
 
 	private async processRequest(
 		request: Request,
-		server: Server,
+		server: Server<unknown>,
 	): Promise<Response> {
 		const extendedRequest: ExtendedRequest = request as ExtendedRequest;
 		extendedRequest.startPerf = performance.now();

@@ -26,7 +26,6 @@ const badgeFetchInterval: number = process.env.BADGE_FETCH_INTERVAL
 const botToken: string | undefined = process.env.DISCORD_TOKEN;
 
 const cachePaths = {
-	badgevault: path.resolve(process.cwd(), "cache/badgevault"),
 	enmity: path.resolve(process.cwd(), "cache/enmity"),
 };
 
@@ -72,19 +71,19 @@ function verifyRequiredVariables(): void {
 
 export * from "@config/constants";
 export {
-	SECONDS_PER_MINUTE,
-	MINUTES_PER_HOUR,
-	SECONDS_PER_HOUR,
-	MILLISECONDS_PER_SECOND,
-	MILLISECONDS_PER_MINUTE,
-	MILLISECONDS_PER_HOUR,
-	environment,
-	redisTtl,
-	badgeFetchInterval,
-	botToken,
-	cachePaths,
-	blocklistConfig,
-	cacheConfig,
 	adminConfig,
+	badgeFetchInterval,
+	blocklistConfig,
+	botToken,
+	cacheConfig,
+	cachePaths,
+	environment,
+	MILLISECONDS_PER_HOUR,
+	MILLISECONDS_PER_MINUTE,
+	MILLISECONDS_PER_SECOND,
+	MINUTES_PER_HOUR,
+	redisTtl,
+	SECONDS_PER_HOUR,
+	SECONDS_PER_MINUTE,
 	verifyRequiredVariables,
 };
