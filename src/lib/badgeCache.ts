@@ -275,11 +275,8 @@ class BadgeCacheManager {
 					return true;
 				}
 
-				if (serviceName === "badgevault" || serviceName === "enmity") {
-					const gitConfigPath =
-						serviceName === "badgevault"
-							? path.join(cachePaths.badgevault, ".git/config")
-							: path.join(cachePaths.enmity, ".git/config");
+				if (serviceName === "enmity") {
+					const gitConfigPath = path.join(cachePaths.enmity, ".git/config");
 
 					const dirExists = await Bun.file(gitConfigPath).exists();
 					if (!dirExists) {
@@ -478,54 +475,14 @@ class BadgeCacheManager {
 				}
 
 				case "badgevault": {
-					const cacheDir = cachePaths.badgevault;
-					const userDir = path.join(cacheDir, "User");
-
-					const lockAcquired = await this.acquireGitLock("badgevault");
-					if (!lockAcquired) {
-						echo.warn(
-							"BadgeVault: Git operation already in progress, skipping",
-						);
-						return;
-					}
-
-					try {
-						await syncGitRepository(
-							cacheDir,
-							"https://github.com/WolfPlugs/BadgeVault.git",
-							"BadgeVault",
-						);
-
-						echo.debug("BadgeVault: Reading user badge files...");
-						const userFiles = await Array.fromAsync(
-							new Bun.Glob("*.json").scan({
-								cwd: userDir,
-							}),
-						);
-
-						echo.debug(`BadgeVault: Found ${userFiles.length} user files`);
-
-						const badgeVaultData: Record<string, BadgeVaultData> = {};
-
-						for (const file of userFiles) {
-							const userId = file.replace(".json", "");
-							const filePath = path.join(userDir, file);
-							const fileContent = await readFileWithTimeout(filePath);
-							const userData: BadgeVaultData = JSON.parse(fileContent);
-							badgeVaultData[userId] = userData;
-						}
-
-						echo.debug(
-							`BadgeVault: Consolidated ${Object.keys(badgeVaultData).length} users into cache`,
-						);
-						data = badgeVaultData;
-					} catch (error) {
-						echo.error({
-							message: "Failed to sync BadgeVault repository",
-							error: error instanceof Error ? error.message : String(error),
+					if (typeof service.url === "string") {
+						const res = await fetchWithRetry(service.url, {
+							headers: BADGE_API_HEADERS,
 						});
-					} finally {
-						await this.releaseGitLock("badgevault");
+
+						if (res.ok) {
+							data = (await res.json()) as BadgeVaultData;
+						}
 					}
 					break;
 				}

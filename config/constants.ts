@@ -122,7 +122,7 @@ const badgeServices: BadgeService[] = [
 	},
 	{
 		service: "ReviewDb",
-		url: "https://manti.vendicated.dev/api/reviewdb/badges",
+		url: "https://manti.vendicated.dev/api/reviewdb/badges/map",
 	},
 	{
 		service: "Enmity",
@@ -153,6 +153,7 @@ const badgeServices: BadgeService[] = [
 	},
 	{
 		service: "BadgeVault",
+		url: "https://plugins.obamabot.me/BadgeVault/User/all.json",
 	},
 	{
 		service: "Paicord",

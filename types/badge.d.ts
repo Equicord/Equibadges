@@ -44,12 +44,15 @@ interface NekocordData {
 	};
 }
 
-interface ReviewDbData
-	extends Array<{
-		discordID: string;
+interface ReviewDbData {
+	[userId: string]: Array<{
 		name: string;
 		icon: string;
-	}> {}
+		redirectURL?: string;
+		type?: number;
+		description?: string;
+	}>;
+}
 
 interface AeroData {
 	[userId: string]: Array<{
@@ -99,7 +102,7 @@ type BadgeServiceData =
 	| AliucordData
 	| RaincordData
 	| VelocityData
-	| Record<string, BadgeVaultData>
+	| BadgeVaultData
 	| Record<string, { badgeIds: string[]; badges: EnmityBadgeItem[] }>;
 
 interface VencordBadgeItem {
@@ -145,13 +148,10 @@ interface RepluggedBadgeData {
 }
 
 interface BadgeVaultData {
-	userId: string;
-	badges: Array<{
+	[userId: string]: Array<{
 		name: string;
 		badge: string;
-		pending: boolean;
 	}>;
-	blocked: boolean;
 }
 
 interface DiscordUserData {
