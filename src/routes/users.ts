@@ -105,27 +105,14 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "reviewdb": {
-					const reviewdbData = data as Array<{
-						discordID: string;
-						name: string;
-						icon: string;
-					}>;
-					if (Array.isArray(reviewdbData)) {
-						const grouped = new Map<string, Badge[]>();
-						for (const item of reviewdbData) {
-							if (item.discordID) {
-								if (!grouped.has(item.discordID)) {
-									grouped.set(item.discordID, []);
-								}
-								grouped.get(item.discordID)?.push({
-									tooltip: item.name,
-									mod: "reviewdb",
-									badge: item.icon,
-								});
-							}
-						}
-						for (const [userId, badges] of grouped.entries()) {
-							serviceUsers[userId] = badges;
+					const reviewdbData = data as ReviewDbData;
+					for (const [userId, items] of Object.entries(reviewdbData)) {
+						if (Array.isArray(items) && items.length > 0) {
+							serviceUsers[userId] = items.map((item) => ({
+								tooltip: item.name,
+								mod: "reviewdb",
+								badge: item.icon,
+							}));
 						}
 					}
 					break;
@@ -259,17 +246,11 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 
 				case "badgevault": {
-					const badgevaultData = data as Record<
-						string,
-						{
-							badges: Array<{ name: string; badge: string; pending: boolean }>;
-							blocked: boolean;
-						}
-					>;
-					for (const [userId, userData] of Object.entries(badgevaultData)) {
-						if (!userData.blocked && Array.isArray(userData.badges)) {
+					const badgevaultData = data as BadgeVaultData;
+					for (const [userId, userBadges] of Object.entries(badgevaultData)) {
+						if (Array.isArray(userBadges)) {
 							const badges: Badge[] = [];
-							for (const badge of userData.badges) {
+							for (const badge of userBadges) {
 								if (!badge.pending) {
 									badges.push({
 										tooltip: badge.name,

@@ -45,12 +45,9 @@ interface NekocordData {
 	};
 }
 
-interface ReviewDbData
-	extends Array<{
-		discordID: string;
-		name: string;
-		icon: string;
-	}> {}
+interface ReviewDbData {
+	[userId: string]: ReviewDbBadgeItem[];
+}
 
 interface AeroData {
 	[userId: string]: Array<{
@@ -113,7 +110,7 @@ type BadgeServiceData =
 	| AliucordData
 	| RaincordData
 	| VelocityData
-	| Record<string, BadgeVaultData>
+	| BadgeVaultData
 	| Record<string, { badgeIds: string[]; badges: EnmityBadgeItem[] }>;
 
 interface VencordBadgeItem {
@@ -127,9 +124,11 @@ interface NekocordBadgeInfo {
 }
 
 interface ReviewDbBadgeItem {
-	discordID: string;
 	name: string;
 	icon: string;
+	redirectURL?: string;
+	type?: number;
+	description?: string;
 }
 
 interface EnmityBadgeItem {
@@ -158,14 +157,14 @@ interface RepluggedBadgeData {
 	};
 }
 
+interface BadgeVaultBadgeItem {
+	name: string;
+	badge: string;
+	pending: boolean;
+}
+
 interface BadgeVaultData {
-	userId: string;
-	badges: Array<{
-		name: string;
-		badge: string;
-		pending: boolean;
-	}>;
-	blocked: boolean;
+	[userId: string]: BadgeVaultBadgeItem[];
 }
 
 interface DiscordUserData {

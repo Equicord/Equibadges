@@ -145,8 +145,9 @@ export async function fetchBadges(
 							break;
 						}
 
-						for (const badgeItem of serviceData) {
-							if (badgeItem.discordID === userId) {
+						const userBadges = serviceData[userId];
+						if (Array.isArray(userBadges)) {
+							for (const badgeItem of userBadges) {
 								result.push({
 									tooltip: badgeItem.name,
 									badge: badgeItem.icon,
@@ -332,21 +333,16 @@ export async function fetchBadges(
 
 					case "badgevault": {
 						const serviceData = serviceDataMap.get(serviceKey) as
-							| Record<string, BadgeVaultData>
+							| BadgeVaultData
 							| undefined;
 						if (!serviceData) {
 							echo.warn(`No cached data for service: ${serviceKey}`);
 							break;
 						}
 
-						const userData = serviceData[userId];
-						if (
-							userData &&
-							!userData.blocked &&
-							userData.badges &&
-							Array.isArray(userData.badges)
-						) {
-							for (const badgeItem of userData.badges) {
+						const userBadges = serviceData[userId];
+						if (Array.isArray(userBadges)) {
+							for (const badgeItem of userBadges) {
 								if (!badgeItem.pending) {
 									result.push({
 										tooltip: badgeItem.name,
