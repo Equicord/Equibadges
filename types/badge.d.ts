@@ -14,12 +14,12 @@ interface FetchBadgesOptions {
 type BadgeService = {
 	service: string;
 	url?:
-	| string
-	| ((userId: string) => string)
-	| ((userId: string) => {
-		user: string;
-		badge: (id: string) => string;
-	});
+		| string
+		| ((userId: string) => string)
+		| ((userId: string) => {
+				user: string;
+				badge: (id: string) => string;
+		  });
 	pluginsUrl?: string;
 	rolesUrl?: string;
 };
