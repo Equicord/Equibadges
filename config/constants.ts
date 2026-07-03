@@ -171,6 +171,15 @@ const badgeServices: BadgeService[] = [
 	{
 		service: "BetterDiscord",
 	},
+	{
+		service: "VendroidEnhanced",
+	},
+	{
+		service: "Revenge",
+	},
+	{
+		service: "Record",
+	},
 ];
 
 function getServiceDescription(service: string): string {
@@ -191,6 +200,9 @@ function getServiceDescription(service: string): string {
 		Goosemod: "Custom badges from Goosemod client",
 		Bunny: "Custom badges from Bunny client",
 		BetterDiscord: "Custom badges from BetterDiscord client",
+		VendroidEnhanced: "Custom badges from Vendroid Enhanced client",
+		Revenge: "Custom badges from Revenge client",
+		Record: "Custom badges from Record client",
 	};
 
 	return descriptions[service] || "Custom badge service";

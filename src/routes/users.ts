@@ -340,6 +340,72 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 					}
 					break;
 				}
+
+				case "vendroidenhanced": {
+					const vendroidData = data as VendroidEnhancedData;
+					const badgeMap: Record<string, string> = {
+						Contributor: "VendroidEnhanced Contributor",
+					};
+					for (const [userId, userBadges] of Object.entries(vendroidData)) {
+						if (Array.isArray(userBadges)) {
+							for (const badgeKey of userBadges) {
+								if (badgeMap[badgeKey]) {
+									if (!serviceUsers[userId]) serviceUsers[userId] = [];
+									serviceUsers[userId].push({
+										tooltip: badgeMap[badgeKey],
+										mod: "vendroidenhanced",
+										badge: `${url}/public/badges/vendroidenhanced/${badgeKey}.png`,
+									});
+								}
+							}
+						}
+					}
+					break;
+				}
+
+				case "revenge": {
+					const revengeData = data as RevengeData;
+					const badgeMap: Record<string, string> = {
+						team: "Revenge Team",
+					};
+					for (const [userId, userBadges] of Object.entries(revengeData)) {
+						if (Array.isArray(userBadges)) {
+							for (const badgeKey of userBadges) {
+								if (badgeMap[badgeKey]) {
+									if (!serviceUsers[userId]) serviceUsers[userId] = [];
+									serviceUsers[userId].push({
+										tooltip: badgeMap[badgeKey],
+										mod: "revenge",
+										badge: `${url}/public/badges/revenge/${badgeKey}.png`,
+									});
+								}
+							}
+						}
+					}
+					break;
+				}
+
+				case "record": {
+					const recordData = data as RecordData;
+					const badgeMap: Record<string, string> = {
+						developer: "ReCord Developer",
+					};
+					for (const [userId, userBadges] of Object.entries(recordData)) {
+						if (Array.isArray(userBadges)) {
+							for (const badgeKey of userBadges) {
+								if (badgeMap[badgeKey]) {
+									if (!serviceUsers[userId]) serviceUsers[userId] = [];
+									serviceUsers[userId].push({
+										tooltip: badgeMap[badgeKey],
+										mod: "record",
+										badge: `${url}/public/badges/record/${badgeKey}.png`,
+									});
+								}
+							}
+						}
+					}
+					break;
+				}
 			}
 
 			if (Object.keys(serviceUsers).length > 0) {

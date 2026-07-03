@@ -450,6 +450,30 @@ class BadgeCacheManager {
 					break;
 				}
 
+				case "vendroidenhanced": {
+					const file = Bun.file("public/badges/vendroidenhanced/badges.json");
+					if (await file.exists()) {
+						data = (await file.json()) as VendroidEnhancedData;
+					}
+					break;
+				}
+
+				case "revenge": {
+					const file = Bun.file("public/badges/revenge/badges.json");
+					if (await file.exists()) {
+						data = (await file.json()) as RevengeData;
+					}
+					break;
+				}
+
+				case "record": {
+					const file = Bun.file("public/badges/record/badges.json");
+					if (await file.exists()) {
+						data = (await file.json()) as RecordData;
+					}
+					break;
+				}
+
 				default:
 					echo.warn(`Unknown service type: ${serviceKey}`);
 					return;

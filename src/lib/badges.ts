@@ -434,6 +434,90 @@ export async function fetchBadges(
 						break;
 					}
 
+					case "vendroidenhanced": {
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| VendroidEnhancedData
+							| undefined;
+						if (!serviceData) {
+							echo.warn(`No cached data for service: ${serviceKey}`);
+							break;
+						}
+
+						const userBadges = serviceData[userId];
+						if (Array.isArray(userBadges)) {
+							const origin = request ? getRequestOrigin(request) : "";
+							const badgeMap: Record<string, string> = {
+								Contributor: "VendroidEnhanced Contributor",
+							};
+
+							for (const badgeKey of userBadges) {
+								if (badgeMap[badgeKey]) {
+									result.push({
+										tooltip: badgeMap[badgeKey],
+										badge: `${origin}/public/badges/vendroidenhanced/${badgeKey}.png`,
+									});
+								}
+							}
+						}
+						break;
+					}
+
+					case "revenge": {
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| RevengeData
+							| undefined;
+						if (!serviceData) {
+							echo.warn(`No cached data for service: ${serviceKey}`);
+							break;
+						}
+
+						const userBadges = serviceData[userId];
+						if (Array.isArray(userBadges)) {
+							const origin = request ? getRequestOrigin(request) : "";
+							const badgeMap: Record<string, string> = {
+								team: "Revenge Team",
+							};
+
+							for (const badgeKey of userBadges) {
+								if (badgeMap[badgeKey]) {
+									result.push({
+										tooltip: badgeMap[badgeKey],
+										badge: `${origin}/public/badges/revenge/${badgeKey}.png`,
+									});
+								}
+							}
+						}
+						break;
+					}
+
+					case "record": {
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| RecordData
+							| undefined;
+						if (!serviceData) {
+							echo.warn(`No cached data for service: ${serviceKey}`);
+							break;
+						}
+
+						const userBadges = serviceData[userId];
+						if (Array.isArray(userBadges)) {
+							const origin = request ? getRequestOrigin(request) : "";
+							const badgeMap: Record<string, string> = {
+								developer: "ReCord Developer",
+							};
+
+							for (const badgeKey of userBadges) {
+								if (badgeMap[badgeKey]) {
+									result.push({
+										tooltip: badgeMap[badgeKey],
+										badge: `${origin}/public/badges/record/${badgeKey}.png`,
+									});
+								}
+							}
+						}
+						break;
+					}
+
 					case "enmity": {
 						const serviceData = serviceDataMap.get(serviceKey) as
 							| EnmityData

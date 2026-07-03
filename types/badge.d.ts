@@ -116,6 +116,9 @@ type BadgeServiceData =
 	| GoosemodData
 	| BunnyData
 	| BetterDiscordData
+	| VendroidEnhancedData
+	| RevengeData
+	| RecordData
 	| RepluggedBadgeJsonData;
 
 interface VencordBadgeItem {
@@ -161,6 +164,18 @@ interface BunnyData {
 }
 
 interface BetterDiscordData {
+	[userId: string]: string[];
+}
+
+interface VendroidEnhancedData {
+	[userId: string]: string[];
+}
+
+interface RevengeData {
+	[userId: string]: string[];
+}
+
+interface RecordData {
 	[userId: string]: string[];
 }
 
