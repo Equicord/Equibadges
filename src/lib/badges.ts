@@ -362,15 +362,16 @@ export async function fetchBadges(
 							break;
 						}
 
-						const origin = request ? getRequestOrigin(request) : "";
-						const badgeMap: Record<string, string> = {
-							sponsor: "Sponsor",
-							dev: "Developer",
-							translator: "Translator",
-						};
+						const userBadges = serviceData[userId];
+						if (Array.isArray(userBadges)) {
+							const origin = request ? getRequestOrigin(request) : "";
+							const badgeMap: Record<string, string> = {
+								sponsor: "Sponsor",
+								dev: "Developer",
+								translator: "Translator",
+							};
 
-						for (const [badgeKey, userIds] of Object.entries(serviceData)) {
-							if (Array.isArray(userIds) && userIds.includes(userId)) {
+							for (const badgeKey of userBadges) {
 								if (badgeMap[badgeKey]) {
 									result.push({
 										tooltip: badgeMap[badgeKey],
@@ -499,7 +500,7 @@ export async function fetchBadges(
 								if (data.flags & bitwise) {
 									const badge =
 										discordBadgeDetails[
-										flag as keyof typeof discordBadgeDetails
+											flag as keyof typeof discordBadgeDetails
 										];
 									if (badge) {
 										result.push({

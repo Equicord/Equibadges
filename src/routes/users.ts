@@ -285,15 +285,17 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 						dev: "Developer",
 						translator: "Translator",
 					};
-					for (const [badgeKey, userIds] of Object.entries(goosemodData)) {
-						if (Array.isArray(userIds) && badgeMap[badgeKey]) {
-							for (const uid of userIds) {
-								if (!serviceUsers[uid]) serviceUsers[uid] = [];
-								serviceUsers[uid].push({
-									tooltip: badgeMap[badgeKey],
-									mod: "goosemod",
-									badge: `${url}/public/badges/goosemod/${badgeKey}.png`,
-								});
+					for (const [userId, userBadges] of Object.entries(goosemodData)) {
+						if (Array.isArray(userBadges)) {
+							for (const badgeKey of userBadges) {
+								if (badgeMap[badgeKey]) {
+									if (!serviceUsers[userId]) serviceUsers[userId] = [];
+									serviceUsers[userId].push({
+										tooltip: badgeMap[badgeKey],
+										mod: "goosemod",
+										badge: `${url}/public/badges/goosemod/${badgeKey}.png`,
+									});
+								}
 							}
 						}
 					}
@@ -306,11 +308,13 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 						const badgeUrl = userData.url.startsWith("/")
 							? `${url}${userData.url}`
 							: userData.url;
-						serviceUsers[userId] = [{
-							tooltip: userData.label,
-							mod: "bunny",
-							badge: badgeUrl,
-						}];
+						serviceUsers[userId] = [
+							{
+								tooltip: userData.label,
+								mod: "bunny",
+								badge: badgeUrl,
+							},
+						];
 					}
 					break;
 				}
@@ -351,10 +355,10 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 		try {
 			const repluggedFile = Bun.file("public/badges/replugged/badges.json");
 			if (await repluggedFile.exists()) {
-				const repluggedData = await repluggedFile.json();
-				for (const [userId, userData] of Object.entries(repluggedData as any)) {
-					const ud = userData as any;
-					if (Array.isArray(ud.badges)) {
+				const repluggedData =
+					(await repluggedFile.json()) as RepluggedBadgeJsonData;
+				for (const [userId, userData] of Object.entries(repluggedData)) {
+					if (Array.isArray(userData.badges)) {
 						const badges: Badge[] = [];
 						const badgeMap: Record<string, string> = {
 							developer: "Developer",
@@ -367,7 +371,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 							booster: "Booster",
 						};
 
-						for (const key of ud.badges) {
+						for (const key of userData.badges) {
 							if (badgeMap[key]) {
 								badges.push({
 									tooltip: badgeMap[key],
@@ -377,11 +381,11 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 							}
 						}
 
-						if (ud.cutiePerks?.badge && ud.cutiePerks?.title) {
+						if (userData.cutiePerks?.badge && userData.cutiePerks?.title) {
 							badges.push({
-								tooltip: ud.cutiePerks.title,
+								tooltip: userData.cutiePerks.title,
 								mod: "replugged",
-								badge: ud.cutiePerks.badge,
+								badge: userData.cutiePerks.badge,
 							});
 						}
 
@@ -395,7 +399,11 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				}
 			}
 		} catch (error) {
-			console.error("Failed to load static replugged badges:", error);
+			return createErrorResponse(
+				500,
+				"Failed to load replugged badges",
+				error instanceof Error ? error.message : String(error),
+			);
 		}
 
 		const allUsers: Record<string, Badge[]> = {};

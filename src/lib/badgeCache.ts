@@ -273,15 +273,15 @@ class BadgeCacheManager {
 								const badgeDetails =
 									serviceKey === "vencord"
 										? {
-											tooltip:
-												discordBadgeDetails.VENCORD_CONTRIBUTOR.tooltip,
-											badge: discordBadgeDetails.VENCORD_CONTRIBUTOR.icon,
-										}
+												tooltip:
+													discordBadgeDetails.VENCORD_CONTRIBUTOR.tooltip,
+												badge: discordBadgeDetails.VENCORD_CONTRIBUTOR.icon,
+											}
 										: {
-											tooltip:
-												discordBadgeDetails.EQUICORD_CONTRIBUTOR.tooltip,
-											badge: discordBadgeDetails.EQUICORD_CONTRIBUTOR.icon,
-										};
+												tooltip:
+													discordBadgeDetails.EQUICORD_CONTRIBUTOR.tooltip,
+												badge: discordBadgeDetails.EQUICORD_CONTRIBUTOR.icon,
+											};
 
 								for (const authorId of contributors) {
 									if (!data[authorId]) {
@@ -360,8 +360,8 @@ class BadgeCacheManager {
 							fetchWithRetry(service.url, { headers: BADGE_API_HEADERS }),
 							typeof service.rolesUrl === "string"
 								? fetchWithRetry(service.rolesUrl, {
-									headers: BADGE_API_HEADERS,
-								})
+										headers: BADGE_API_HEADERS,
+									})
 								: null,
 						];
 

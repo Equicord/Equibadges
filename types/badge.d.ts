@@ -115,7 +115,8 @@ type BadgeServiceData =
 	| PaicordData
 	| GoosemodData
 	| BunnyData
-	| BetterDiscordData;
+	| BetterDiscordData
+	| RepluggedBadgeJsonData;
 
 interface VencordBadgeItem {
 	tooltip: string;
@@ -149,7 +150,7 @@ interface PaicordData {
 }
 
 interface GoosemodData {
-	[badgeKey: string]: string[];
+	[userId: string]: string[];
 }
 
 interface BunnyData {
@@ -178,6 +179,17 @@ interface RepluggedBadgeData {
 			icon: string | null;
 			color: string | null;
 		};
+	};
+}
+
+interface RepluggedBadgeJsonData {
+	[userId: string]: {
+		cutiePerks?: {
+			color: string;
+			badge: string;
+			title: string;
+		};
+		badges?: string[];
 	};
 }
 
