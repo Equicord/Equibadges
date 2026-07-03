@@ -353,6 +353,86 @@ export async function fetchBadges(
 						break;
 					}
 
+					case "goosemod": {
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| GoosemodData
+							| undefined;
+						if (!serviceData) {
+							echo.warn(`No cached data for service: ${serviceKey}`);
+							break;
+						}
+
+						const origin = request ? getRequestOrigin(request) : "";
+						const badgeMap: Record<string, string> = {
+							sponsor: "Sponsor",
+							dev: "Developer",
+							translator: "Translator",
+						};
+
+						for (const [badgeKey, userIds] of Object.entries(serviceData)) {
+							if (Array.isArray(userIds) && userIds.includes(userId)) {
+								if (badgeMap[badgeKey]) {
+									result.push({
+										tooltip: badgeMap[badgeKey],
+										badge: `${origin}/public/badges/goosemod/${badgeKey}.png`,
+									});
+								}
+							}
+						}
+						break;
+					}
+
+					case "bunny": {
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| BunnyData
+							| undefined;
+						if (!serviceData) {
+							echo.warn(`No cached data for service: ${serviceKey}`);
+							break;
+						}
+
+						const userData = serviceData[userId];
+						if (userData) {
+							const origin = request ? getRequestOrigin(request) : "";
+							const badgeUrl = userData.url.startsWith("/")
+								? `${origin}${userData.url}`
+								: userData.url;
+							result.push({
+								tooltip: userData.label,
+								badge: badgeUrl,
+							});
+						}
+						break;
+					}
+
+					case "betterdiscord": {
+						const serviceData = serviceDataMap.get(serviceKey) as
+							| BetterDiscordData
+							| undefined;
+						if (!serviceData) {
+							echo.warn(`No cached data for service: ${serviceKey}`);
+							break;
+						}
+
+						const userBadges = serviceData[userId];
+						if (Array.isArray(userBadges)) {
+							const origin = request ? getRequestOrigin(request) : "";
+							const badgeMap: Record<string, string> = {
+								developer: "Developer",
+							};
+
+							for (const badgeKey of userBadges) {
+								if (badgeMap[badgeKey]) {
+									result.push({
+										tooltip: badgeMap[badgeKey],
+										badge: `${origin}/public/badges/betterdiscord/${badgeKey}.png`,
+									});
+								}
+							}
+						}
+						break;
+					}
+
 					case "enmity": {
 						const serviceData = serviceDataMap.get(serviceKey) as
 							| EnmityData

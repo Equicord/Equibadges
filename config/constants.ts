@@ -162,6 +162,15 @@ const badgeServices: BadgeService[] = [
 		service: "Paicord",
 		url: "https://paicord.llsc12.me/api/badges.json",
 	},
+	{
+		service: "Goosemod",
+	},
+	{
+		service: "Bunny",
+	},
+	{
+		service: "BetterDiscord",
+	},
 ];
 
 function getServiceDescription(service: string): string {
@@ -179,6 +188,9 @@ function getServiceDescription(service: string): string {
 		Velocity: "Custom badges from Velocity Discord client",
 		BadgeVault: "Custom badges from BadgeVault service",
 		Paicord: "Custom badges from Paicord Discord client",
+		Goosemod: "Custom badges from Goosemod client",
+		Bunny: "Custom badges from Bunny client",
+		BetterDiscord: "Custom badges from BetterDiscord client",
 	};
 
 	return descriptions[service] || "Custom badge service";

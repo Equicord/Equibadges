@@ -426,6 +426,30 @@ class BadgeCacheManager {
 				case "replugged":
 					return;
 
+				case "goosemod": {
+					const file = Bun.file("public/badges/goosemod/badges.json");
+					if (await file.exists()) {
+						data = (await file.json()) as GoosemodData;
+					}
+					break;
+				}
+
+				case "bunny": {
+					const file = Bun.file("public/badges/bunny/badges.json");
+					if (await file.exists()) {
+						data = (await file.json()) as BunnyData;
+					}
+					break;
+				}
+
+				case "betterdiscord": {
+					const file = Bun.file("public/badges/betterdiscord/badges.json");
+					if (await file.exists()) {
+						data = (await file.json()) as BetterDiscordData;
+					}
+					break;
+				}
+
 				default:
 					echo.warn(`Unknown service type: ${serviceKey}`);
 					return;

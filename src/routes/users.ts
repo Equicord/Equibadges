@@ -277,6 +277,65 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 					}
 					break;
 				}
+
+				case "goosemod": {
+					const goosemodData = data as GoosemodData;
+					const badgeMap: Record<string, string> = {
+						sponsor: "Sponsor",
+						dev: "Developer",
+						translator: "Translator",
+					};
+					for (const [badgeKey, userIds] of Object.entries(goosemodData)) {
+						if (Array.isArray(userIds) && badgeMap[badgeKey]) {
+							for (const uid of userIds) {
+								if (!serviceUsers[uid]) serviceUsers[uid] = [];
+								serviceUsers[uid].push({
+									tooltip: badgeMap[badgeKey],
+									mod: "goosemod",
+									badge: `${url}/public/badges/goosemod/${badgeKey}.png`,
+								});
+							}
+						}
+					}
+					break;
+				}
+
+				case "bunny": {
+					const bunnyData = data as BunnyData;
+					for (const [userId, userData] of Object.entries(bunnyData)) {
+						const badgeUrl = userData.url.startsWith("/")
+							? `${url}${userData.url}`
+							: userData.url;
+						serviceUsers[userId] = [{
+							tooltip: userData.label,
+							mod: "bunny",
+							badge: badgeUrl,
+						}];
+					}
+					break;
+				}
+
+				case "betterdiscord": {
+					const bdData = data as BetterDiscordData;
+					const badgeMap: Record<string, string> = {
+						developer: "Developer",
+					};
+					for (const [userId, userBadges] of Object.entries(bdData)) {
+						if (Array.isArray(userBadges)) {
+							for (const badgeKey of userBadges) {
+								if (badgeMap[badgeKey]) {
+									if (!serviceUsers[userId]) serviceUsers[userId] = [];
+									serviceUsers[userId].push({
+										tooltip: badgeMap[badgeKey],
+										mod: "betterdiscord",
+										badge: `${url}/public/badges/betterdiscord/${badgeKey}.png`,
+									});
+								}
+							}
+						}
+					}
+					break;
+				}
 			}
 
 			if (Object.keys(serviceUsers).length > 0) {
@@ -287,6 +346,56 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 					allUsersMap.get(userId)?.push(...badges);
 				}
 			}
+		}
+
+		try {
+			const repluggedFile = Bun.file("public/badges/replugged/badges.json");
+			if (await repluggedFile.exists()) {
+				const repluggedData = await repluggedFile.json();
+				for (const [userId, userData] of Object.entries(repluggedData as any)) {
+					const ud = userData as any;
+					if (Array.isArray(ud.badges)) {
+						const badges: Badge[] = [];
+						const badgeMap: Record<string, string> = {
+							developer: "Developer",
+							staff: "Staff",
+							support: "Support",
+							contributor: "Contributor",
+							translator: "Translator",
+							hunter: "Hunter",
+							early: "Early User",
+							booster: "Booster",
+						};
+
+						for (const key of ud.badges) {
+							if (badgeMap[key]) {
+								badges.push({
+									tooltip: badgeMap[key],
+									mod: "replugged",
+									badge: `${url}/public/badges/replugged/${key}.png`,
+								});
+							}
+						}
+
+						if (ud.cutiePerks?.badge && ud.cutiePerks?.title) {
+							badges.push({
+								tooltip: ud.cutiePerks.title,
+								mod: "replugged",
+								badge: ud.cutiePerks.badge,
+							});
+						}
+
+						if (badges.length > 0) {
+							if (!allUsersMap.has(userId)) {
+								allUsersMap.set(userId, []);
+							}
+							allUsersMap.get(userId)?.push(...badges);
+						}
+					}
+				}
+			}
+		} catch (error) {
+			console.error("Failed to load static replugged badges:", error);
 		}
 
 		const allUsers: Record<string, Badge[]> = {};

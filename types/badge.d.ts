@@ -112,7 +112,10 @@ type BadgeServiceData =
 	| VelocityData
 	| BadgeVaultData
 	| EnmityData
-	| PaicordData;
+	| PaicordData
+	| GoosemodData
+	| BunnyData
+	| BetterDiscordData;
 
 interface VencordBadgeItem {
 	tooltip: string;
@@ -143,6 +146,21 @@ interface EnmityData {
 
 interface PaicordData {
 	[userId: string]: Badge[];
+}
+
+interface GoosemodData {
+	[badgeKey: string]: string[];
+}
+
+interface BunnyData {
+	[userId: string]: {
+		label: string;
+		url: string;
+	};
+}
+
+interface BetterDiscordData {
+	[userId: string]: string[];
 }
 
 interface RepluggedBadgeData {
