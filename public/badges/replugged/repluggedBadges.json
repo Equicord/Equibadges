@@ -1,0 +1,3701 @@
+{
+  "917630027477159986": {
+    "_id": "917630027477159986",
+    "flags": 32,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "zrodevkaan",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "372268045927972864": {
+    "_id": "372268045927972864",
+    "flags": 32,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "bitslayn",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "1091678152532705301": {
+    "_id": "1091678152532705301",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "lapriere",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "562415519454461962": {
+    "_id": "562415519454461962",
+    "flags": 1824,
+    "cutiePerks": {
+      "color": "7289da",
+      "badge": "https://cdn.discordapp.com/emojis/940330496213262346.gif",
+      "title": "All Hail The Otter King"
+    },
+    "username": "objectified",
+    "discriminator": "0",
+    "patronTier": 3,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": "All Hail The Otter King",
+        "icon": "https://cdn.discordapp.com/emojis/940330496213262346.gif",
+        "color": "7289da"
+      }
+    }
+  },
+  "545581357812678656": {
+    "_id": "545581357812678656",
+    "flags": 32,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "megumin",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "952185386350829688": {
+    "_id": "952185386350829688",
+    "flags": 357,
+    "cutiePerks": {
+      "color": "7289da",
+      "badge": "https://sysspa.alyxia.dev/res/img/loader/loadtsuki.png",
+      "title": "Unlink the world, unlock the rest."
+    },
+    "username": "alyxia.dev",
+    "discriminator": "0",
+    "patronTier": 3,
+    "badges": {
+      "developer": true,
+      "staff": true,
+      "support": false,
+      "contributor": true,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": "Unlink the world, unlock the rest.",
+        "icon": "https://sysspa.alyxia.dev/res/img/loader/loadtsuki.png",
+        "color": "7289da"
+      }
+    }
+  },
+  "678541597654253600": {
+    "_id": "678541597654253600",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "branbarma",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "303108947261259776": {
+    "_id": "303108947261259776",
+    "flags": 320,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "pawele",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "821472922140803112": {
+    "_id": "821472922140803112",
+    "flags": 320,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "mwlica",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "601212584854814761": {
+    "_id": "601212584854814761",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "tech_tip",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "162170840211914754": {
+    "_id": "162170840211914754",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "localip",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "510134778474004481": {
+    "_id": "510134778474004481",
+    "flags": 320,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "keybindings",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "347096063569559553": {
+    "_id": "347096063569559553",
+    "flags": 352,
+    "cutiePerks": {
+      "color": "FFD700",
+      "badge": "https://i.imgur.com/XC3qD0X.gif",
+      "title": "Simpji"
+    },
+    "username": "wolfieeeeeeee",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": "Simpji",
+        "icon": "https://i.imgur.com/XC3qD0X.gif",
+        "color": "FFD700"
+      }
+    }
+  },
+  "1000992611840049192": {
+    "_id": "1000992611840049192",
+    "flags": 28,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "Replugged",
+    "discriminator": "7287",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": true,
+      "support": true,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "250322741406859265": {
+    "_id": "250322741406859265",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "katlyn",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "190551803669118976": {
+    "_id": "190551803669118976",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "joakimo",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "677638692403412992": {
+    "_id": "677638692403412992",
+    "flags": 352,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "bop34",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "220584715265114113": {
+    "_id": "220584715265114113",
+    "flags": 288,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "kyza",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "204503715468673024": {
+    "_id": "204503715468673024",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "pixelhir",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "472849326281064459": {
+    "_id": "472849326281064459",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "b8h",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "400912133367529472": {
+    "_id": "400912133367529472",
+    "flags": 320,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "britishbenji",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "324281236728053760": {
+    "_id": "324281236728053760",
+    "flags": 320,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "ecorte",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "394601924881809408": {
+    "_id": "394601924881809408",
+    "flags": 320,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "eimaen",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "889459441194373170": {
+    "_id": "889459441194373170",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "kikyosumi",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "145399954574147584": {
+    "_id": "145399954574147584",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "lyssieth",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "330299657458679821": {
+    "_id": "330299657458679821",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "maggie.pi",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "850095035860910101": {
+    "_id": "850095035860910101",
+    "flags": 320,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": ".makuwu",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "451467812641177611": {
+    "_id": "451467812641177611",
+    "flags": 320,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "allgamestupre",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "907028319046885436": {
+    "_id": "907028319046885436",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "ximgaming",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "157917665162297344": {
+    "_id": "157917665162297344",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "ruintd",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "498989696412549120": {
+    "_id": "498989696412549120",
+    "flags": 384,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "puyodead1",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": true,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "131283250042634241": {
+    "_id": "131283250042634241",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "f15o",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "301082610438897664": {
+    "_id": "301082610438897664",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "Snare-Hawk",
+    "discriminator": "6331",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "596481615253733408": {
+    "_id": "596481615253733408",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "gdkid",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "192760945766957066": {
+    "_id": "192760945766957066",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "toon.link",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "185634919446216705": {
+    "_id": "185634919446216705",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": ".beige",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "371241528514838528": {
+    "_id": "371241528514838528",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "un0r",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "160467850358816769": {
+    "_id": "160467850358816769",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "analinux",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "849407680027557918": {
+    "_id": "849407680027557918",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "brendamarzipan",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "199417447424458762": {
+    "_id": "199417447424458762",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "bulletmemes",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "368398754077868032": {
+    "_id": "368398754077868032",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "lavadesu",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "736746952372256861": {
+    "_id": "736746952372256861",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "realqt",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "772799185774837760": {
+    "_id": "772799185774837760",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "des.05",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "253253878861004800": {
+    "_id": "253253878861004800",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "marvelvscapcom",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "199786185952854016": {
+    "_id": "199786185952854016",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "entrodor",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "270423059263913984": {
+    "_id": "270423059263913984",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "firalia",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "322862723090219008": {
+    "_id": "322862723090219008",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "ironm00n",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "320060487884603393": {
+    "_id": "320060487884603393",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "jeckub",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "297523991365812225": {
+    "_id": "297523991365812225",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "gitter",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "418531067008647169": {
+    "_id": "418531067008647169",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "knei",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "884534013241462806": {
+    "_id": "884534013241462806",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "laylashiggy",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "303306027435032576": {
+    "_id": "303306027435032576",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "limmkey",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "297463921445699594": {
+    "_id": "297463921445699594",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "mr.cheeze",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "358939176491810816": {
+    "_id": "358939176491810816",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "noobchester",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "147938498463268865": {
+    "_id": "147938498463268865",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "nyxgawr",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "146003927932862464": {
+    "_id": "146003927932862464",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "sheckles",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "196489057943945216": {
+    "_id": "196489057943945216",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "sigmucron_7518",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "308440976723148800": {
+    "_id": "308440976723148800",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "spin.js",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "203130582824255488": {
+    "_id": "203130582824255488",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "trickmint",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "474727196980674561": {
+    "_id": "474727196980674561",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "terra_rian",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "153759249284071424": {
+    "_id": "153759249284071424",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "themooskyfish",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "618082876730376202": {
+    "_id": "618082876730376202",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "dante_nl",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "301085593667108864": {
+    "_id": "301085593667108864",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "carrionandon",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "140655388730064896": {
+    "_id": "140655388730064896",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "f4therthyme",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "111291462037065728": {
+    "_id": "111291462037065728",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "adrianthehusky",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "574176914483445760": {
+    "_id": "574176914483445760",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "flushae",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "783228219775516682": {
+    "_id": "783228219775516682",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "agent_01",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "868335261845700679": {
+    "_id": "868335261845700679",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "bk",
+    "discriminator": "1711",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "321353888861126666": {
+    "_id": "321353888861126666",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "campones.",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "150427554166210560": {
+    "_id": "150427554166210560",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "cute.cat",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "221930583335501824": {
+    "_id": "221930583335501824",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "catualus",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "143080290762358784": {
+    "_id": "143080290762358784",
+    "flags": 352,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "chipsproto",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "158664835851223040": {
+    "_id": "158664835851223040",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "fevery",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "143127230866915328": {
+    "_id": "143127230866915328",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "davoleo",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "457579346282938368": {
+    "_id": "457579346282938368",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "davr1",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "472271669457715200": {
+    "_id": "472271669457715200",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "diddlydiddlydoo",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "696828906191454221": {
+    "_id": "696828906191454221",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "pennyrain.",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "302242079474581506": {
+    "_id": "302242079474581506",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "officialdelta",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "573613510060146708": {
+    "_id": "573613510060146708",
+    "flags": 288,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "east_arctica",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "433734693209505804": {
+    "_id": "433734693209505804",
+    "flags": 320,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "elsebas",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "403195964241739776": {
+    "_id": "403195964241739776",
+    "flags": 101,
+    "cutiePerks": {
+      "color": "7DDFFF",
+      "badge": null,
+      "title": null
+    },
+    "username": "fedeerico",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": true,
+      "staff": true,
+      "support": false,
+      "contributor": true,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": "7DDFFF"
+      }
+    }
+  },
+  "786150805773746197": {
+    "_id": "786150805773746197",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "fellintron",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "331510273066401793": {
+    "_id": "331510273066401793",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "_finne",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "248476223670452224": {
+    "_id": "248476223670452224",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "glytcher",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "350227339784880130": {
+    "_id": "350227339784880130",
+    "flags": 289,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "harley.0",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": true,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "124598335230312448": {
+    "_id": "124598335230312448",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "iamjk",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "384064696510054423": {
+    "_id": "384064696510054423",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "justjedi",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "302872992097107991": {
+    "_id": "302872992097107991",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "jacob.tm",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "857262868504641536": {
+    "_id": "857262868504641536",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "Jason Murdock",
+    "discriminator": "5401",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "671624451351248897": {
+    "_id": "671624451351248897",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "kat_system",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "214030181684215808": {
+    "_id": "214030181684215808",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "kenlawlz",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "325290687698567168": {
+    "_id": "325290687698567168",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": ".kimina",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "499400512559382538": {
+    "_id": "499400512559382538",
+    "flags": 503,
+    "cutiePerks": {
+      "color": "7289da",
+      "badge": "https://cdn.discordapp.com/emojis/988625394754273340.png",
+      "title": "rickrole"
+    },
+    "username": "12944qwerty",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": true,
+      "staff": true,
+      "support": true,
+      "contributor": true,
+      "translator": true,
+      "hunter": true,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": "rickrole",
+        "icon": "https://cdn.discordapp.com/emojis/988625394754273340.png",
+        "color": "7289da"
+      }
+    }
+  },
+  "228736069091196928": {
+    "_id": "228736069091196928",
+    "flags": 480,
+    "cutiePerks": {
+      "color": "CDC0E7",
+      "badge": "https://file.coffee/u/IHlBQtlIMXFmj56pw6LSY.png",
+      "title": "nya!"
+    },
+    "username": "lleyton.",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": true,
+      "hunter": true,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": "nya!",
+        "icon": "https://file.coffee/u/IHlBQtlIMXFmj56pw6LSY.png",
+        "color": "CDC0E7"
+      }
+    }
+  },
+  "450263857945116672": {
+    "_id": "450263857945116672",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "legend1.",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "543124309795667968": {
+    "_id": "543124309795667968",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "lexch",
+    "discriminator": "1080",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "553093932012011520": {
+    "_id": "553093932012011520",
+    "flags": 352,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "milenakos",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "781376816295575552": {
+    "_id": "781376816295575552",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "memepepe",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "573775986810683393": {
+    "_id": "573775986810683393",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "avolgha",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "502114217219063809": {
+    "_id": "502114217219063809",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "_mattc_",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "563357621109915679": {
+    "_id": "563357621109915679",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "matthew_mbg",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "1121961711080050780": {
+    "_id": "1121961711080050780",
+    "flags": 32,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "yofukashino_",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "579480650470522910": {
+    "_id": "579480650470522910",
+    "flags": 32,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "navnedia",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "154963177526788096": {
+    "_id": "154963177526788096",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "naytoon",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "483570373095456769": {
+    "_id": "483570373095456769",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "olavwolfiken",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "328122982197100545": {
+    "_id": "328122982197100545",
+    "flags": 288,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "oocrop",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "231597474706489344": {
+    "_id": "231597474706489344",
+    "flags": 288,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "orrca",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "328977635168223243": {
+    "_id": "328977635168223243",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "pablogirol",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "500656746440949761": {
+    "_id": "500656746440949761",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "pandadriver",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "97399302313242624": {
+    "_id": "97399302313242624",
+    "flags": 288,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "penguin_spy.",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "762219738570555412": {
+    "_id": "762219738570555412",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "uwu_peter",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "965960621986299944": {
+    "_id": "965960621986299944",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": ".qaghan",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "717690035847168110": {
+    "_id": "717690035847168110",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "randaaall",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "277553344766279692": {
+    "_id": "277553344766279692",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "ren0x1",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "168108327614676992": {
+    "_id": "168108327614676992",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "requi",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "265180293969739776": {
+    "_id": "265180293969739776",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "tetrus93",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "365145249074642956": {
+    "_id": "365145249074642956",
+    "flags": 320,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "teltta",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "651471641507004444": {
+    "_id": "651471641507004444",
+    "flags": 418,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "the.lab.rat",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": true,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "335502898345803777": {
+    "_id": "335502898345803777",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "thijsnameistaken",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "739219467455823921": {
+    "_id": "739219467455823921",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "umbleh",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "454072114492866560": {
+    "_id": "454072114492866560",
+    "flags": 288,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "vap0r1ze",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "579323726894727168": {
+    "_id": "579323726894727168",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "voidabledev",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "538487970408300544": {
+    "_id": "538487970408300544",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "thecommieaxolotl",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "352555682865741834": {
+    "_id": "352555682865741834",
+    "flags": 64,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "egglight",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "301784828356067330": {
+    "_id": "301784828356067330",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "wiz2500",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "865632950443835392": {
+    "_id": "865632950443835392",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "wme",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "475186564658364426": {
+    "_id": "475186564658364426",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "janggyuri.",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "284122164582416385": {
+    "_id": "284122164582416385",
+    "flags": 257,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "zzzzain",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": true,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "161246211737649152": {
+    "_id": "161246211737649152",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "zda",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "388914748957261837": {
+    "_id": "388914748957261837",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "zeverysketchyhat",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "891419746422112306": {
+    "_id": "891419746422112306",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "1.337.",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "439223656200273932": {
+    "_id": "439223656200273932",
+    "flags": 448,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "4shadowed",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": true,
+      "hunter": true,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "299681550096924674": {
+    "_id": "299681550096924674",
+    "flags": 256,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "diamond162",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": false,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "660292639412846621": {
+    "_id": "660292639412846621",
+    "flags": 288,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "emeraldunix",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "489484338514100234": {
+    "_id": "489484338514100234",
+    "flags": 2047,
+    "cutiePerks": {
+      "color": "7289da",
+      "badge": "http://cdn.discordapp.com/emojis/892870442694627339.gif?size=240&quality=lossless",
+      "title": "Rick Role"
+    },
+    "username": "asportnoy",
+    "discriminator": "0",
+    "patronTier": 3,
+    "badges": {
+      "developer": true,
+      "staff": true,
+      "support": true,
+      "contributor": true,
+      "translator": true,
+      "hunter": true,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": "Rick Role",
+        "icon": "http://cdn.discordapp.com/emojis/892870442694627339.gif?size=240&quality=lossless",
+        "color": "7289da"
+      }
+    }
+  },
+  "690213339862794285": {
+    "_id": "690213339862794285",
+    "flags": 295,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "colin273",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": true,
+      "staff": true,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": true,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  },
+  "396990201790201857": {
+    "_id": "396990201790201857",
+    "flags": 32,
+    "cutiePerks": {
+      "color": null,
+      "badge": null,
+      "title": null
+    },
+    "username": "lisekilis",
+    "discriminator": "0",
+    "patronTier": 0,
+    "badges": {
+      "developer": false,
+      "staff": false,
+      "support": false,
+      "contributor": true,
+      "translator": false,
+      "hunter": false,
+      "early": false,
+      "booster": false,
+      "custom": {
+        "name": null,
+        "icon": null,
+        "color": null
+      }
+    }
+  }
+}
