@@ -11,7 +11,7 @@
 	"562415519454461962": {
 		"cutiePerks": {
 			"color": "7289da",
-			"badge": "https://cdn.discordapp.com/emojis/940330496213262346.gif",
+			"badge": "/public/badges/replugged/940330496213262346.gif",
 			"title": "All Hail The Otter King"
 		},
 		"badges": ["contributor", "early", "custom"]
@@ -303,7 +303,7 @@
 	"499400512559382538": {
 		"cutiePerks": {
 			"color": "7289da",
-			"badge": "https://cdn.discordapp.com/emojis/988625394754273340.png",
+			"badge": "/public/badges/replugged/988625394754273340.png",
 			"title": "rickrole"
 		},
 		"badges": [
@@ -448,7 +448,7 @@
 	"489484338514100234": {
 		"cutiePerks": {
 			"color": "7289da",
-			"badge": "http://cdn.discordapp.com/emojis/892870442694627339.gif?size=240&quality=lossless",
+			"badge": "/public/badges/replugged/892870442694627339.gif",
 			"title": "Rick Role"
 		},
 		"badges": [
