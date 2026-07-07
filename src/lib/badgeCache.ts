@@ -451,9 +451,25 @@ class BadgeCacheManager {
 				}
 
 				case "vendroidenhanced": {
-					const file = Bun.file("public/badges/vendroidenhanced/badges.json");
-					if (await file.exists()) {
-						data = (await file.json()) as VendroidEnhancedData;
+					if (typeof service.url === "string") {
+						const res = await fetchWithRetry(service.url, {
+							headers: BADGE_API_HEADERS,
+						});
+
+						if (res.ok) {
+							const response =
+								(await res.json()) as VendroidContributorsResponse;
+
+							if (Array.isArray(response.contributors)) {
+								const vendroidData: VendroidEnhancedData = {};
+								for (const contributor of response.contributors) {
+									if (contributor.id) {
+										vendroidData[contributor.id] = ["contributor"];
+									}
+								}
+								data = vendroidData;
+							}
+						}
 					}
 					break;
 				}

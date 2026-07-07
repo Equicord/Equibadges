@@ -344,7 +344,7 @@ async function handler(request: ExtendedRequest): Promise<Response> {
 				case "vendroidenhanced": {
 					const vendroidData = data as VendroidEnhancedData;
 					const badgeMap: Record<string, string> = {
-						Contributor: "VendroidEnhanced Contributor",
+						contributor: "VendroidEnhanced Contributor",
 					};
 					for (const [userId, userBadges] of Object.entries(vendroidData)) {
 						if (Array.isArray(userBadges)) {

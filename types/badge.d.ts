@@ -167,6 +167,13 @@ interface BetterDiscordData {
 	[userId: string]: string[];
 }
 
+interface VendroidContributorsResponse {
+	contributors: Array<{
+		id: string;
+		description: string;
+	}>;
+}
+
 interface VendroidEnhancedData {
 	[userId: string]: string[];
 }

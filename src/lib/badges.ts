@@ -447,7 +447,7 @@ export async function fetchBadges(
 						if (Array.isArray(userBadges)) {
 							const origin = request ? getRequestOrigin(request) : "";
 							const badgeMap: Record<string, string> = {
-								Contributor: "VendroidEnhanced Contributor",
+								contributor: "VendroidEnhanced Contributor",
 							};
 
 							for (const badgeKey of userBadges) {

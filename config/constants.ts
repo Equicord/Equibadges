@@ -173,6 +173,7 @@ const badgeServices: BadgeService[] = [
 	},
 	{
 		service: "VendroidEnhanced",
+		url: "https://vendroid.nin0.dev/api/contributors",
 	},
 	{
 		service: "Revenge",
